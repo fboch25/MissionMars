@@ -2,10 +2,13 @@ import Foundation
 
 class MainScene: CCNode {
     weak var ship: CCSprite!
-    var scrollSpeed : CGFloat = 160
+    var scrollSpeed : CGFloat = 180
     weak var gamePhysicsNode : CCPhysicsNode!
     weak var ground1 : CCSprite!
     weak var ground2 : CCSprite!
+    weak var star1 : CCSprite!
+    weak var star2 : CCSprite!
+    var stars = [CCSprite]()
     var grounds = [CCSprite]()  // initializes an empty array
     var obstacles : [CCNode] = []
     let firstObstaclePosition : CGFloat = 280
@@ -17,12 +20,17 @@ class MainScene: CCNode {
         userInteractionEnabled = true
         grounds.append(ground1)
         grounds.append(ground2)
+        stars.append(star1)
+        stars.append(star2)
+        
+        
             }
     
     // applies impulse to spaceship
     override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
+        if ship.position.y < boundingBox().height - CGFloat(28){
         ship.physicsBody.applyImpulse(ccp(0, 4000))
-        }
+        }}
     
     // limit spaceship vertical velocity
     override func update(delta: CCTime) {
@@ -36,13 +44,29 @@ class MainScene: CCNode {
     for ground in grounds {
         let groundWorldPosition = gamePhysicsNode.convertToWorldSpace(ground.position)
         let groundScreenPosition = convertToNodeSpace(groundWorldPosition)
-        if groundScreenPosition.x <= (-ground.contentSize.width) {
-            ground.position = ccp(ground.position.x + ground.contentSize.width * 1, ground.position.y)
+        if groundScreenPosition.x <= (-CGFloat(715)) {
+            println(groundScreenPosition)
+            println(ground.contentSize.width)
+            ground.position = ccp(ground.position.x + CGFloat(715) * 2, ground.position.y)
             }
         
         }
         
+        for star in stars {
+            if star.position.x <= (-CGFloat(840)) {
+                println(star.position.x)
+                println(star.contentSize.width)
+                star.position = ccp(star.position.x + CGFloat(840) * 2, star.position.y)
+
+        
+            }else {
+                star.position.x = star.position.x - CGFloat(500) * CGFloat(delta)
+            }
+            
+        }
+        
     }
+
 }
     
 

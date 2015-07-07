@@ -26,33 +26,11 @@ class Menu: CCNode {
 
     }
         // scroll stars
-        override func update(delta: CCTime) {
-            gamePhysicsNode.position = ccp(gamePhysicsNode.position.x - scrollSpeed * CGFloat(delta),
-            gamePhysicsNode.position.y)
-        
-        // loop the ground whenever a ground image was moved entirely outside the screen
-        for ground in grounds {
-            let groundWorldPosition = gamePhysicsNode.convertToWorldSpace(ground.position)
-            let groundScreenPosition = convertToNodeSpace(groundWorldPosition)
-            if groundScreenPosition.x <= (-CGFloat(715)) {
-            println(groundScreenPosition)
-            println(ground.contentSize.width)
-            ground.position = ccp(ground.position.x + CGFloat(715) * 2, ground.position.y)
-            }
-        }
-        // scroll stars
-        for star in stars {
-            if star.position.x <= (-CGFloat(840)) {
-            println(star.position.x)
-            println(star.contentSize.width)
-            star.position = ccp(star.position.x + CGFloat(840) * 2, star.position.y)
-            }else {
-                star.position.x = star.position.x - CGFloat(500) * CGFloat(delta)
-            }
-            
-        }
+
+    func play(){
+        CCDirector.sharedDirector().replaceScene(CCBReader.loadAsScene("MainScene"))
         
     }
-
+    
 }
 

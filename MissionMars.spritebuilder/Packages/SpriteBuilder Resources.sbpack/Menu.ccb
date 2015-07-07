@@ -524,8 +524,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>150.76220703125</real>
-							<real>211.54072570800781</real>
+							<real>456.74411010742188</real>
+							<real>220.38699340820312</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -891,7 +891,7 @@
 						<string>Block</string>
 						<key>value</key>
 						<array>
-							<string></string>
+							<string>play</string>
 							<integer>1</integer>
 						</array>
 					</dict>
@@ -1146,6 +1146,8 @@
 						</array>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
 			</dict>
 			<dict>
 				<key>UUID</key>
@@ -1467,8 +1469,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>522.9127197265625</real>
-							<real>180.44981384277344</real>
+							<real>491.59661865234375</real>
+							<real>154.53302001953125</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -1730,8 +1732,6 @@
 				</array>
 			</dict>
 		</array>
-		<key>selected</key>
-		<true/>
 	</dict>
 	<key>notes</key>
 	<array/>
@@ -1801,7 +1801,7 @@
 			<key>offset</key>
 			<real>0.0</real>
 			<key>position</key>
-			<real>1.3333333730697632</real>
+			<real>0.23333333432674408</real>
 			<key>resolution</key>
 			<real>30</real>
 			<key>scale</key>

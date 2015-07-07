@@ -72,8 +72,8 @@ class MainScene: CCNode {
     // Add asteroids
     func addAsteroid() {
         var asteroid = CCBReader.load("Asteroid") as! Asteroid
-        var random : CGFloat = CGFloat(arc4random_uniform(300))
-        asteroid.position = CGPoint(x: self.contentSize.width + ship.position.x + random, y: random)
+        var random : CGFloat = CGFloat(arc4random_uniform(700))
+        asteroid.position = CGPoint(x: self.contentSize.width + CGFloat(300) + ship.position.x + random, y: random)
         asteroid.scale = 0.5
         gamePhysicsNode.addChild(asteroid)
         

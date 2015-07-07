@@ -1,6 +1,7 @@
 import Foundation
 
 class MainScene: CCNode {
+    
     weak var ship: CCSprite!
     var scrollSpeed : CGFloat = 180
     weak var gamePhysicsNode : CCPhysicsNode!
@@ -13,6 +14,8 @@ class MainScene: CCNode {
     var obstacles : [CCNode] = []
     let firstObstaclePosition : CGFloat = 280
     let distanceBetweenObstacles : CGFloat = 160
+    let screenWidth = UIScreen.mainScreen().bounds.width
+    let screenHeight = UIScreen.mainScreen().bounds.height
     
     // makes spaceship go up
     func didLoadFromCCB() {
@@ -22,15 +25,15 @@ class MainScene: CCNode {
         grounds.append(ground2)
         stars.append(star1)
         stars.append(star2)
-        
-        
+        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "addAsteroid", userInfo: nil, repeats: true)
             }
     
     // applies impulse to spaceship
     override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
         if ship.position.y < boundingBox().height - CGFloat(28){
         ship.physicsBody.applyImpulse(ccp(0, 4000))
-        }}
+        }
+    }
     
     // limit spaceship vertical velocity
     override func update(delta: CCTime) {
@@ -51,7 +54,7 @@ class MainScene: CCNode {
             }
         
         }
-        
+        // scroll stars
         for star in stars {
             if star.position.x <= (-CGFloat(840)) {
                 println(star.position.x)
@@ -64,6 +67,16 @@ class MainScene: CCNode {
             }
             
         }
+        
+    }
+    // Add asteroids
+    func addAsteroid() {
+        var asteroid = CCBReader.load("Asteroid") as! Asteroid
+        var random : CGFloat = CGFloat(arc4random_uniform(300))
+        asteroid.position = CGPoint(x: self.contentSize.width + ship.position.x + random, y: random)
+        asteroid.scale = 0.5
+        gamePhysicsNode.addChild(asteroid)
+        
         
     }
 

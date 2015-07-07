@@ -256,8 +256,6 @@
 						<array/>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 			<dict>
 				<key>UUID</key>
@@ -859,7 +857,7 @@
 							<key>affectedByGravity</key>
 							<true/>
 							<key>allowsRotation</key>
-							<true/>
+							<false/>
 							<key>bodyShape</key>
 							<integer>0</integer>
 							<key>collisionCategories</key>
@@ -936,8 +934,8 @@
 								<string>Position</string>
 								<key>value</key>
 								<array>
-									<real>137.51998901367188</real>
-									<real>189.90495300292969</real>
+									<real>134.61231994628906</real>
+									<real>200.08180236816406</real>
 									<integer>0</integer>
 									<integer>0</integer>
 									<integer>0</integer>
@@ -950,8 +948,8 @@
 								<string>ScaleLock</string>
 								<key>value</key>
 								<array>
-									<real>0.48169597983360291</real>
-									<real>0.55036842823028564</real>
+									<real>0.42271348834037781</real>
+									<real>0.48836764693260193</real>
 									<false/>
 									<integer>0</integer>
 								</array>
@@ -1128,6 +1126,8 @@
 				</array>
 			</dict>
 		</array>
+		<key>selected</key>
+		<true/>
 	</dict>
 	<key>notes</key>
 	<array/>

@@ -1,13 +1,13 @@
 //
-//  Asteroid.swift
+//  Die.swift
 //  MissionMars
 //
-//  Created by Frank Joseph Boccia on 7/6/15.
+//  Created by Frank Joseph Boccia on 7/9/15.
 //  Copyright (c) 2015 Apportable. All rights reserved.
 //
 
 import Foundation
 
-class Asteroid: CCSprite {
-   
+class Die: CCParticleSystem {
+
 }

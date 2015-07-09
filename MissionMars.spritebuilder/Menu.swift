@@ -14,22 +14,34 @@ class Menu: CCNode {
     weak var gamePhysicsNode : CCPhysicsNode!
     weak var ground1 : CCSprite!
     weak var ground2 : CCSprite!
+    weak var comet : CCSprite!
+    weak var flame: CCParticleSystem!
     weak var star1 : CCSprite!
     weak var star2 : CCSprite!
+    weak var gamePhysicNode: CCPhysicsNode!
     var stars = [CCSprite]()
     var grounds = [CCSprite]()  // initializes an empty array
     
     func didLoadFromCCB() {
+        gamePhysicsNode.debugDraw = true
         userInteractionEnabled = true
         stars.append(star1)
         stars.append(star2)
-
     }
-        // scroll stars
+    
+    override func onEnter() {
+        moveComet()
+    }
+    
+    // scroll stars
 
     func play(){
         CCDirector.sharedDirector().replaceScene(CCBReader.loadAsScene("MainScene"))
         
+    }
+    
+    func moveComet() {
+        comet.physicsBody.applyImpulse(ccp(100,90)) 
     }
     
 }

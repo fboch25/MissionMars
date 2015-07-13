@@ -1,107 +1,121 @@
 import Foundation
 
 class MainScene: CCNode, CCPhysicsCollisionDelegate {
+
+    /*
+        To do:
+        Remove asteroids from memory when they leave screen
+        Rename "drunk"
+        Rename "DIE" (also, it's just a particle system. doesn't need to have it's own .swift file)
+        Separate mainScene and Gameplay scenes
+        Fix creation of asteroids
+            don't use a scheduler, have this be done in the update method
+        Fix random deaths
+            probably a physics issue
+    */
     
-   
+ 
+    weak var ship: Ship!
     
-    weak var scoreLabel: CCLabelTTF!
+    //CC Objects
+    //Physics nodes
+    weak var gamePhysicsNode : CCPhysicsNode!
+    //Sprites
+    weak var ground1 : CCSprite!
+    weak var ground2 : CCSprite!
+    weak var star1 : CCSprite!
+    weak var star2 : CCSprite!
+    //Nodes
+    weak var drunk: CCNode!
     weak var gameEnd : CCNode!
+    //Labels
+    weak var scoreLabel: CCLabelTTF!
+    //Buttons
+    weak var restartButton: CCButton!
+    //arrays of CCObjects
+    var stars = [CCSprite]()
+    var grounds = [CCSprite]()
+    // var obstacles : [CCNode] = []
+    
+    //Constants & Variables
+    var gameOver = false
+    var scrollSpeed : CGFloat = 220
+    var gameIsPlaying = true
+    let firstAsteroidPosition : CGFloat = 280
+    let distanceBetweenAsteroids : CGFloat = 100
+    let screenWidth = UIScreen.mainScreen().bounds.width
+    let screenHeight = UIScreen.mainScreen().bounds.height
+    
     var score: Int = 0 {
         didSet {
             scoreLabel.string = "\(score)"
         }
         
     }
-    weak var ship: Ship!
-    var scrollSpeed : CGFloat = 220
-    weak var gamePhysicsNode : CCPhysicsNode!
-    weak var ground1 : CCSprite!
-    weak var ground2 : CCSprite!
-    weak var star1 : CCSprite!
-    weak var star2 : CCSprite!
-    var stars = [CCSprite]()
-    var grounds = [CCSprite]()  // initializes an empty array
-    // var obstacles : [CCNode] = []
-    let firstAsteroidPosition : CGFloat = 280
-    let distanceBetweenAsteroids : CGFloat = 100
-    let screenWidth = UIScreen.mainScreen().bounds.width
-    let screenHeight = UIScreen.mainScreen().bounds.height
-    weak var restartButton: CCButton!
-    weak var drunk: CCNode!
-    var gameOver = false
     
-    // makes spaceship go up
+    //Functions
     func didLoadFromCCB() {
         
         gamePhysicsNode.collisionDelegate = self
         userInteractionEnabled = true
+        
         grounds.append(ground1)
         grounds.append(ground2)
+        
         stars.append(star1)
         stars.append(star2)
+        
         NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "addAsteroid", userInfo: nil, repeats: true)
         schedule("addPointToScore", interval: 1)
-       
-        
-        
-    }
-    
 
-    
+    }
     
     // applies impulse to spaceship
     override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
         ship.physicsBody.applyImpulse(ccp(0, 5000))
-        
     }
     
     // limit spaceship vertical velocity
     override func update(delta: CCTime) {
         drunk.position.x = ship.position.x
-//         schedule("addStroid", interval: 3)
-        
+
         addStroid()
         
         let velocityY = clampf(Float(ship.physicsBody.velocity.y), -Float(CGFloat.max), 300)
         ship.physicsBody.velocity = ccp(0, CGFloat(velocityY))
         ship.position = ccp(ship.position.x + scrollSpeed * CGFloat(delta), ship.position.y)
-        gamePhysicsNode.position = ccp(gamePhysicsNode.position.x - scrollSpeed * CGFloat(delta),
-            gamePhysicsNode.position.y)
+        gamePhysicsNode.position = ccp(gamePhysicsNode.position.x - scrollSpeed * CGFloat(delta), gamePhysicsNode.position.y)
         
         // loop the ground whenever a ground image was moved entirely outside the screen
         for ground in grounds {
             let groundWorldPosition = gamePhysicsNode.convertToWorldSpace(ground.position)
             let groundScreenPosition = convertToNodeSpace(groundWorldPosition)
             if groundScreenPosition.x <= (-CGFloat(715)) {
-//                println(groundScreenPosition)
-//                println(ground.contentSize.width)
                 ground.position = ccp(ground.position.x + CGFloat(715) * 2, ground.position.y)
-                
-            }
-            
-        }
-        // scroll stars
-        for star in stars {
-            if star.position.x <= (-CGFloat(840)) {
-//                println(star.position.x)
-//                println(star.contentSize.width)
-                star.position = ccp(star.position.x + CGFloat(840) * 2, star.position.y)
-                
-                
-            }else {
-                if gameOver == false {
-                    star.position.x = star.position.x - CGFloat(500) * CGFloat(delta)
-                }
             }
             
         }
         
+        // scroll stars
+        for star in stars {
+            if star.position.x <= (-CGFloat(840)) {
+                //println(star.position.x)
+                //println(star.contentSize.width)
+                star.position = ccp(star.position.x + CGFloat(840) * 2, star.position.y)
+            } else {
+                if gameOver == false {
+                    star.position.x = star.position.x - CGFloat(500) * CGFloat(delta)
+                }
+            }
+        }
+        
     }
+    
     // Add asteroids
     func addAsteroid() {
         var asteroid = CCBReader.load("Asteroid") as! Asteroid
         var random : CGFloat = CGFloat(arc4random_uniform(UInt32(screenHeight)))
-//        println(random)
+        //println(random)
         asteroid.position = CGPoint(x: ship.position.x + screenWidth + asteroid.contentSizeInPoints.width, y: CGFloat(clampf(Float(random), Float(screenHeight/5), Float(5*screenHeight/5))))
         asteroid.scale = 0.5
         if asteroid.position.y > CGFloat(500) {
@@ -113,8 +127,8 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         
     }
     
+    //addStroid (flaming ball of doom)
     func addStroid() {
-        
         var asteroid = CCBReader.load("Stroid") as! Stroid
         asteroid.position = CGPoint(x: ship.position.x + screenWidth + asteroid.contentSizeInPoints.width, y: ship.position.y)
         asteroid.scale = 0.5
@@ -126,6 +140,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             
         
 //        println("stroid added")
+        }
         
         //        var red = CCBReader.load("Stroid") as! Stroid
         //        red.physicsBody.sensor = true
@@ -154,6 +169,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         triggerGameOver()
         return true
     }
+    
     // Implement restart button w/ floor
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, floor nodeB: CCNode!) -> Bool {
         //restartButton.visible = true;
@@ -166,10 +182,9 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         let scene = CCBReader.loadAsScene("MainScene")
         CCDirector.sharedDirector().presentScene(scene)
         
-      
     }
     
-    
+    // everything that should happen when the game ends
     func triggerGameOver() {
         println("Game Over")
         if (gameOver == false) {
@@ -187,11 +202,12 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             ship.die()
             addChild(die)
             
-            unschedule("addStroid")
             if animationManager.runningSequenceName != "Gameover Timeline" {
                 animationManager.runAnimationsForSequenceNamed("Gameover Timeline")
                 
             }
+
+            gameIsPlaying = false
         
             let defaults = NSUserDefaults.standardUserDefaults()
             var highscore = defaults.integerForKey("highscore")
@@ -208,10 +224,9 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             let shakeSequence = CCActionSequence(array: [move, moveBack])
             runAction(shakeSequence)
         }
-        
     }
-    
-}
+
+//}
 
 
 

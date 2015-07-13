@@ -12,7 +12,7 @@ class Ship: CCSprite {
     
     weak var ship: CCSprite!
     
-    func die() {
+    func explosion() {
         ship.visible = false 
         
         

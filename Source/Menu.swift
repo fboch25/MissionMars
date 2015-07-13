@@ -9,7 +9,7 @@
 import Foundation
 
 class Menu: CCScene {
-
+    
     var scrollSpeed : CGFloat = 180
     weak var gamePhysicsNode : CCPhysicsNode!
     weak var ground1 : CCSprite!
@@ -37,7 +37,7 @@ class Menu: CCScene {
         }
     }
     // scroll stars
-
+    
     func play(){
         CCDirector.sharedDirector().replaceScene(CCBReader.loadAsScene("MainScene"))
         

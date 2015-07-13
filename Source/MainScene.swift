@@ -2,6 +2,7 @@ import Foundation
 
 class MainScene: CCNode, CCPhysicsCollisionDelegate {
     
+   
     
     weak var scoreLabel: CCLabelTTF!
     weak var gameEnd : CCNode!
@@ -40,7 +41,8 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         stars.append(star2)
         NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "addAsteroid", userInfo: nil, repeats: true)
         schedule("addPointToScore", interval: 1)
-        schedule("addStroid", interval: 3)
+       
+        
         
     }
     
@@ -56,6 +58,9 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     // limit spaceship vertical velocity
     override func update(delta: CCTime) {
         drunk.position.x = ship.position.x
+//         schedule("addStroid", interval: 3)
+        
+        addStroid()
         
         let velocityY = clampf(Float(ship.physicsBody.velocity.y), -Float(CGFloat.max), 300)
         ship.physicsBody.velocity = ccp(0, CGFloat(velocityY))
@@ -110,7 +115,6 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     
     func addStroid() {
         
-        
         var asteroid = CCBReader.load("Stroid") as! Stroid
         asteroid.position = CGPoint(x: ship.position.x + screenWidth + asteroid.contentSizeInPoints.width, y: ship.position.y)
         asteroid.scale = 0.5
@@ -118,6 +122,8 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         gamePhysicsNode.addChild(asteroid)
         //        asteroid.physicsBody.velocity = ccp(-200, 0)
         asteroid.physicsBody.velocity = ccp(-1000,0)
+        
+            
         
 //        println("stroid added")
         
@@ -159,9 +165,8 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     func restart() {
         let scene = CCBReader.loadAsScene("MainScene")
         CCDirector.sharedDirector().presentScene(scene)
-        if animationManager.runningSequenceName != "Gameover Timeline" {
-            animationManager.runAnimationsForSequenceNamed("Gameover Timeline")
-        }
+        
+      
     }
     
     
@@ -182,6 +187,12 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             ship.die()
             addChild(die)
             
+            unschedule("addStroid")
+            if animationManager.runningSequenceName != "Gameover Timeline" {
+                animationManager.runAnimationsForSequenceNamed("Gameover Timeline")
+                
+            }
+        
             let defaults = NSUserDefaults.standardUserDefaults()
             var highscore = defaults.integerForKey("highscore")
             

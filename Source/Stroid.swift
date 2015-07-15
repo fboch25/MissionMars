@@ -8,10 +8,18 @@
 
 import Foundation
 
-class Stroid: CCNode {
+class Stroid: CCSprite{
+
+    func didLoadFromCCB() {
+        physicsBody.collisionGroup = "Asteroid"
+        physicsBody.velocity = ccp(-100,0)
+
+    }
+    
     func updatespeed(){
         position.x += CGFloat(200)
     }
+    
      override func update(delta: CCTime) {
         position = ccp(position.x + CGFloat(200) * CGFloat(delta), position.y)
     }

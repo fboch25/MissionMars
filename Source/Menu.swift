@@ -22,8 +22,10 @@ class Menu: CCScene {
     var stars = [CCSprite]()
     var grounds = [CCSprite]()  // initializes an empty array
     
+    
     func didLoadFromCCB() {
-        gamePhysicsNode.debugDraw = true
+        
+        // gamePhysicsNode.debugDraw = true
         userInteractionEnabled = true
         stars.append(star1)
         stars.append(star2)
@@ -45,7 +47,7 @@ class Menu: CCScene {
     
     func moveComet() {
         comet.physicsBody.velocity = (ccp(-1000,90))
-        
+    
         
     }
     

@@ -10,4 +10,9 @@ import Foundation
 
 class Asteroid: CCSprite {
    
+    func didLoadFromCCB(){
+        physicsBody.collisionGroup = "Asteroid"
+        physicsBody.velocity = ccp(-100,0)
+    }
+    
 }

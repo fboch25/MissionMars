@@ -575,9 +575,9 @@
 						<key>physicsBody</key>
 						<dict>
 							<key>affectedByGravity</key>
-							<true/>
+							<false/>
 							<key>allowsRotation</key>
-							<true/>
+							<false/>
 							<key>bodyShape</key>
 							<integer>0</integer>
 							<key>collisionCategories</key>
@@ -654,7 +654,7 @@
 								<string>Position</string>
 								<key>value</key>
 								<array>
-									<real>715.0318603515625</real>
+									<real>0.0</real>
 									<real>0.0</real>
 									<integer>0</integer>
 									<integer>0</integer>
@@ -668,7 +668,7 @@
 								<string>Point</string>
 								<key>value</key>
 								<array>
-									<real>1</real>
+									<real>0.0</real>
 									<real>0.0</real>
 								</array>
 							</dict>
@@ -827,7 +827,7 @@
 								<string>Position</string>
 								<key>value</key>
 								<array>
-									<real>1430.063720703125</real>
+									<real>715.0318603515625</real>
 									<real>0.0</real>
 									<integer>0</integer>
 									<integer>0</integer>
@@ -841,7 +841,7 @@
 								<string>Point</string>
 								<key>value</key>
 								<array>
-									<real>1</real>
+									<real>0.0</real>
 									<real>0.0</real>
 								</array>
 							</dict>
@@ -1176,18 +1176,10 @@
 									<real>348.8829345703125</real>
 									<real>-45.90631103515625</real>
 								</array>
-								<array>
-									<real>342.4923095703125</real>
-									<real>148.06243896484375</real>
-								</array>
 							</array>
 							<key>polygons</key>
 							<array>
 								<array>
-									<array>
-										<real>342.4923095703125</real>
-										<real>148.06243896484375</real>
-									</array>
 									<array>
 										<real>348.8829345703125</real>
 										<real>-45.90631103515625</real>
@@ -1224,7 +1216,7 @@
 								<string>Position</string>
 								<key>value</key>
 								<array>
-									<real>-606.539306640625</real>
+									<real>-568</real>
 									<real>0.0</real>
 									<integer>0</integer>
 									<integer>0</integer>
@@ -1269,6 +1261,8 @@
 								</array>
 							</dict>
 						</array>
+						<key>selected</key>
+						<true/>
 					</dict>
 				</array>
 				<key>customClass</key>

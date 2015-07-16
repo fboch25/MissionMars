@@ -34,8 +34,8 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     let distanceBetweenAsteroids : CGFloat = 300
     let screenWidth = UIScreen.mainScreen().bounds.width
     let screenHeight = UIScreen.mainScreen().bounds.height
-    
     weak var gameEndScreen: GameEnd!
+    
     
     var score: Int = 0 {
         didSet {
@@ -47,7 +47,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         
         
         gamePhysicsNode.collisionDelegate = self
-       // gamePhysicsNode.debugDraw = true
+        // gamePhysicsNode.debugDraw = true
         userInteractionEnabled = true
         
         
@@ -57,31 +57,37 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         stars.append(star1)
         stars.append(star2)
         
-        schedule("addAsteroid",  interval: 1)
+        schedule("addAsteroid",  interval: 0.5)
         schedule("addPointToScore", interval: 1)
     }//didLoad
     
     // applies impulse to spaceship
     override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
         ship.physicsBody.applyImpulse(ccp(0, 5000))
-    }    
+    }
     // limit spaceship vertical velocity
     override func update(delta: CCTime) {
         barrier.position.x = ship.position.x
         let velocityY = clampf(Float(ship.physicsBody.velocity.y), -Float(CGFloat.max), 300)
         ship.physicsBody.velocity = ccp(0, CGFloat(velocityY))
-        //ship.physicsBody.velocity = ccp(0,0)
-        //ship.position = ccp(ship.position.x + scrollSpeed * CGFloat(delta), ship.position.y)
-        gamePhysicsNode.position = ccp(0,0)
+        
+        if score == 25 {
+            schedule("addStroid", interval: 1)
+        }
         
         // loop the ground
         for ground in grounds {
-            if ground.position.x <= (-(ground.contentSize.width * CGFloat(ground.scaleX))) {
-                ground.position = ccp(ground.position.x + (ground.contentSize.width * CGFloat(ground.scaleX)) * 2, ground.position.y)
+            
+            if ground.position.x <= (-(ground.contentSizeInPoints.width * CGFloat(ground.scaleX))) {
+                println("groundPosition: \(ground.position.x)")
+                println("groundcontentSize: \(ground.contentSizeInPoints.width)")
+                println("ground.scaleX \(ground.scaleX)")
+                ground.position = ccp(ground.position.x + (ground.contentSizeInPoints.width * CGFloat(ground.scaleX)) * 2, ground.position.y)
             }
+                
             else {
                 if !gameOver {
-                    ground.physicsBody.velocity.x = 200
+                    ground.position.x = ground.position.x - CGFloat(735) * CGFloat(delta)
                 }
             }
             
@@ -98,12 +104,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
                 }
             }
         }
-        if gameOver == false {
-            if arc4random_uniform(100) < 3 {
-                addStroid()
-            }
-        }
-//        checkForAsteroidRemoval()
+        // checkForAsteroidRemoval()
     }
     
     // Add asteroids
@@ -118,8 +119,8 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         //asteroid.position = CGPoint(x: ship.position.x + screenWidth + asteroid.contentSizeInPoints.width, y: CGFloat(clampf(Float(random), Float(screenHeight/5), Float(5*screenHeight/5))))
         
         asteroid.position = CGPoint(x: UIScreen.mainScreen().bounds.width + 1, y: CGFloat(random))
-      
-     
+        
+        
         gamePhysicsNode.addChild(asteroid)
     }
     
@@ -134,22 +135,16 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         gamePhysicsNode.addChild(newStroid)
         newStroid.physicsBody.velocity = ccp(-1000,0)
     }
-    
-    
-    
-//    func checkForAsteroidRemoval() {
+//    func checkForAsteroidRemoval() {   for stroid in stroidArray {
+//        //check for objects to remove
+//        //if you can remove an object, spawn a new one
 //        
-//        
-//        for stroid in stroidArray {
-//            //check for objects to remove
-//            //if you can remove an object, spawn a new one
+//        if stroid.position.x <= 0 {
+//            stroid.removeFromParent()
+//            stroidArray.removeAtIndex(0)
 //            
-//            if stroid.position.x <= 0 {
-//                stroid.removeFromParent()
-////                stroidArray.removeAtIndex(0)
-//                
-//                // spawn new (flaming ball of doom)
-//            }
+//            // spawn new (flaming ball of doom)
+//        }
 //        }
 //        
 //        
@@ -158,7 +153,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
 //            //if you can remove an object, spawn a new one
 //            if asteroid.position.x <= 0 {
 //                asteroid.removeFromParent()
-////                asteroidArray.removeAtIndex(0)
+//                asteroidArray.removeAtIndex(0)
 //            }
 //        }
 //    }
@@ -170,6 +165,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     // Implement restart button w/ asteroid
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, stroid nodeB: CCNode!) -> Bool {
         triggerGameOver()
+        nodeB.removeFromParent()
         return true
     }
     
@@ -179,7 +175,8 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         return true
     }
     
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, stroid nodeA: CCNode!, destroyNode nodeB: CCNode!) -> Bool {
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, stroid nodeA: CCNode!, stroidNode nodeB: CCNode!) -> Bool {
+        nodeA.removeFromParent()
         return true
     }
     
@@ -198,7 +195,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             ship.explosion()
             addChild(explosion)
             
-           
+            
             
             if animationManager.runningSequenceName != "Gameover Timeline" {
                 animationManager.runAnimationsForSequenceNamed("Gameover Timeline")

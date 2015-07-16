@@ -41,7 +41,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         didSet {
             scoreLabel.string = "\(score)"
             if score == 20 {
-                schedule("addStroid", interval: 1)
+                schedule("addStroid", interval: 3)
                 
             }
         }
@@ -172,14 +172,14 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     
     // Implement restart button w/ asteroid
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, stroid nodeB: CCNode!) -> Bool {
-//        triggerGameOver()
+        triggerGameOver()
         nodeB.removeFromParent()
         return true
     }
     
     // Implement restart button w/ floor
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, floor nodeB: CCNode!) -> Bool {
-//        triggerGameOver()
+        triggerGameOver()
         return true
     }
     

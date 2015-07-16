@@ -49,7 +49,7 @@
 				<key>customClass</key>
 				<string></string>
 				<key>displayName</key>
-				<string>Gradient@4x</string>
+				<string>BackGround</string>
 				<key>memberVarAssignmentName</key>
 				<string></string>
 				<key>memberVarAssignmentType</key>
@@ -236,8 +236,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>305.99212646484375</real>
-							<real>204.0347900390625</real>
+							<real>91.574249267578125</real>
+							<real>206.98851013183594</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -324,7 +324,7 @@
 				<key>customClass</key>
 				<string></string>
 				<key>displayName</key>
-				<string>slice03_03</string>
+				<string>Ground</string>
 				<key>memberVarAssignmentName</key>
 				<string></string>
 				<key>memberVarAssignmentType</key>
@@ -347,7 +347,7 @@
 						<key>value</key>
 						<array>
 							<real>300.62606811523438</real>
-							<real>33.834606170654297</real>
+							<real>-25.299999237060547</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -639,8 +639,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>521.64935302734375</real>
-							<real>222.26347351074219</real>
+							<real>335.64328002929688</real>
+							<real>239.63587951660156</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -738,7 +738,7 @@
 				<key>customClass</key>
 				<string></string>
 				<key>displayName</key>
-				<string>CCLabelTTF</string>
+				<string>Mission Mars</string>
 				<key>memberVarAssignmentName</key>
 				<string></string>
 				<key>memberVarAssignmentType</key>
@@ -785,8 +785,8 @@
 						<string>ScaleLock</string>
 						<key>value</key>
 						<array>
-							<real>1.2163952589035034</real>
-							<real>1.0262815952301025</real>
+							<real>1.1097794771194458</real>
+							<real>0.94870305061340332</real>
 							<false/>
 							<integer>0</integer>
 						</array>
@@ -798,8 +798,8 @@
 						<string>Text</string>
 						<key>value</key>
 						<array>
-							<string>mission
- mars</string>
+							<string>MISSION
+  MARS</string>
 							<false/>
 						</array>
 					</dict>
@@ -809,7 +809,7 @@
 						<key>type</key>
 						<string>FontTTF</string>
 						<key>value</key>
-						<string>ccbResources/SPACEMAN.TTF</string>
+						<string>good times rg.ttf</string>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -818,7 +818,7 @@
 						<string>FloatScale</string>
 						<key>value</key>
 						<array>
-							<real>48</real>
+							<real>50</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -1484,7 +1484,7 @@
 				<key>customClass</key>
 				<string></string>
 				<key>displayName</key>
-				<string>CCButton</string>
+				<string>Launch</string>
 				<key>memberVarAssignmentName</key>
 				<string></string>
 				<key>memberVarAssignmentType</key>
@@ -1506,8 +1506,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>0.5</real>
-							<real>0.40000000596046448</real>
+							<real>0.51709532737731934</real>
+							<real>0.28444781899452209</real>
 							<integer>0</integer>
 							<integer>2</integer>
 							<integer>2</integer>
@@ -1531,7 +1531,7 @@
 						<string>ScaleLock</string>
 						<key>value</key>
 						<array>
-							<real>1</real>
+							<real>1.0861824750900269</real>
 							<real>1</real>
 							<false/>
 							<integer>0</integer>
@@ -1654,6 +1654,14 @@
 							<string></string>
 							<string>ccbResources/ccbButtonNormal.png</string>
 						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>backgroundOpacity|Disabled</string>
+						<key>type</key>
+						<string>Float</string>
+						<key>value</key>
+						<real>0.0</real>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -1931,7 +1939,7 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>874.85076904296875</real>
+							<real>707.85137939453125</real>
 							<real>204.0347900390625</real>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -2333,7 +2341,7 @@
 						<key>value</key>
 						<array>
 							<real>55.538967132568359</real>
-							<real>160</real>
+							<real>148.80000305175781</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -2504,7 +2512,7 @@
 			<key>offset</key>
 			<real>0.0</real>
 			<key>position</key>
-			<real>0.0</real>
+			<real>1.6000000238418579</real>
 			<key>resolution</key>
 			<real>30</real>
 			<key>scale</key>

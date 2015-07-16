@@ -71,7 +71,7 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>37</real>
+							<real>34</real>
 							<real>31</real>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -328,7 +328,7 @@
 			</dict>
 		</array>
 		<key>customClass</key>
-		<string></string>
+		<string>Stroid</string>
 		<key>displayName</key>
 		<string>CCSprite</string>
 		<key>memberVarAssignmentName</key>
@@ -338,9 +338,9 @@
 		<key>physicsBody</key>
 		<dict>
 			<key>affectedByGravity</key>
-			<true/>
+			<false/>
 			<key>allowsRotation</key>
-			<true/>
+			<false/>
 			<key>bodyShape</key>
 			<integer>1</integer>
 			<key>collisionCategories</key>
@@ -348,7 +348,7 @@
 			<key>collisionMask</key>
 			<array/>
 			<key>collisionType</key>
-			<string></string>
+			<string>stroid</string>
 			<key>cornerRadius</key>
 			<real>32</real>
 			<key>density</key>

@@ -58,10 +58,7 @@
 			<key>collisionCategories</key>
 			<array/>
 			<key>collisionMask</key>
-			<array>
-				<string>1</string>
-				<string>2</string>
-			</array>
+			<array/>
 			<key>collisionType</key>
 			<string>ship</string>
 			<key>cornerRadius</key>
@@ -395,8 +392,6 @@
 				<array/>
 			</dict>
 		</array>
-		<key>selected</key>
-		<true/>
 		<key>seqExpanded</key>
 		<true/>
 	</dict>

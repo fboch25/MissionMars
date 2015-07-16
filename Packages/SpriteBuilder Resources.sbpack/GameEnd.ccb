@@ -852,7 +852,7 @@
 						<string>ScaleLock</string>
 						<key>value</key>
 						<array>
-							<real>2.5</real>
+							<real>1.5</real>
 							<real>1</real>
 							<false/>
 							<integer>0</integer>
@@ -875,7 +875,7 @@
 						<key>type</key>
 						<string>FontTTF</string>
 						<key>value</key>
-						<string>ccbResources/nova_square/NovaSquare.ttf</string>
+						<string>wlm-fonts_banana/banana_split.ttf</string>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -884,7 +884,7 @@
 						<string>FloatScale</string>
 						<key>value</key>
 						<array>
-							<real>14</real>
+							<real>20</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -958,7 +958,7 @@
 						<string>FloatScale</string>
 						<key>value</key>
 						<array>
-							<real>0.5</real>
+							<real>1</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -1059,7 +1059,7 @@
 						<string>ScaleLock</string>
 						<key>value</key>
 						<array>
-							<real>2.5</real>
+							<real>1.5</real>
 							<real>1</real>
 							<false/>
 							<integer>0</integer>
@@ -1082,7 +1082,7 @@
 						<key>type</key>
 						<string>FontTTF</string>
 						<key>value</key>
-						<string>ccbResources/nova_square/NovaSquare.ttf</string>
+						<string>wlm-fonts_banana/banana_split.ttf</string>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -1091,7 +1091,7 @@
 						<string>FloatScale</string>
 						<key>value</key>
 						<array>
-							<real>14</real>
+							<real>20</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -1165,7 +1165,7 @@
 						<string>FloatScale</string>
 						<key>value</key>
 						<array>
-							<real>0.5</real>
+							<real>1</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -1280,8 +1280,6 @@
 				</array>
 			</dict>
 		</array>
-		<key>selected</key>
-		<true/>
 	</dict>
 	<key>notes</key>
 	<array/>

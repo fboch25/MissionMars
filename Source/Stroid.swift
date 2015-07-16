@@ -11,7 +11,7 @@ import Foundation
 class Stroid: CCSprite{
 
     func didLoadFromCCB() {
-        physicsBody.collisionGroup = "Asteroid"
+        self.physicsBody.collisionGroup = "Asteroid"
         physicsBody.velocity = ccp(-100,0)
 
     }

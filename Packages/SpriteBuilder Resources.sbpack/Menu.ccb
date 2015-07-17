@@ -236,8 +236,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>91.574249267578125</real>
-							<real>206.98851013183594</real>
+							<real>305.99212646484375</real>
+							<real>204.0347900390625</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -311,8 +311,6 @@
 						<array/>
 					</dict>
 				</array>
-				<key>seqExpanded</key>
-				<true/>
 			</dict>
 			<dict>
 				<key>UUID</key>
@@ -346,8 +344,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>300.62606811523438</real>
-							<real>-25.299999237060547</real>
+							<real>293.71014404296875</real>
+							<real>-70.707168579101562</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -421,6 +419,8 @@
 						<array/>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
 				<key>seqExpanded</key>
 				<true/>
 			</dict>
@@ -639,8 +639,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>335.64328002929688</real>
-							<real>239.63587951660156</real>
+							<real>521.64935302734375</real>
+							<real>222.26347351074219</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -1471,8 +1471,6 @@
 						<real>0.5</real>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 			<dict>
 				<key>UUID</key>
@@ -1939,7 +1937,7 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>707.85137939453125</real>
+							<real>874.85076904296875</real>
 							<real>204.0347900390625</real>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -2341,7 +2339,7 @@
 						<key>value</key>
 						<array>
 							<real>55.538967132568359</real>
-							<real>148.80000305175781</real>
+							<real>160</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -2512,7 +2510,7 @@
 			<key>offset</key>
 			<real>0.0</real>
 			<key>position</key>
-			<real>1.6000000238418579</real>
+			<real>0.0</real>
 			<key>resolution</key>
 			<real>30</real>
 			<key>scale</key>

@@ -12,7 +12,7 @@ class Asteroid: CCSprite {
    
     func didLoadFromCCB(){
         self.physicsBody.collisionGroup = "Asteroid"
-        physicsBody.velocity = ccp(-500,0)
+        physicsBody.velocity = ccp(-450,0)
     }
     
 }

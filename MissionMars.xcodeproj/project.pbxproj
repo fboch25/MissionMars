@@ -95,6 +95,7 @@
 		BC5399DC1A44DCC90063F482 /* JavaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC5399D71A44DCC90063F482 /* JavaKit.framework */; };
 		FC4626661B54001100C2DD56 /* GameEnd.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4626651B54001100C2DD56 /* GameEnd.swift */; };
 		FC4626681B55A5CF00C2DD56 /* Rhinoceros.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FC4626671B55A5CF00C2DD56 /* Rhinoceros.mp3 */; };
+		FC4E10EE1B594907003A294A /* Explosion.aiff in Resources */ = {isa = PBXBuildFile; fileRef = FC4E10ED1B594907003A294A /* Explosion.aiff */; };
 		FCF05A711B53F5D00086408D /* Asteroid.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF05A6C1B53F5D00086408D /* Asteroid.swift */; };
 		FCF05A731B53F5D00086408D /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF05A6E1B53F5D00086408D /* Menu.swift */; };
 		FCF05A741B53F5D00086408D /* Ship.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF05A6F1B53F5D00086408D /* Ship.swift */; };
@@ -218,7 +219,8 @@
 		BC5399D71A44DCC90063F482 /* JavaKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaKit.framework; path = "../../../../Library/Application Support/Developer/Shared/Xcode/Platforms/Android.platform/Developer/SDKs/SBAndroid.sdk/System/Library/Frameworks/JavaKit.framework"; sourceTree = "<group>"; };
 		D352B48019EC608A00829775 /* MetalShaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MetalShaders; path = Source/MetalShaders; sourceTree = "<group>"; };
 		FC4626651B54001100C2DD56 /* GameEnd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameEnd.swift; sourceTree = "<group>"; };
-		FC4626671B55A5CF00C2DD56 /* Rhinoceros.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Rhinoceros.mp3; sourceTree = "<group>"; };
+		FC4626671B55A5CF00C2DD56 /* Rhinoceros.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Rhinoceros.mp3; path = ../../Rhinoceros.mp3; sourceTree = "<group>"; };
+		FC4E10ED1B594907003A294A /* Explosion.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Explosion.aiff; sourceTree = "<group>"; };
 		FCF05A6C1B53F5D00086408D /* Asteroid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Asteroid.swift; path = Source/Asteroid.swift; sourceTree = "<group>"; };
 		FCF05A6E1B53F5D00086408D /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Menu.swift; path = Source/Menu.swift; sourceTree = "<group>"; };
 		FCF05A6F1B53F5D00086408D /* Ship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Ship.swift; path = Source/Ship.swift; sourceTree = "<group>"; };
@@ -266,13 +268,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B77F1B3A17B978D7009739AE /* AVFoundation.framework in Frameworks */,
 				7A97911819E631CD001FFC4D /* libcocos2d.a in Frameworks */,
 				8392007A18EE8E3300B6C429 /* GLKit.framework in Frameworks */,
 				B77F1B3217B978D7009739AE /* QuartzCore.framework in Frameworks */,
 				B77F1B3417B978D7009739AE /* OpenGLES.framework in Frameworks */,
 				B77F1B3617B978D7009739AE /* OpenAL.framework in Frameworks */,
 				B77F1B3817B978D7009739AE /* AudioToolbox.framework in Frameworks */,
-				B77F1B3A17B978D7009739AE /* AVFoundation.framework in Frameworks */,
 				B77F1B3C17B978D7009739AE /* UIKit.framework in Frameworks */,
 				B77F1B3E17B978D7009739AE /* Foundation.framework in Frameworks */,
 				B77F1B4017B978D7009739AE /* CoreGraphics.framework in Frameworks */,
@@ -446,7 +448,6 @@
 		B737893C1807616C0076A88C /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				FC4626671B55A5CF00C2DD56 /* Rhinoceros.mp3 */,
 				7A40362019DDEF0D007B6E8F /* Platforms */,
 				7A046D7519E84C36004C4763 /* MainScene.swift */,
 				FCF05A6C1B53F5D00086408D /* Asteroid.swift */,
@@ -533,6 +534,7 @@
 		B77F1B4617B978D7009739AE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FC4E10EA1B58A253003A294A /* Audio */,
 				7A40366119DDF8C2007B6E8F /* Platforms */,
 				5B12100D197483EE004C1E1D /* res */,
 				B73789911807667A0076A88C /* Icons */,
@@ -552,6 +554,15 @@
 				B73789861807631A0076A88C /* Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FC4E10EA1B58A253003A294A /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				FC4E10ED1B594907003A294A /* Explosion.aiff */,
+				FC4626671B55A5CF00C2DD56 /* Rhinoceros.mp3 */,
+			);
+			name = Audio;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -627,7 +638,7 @@
 						CreatedOnToolsVersion = 6.0.1;
 					};
 					B77F1B2D17B978D7009739AE = {
-						DevelopmentTeam = 6TK8Q4KD6G;
+						DevelopmentTeam = LM2J977ASP;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
 								enabled = 0;
@@ -752,6 +763,7 @@
 				B737893B180761570076A88C /* Published-iOS in Resources */,
 				B71F591A188484E7003F4D28 /* Settings@2x.png in Resources */,
 				FC4626681B55A5CF00C2DD56 /* Rhinoceros.mp3 in Resources */,
+				FC4E10EE1B594907003A294A /* Explosion.aiff in Resources */,
 				B7378976180762440076A88C /* Default-Landscape~ipad.png in Resources */,
 				B71F5915188484E7003F4D28 /* iPhone-old.png in Resources */,
 				B71F5917188484E7003F4D28 /* iPhone.png in Resources */,

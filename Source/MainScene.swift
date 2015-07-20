@@ -21,6 +21,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     weak var gameEnd : CCNode!
     //Labels
     weak var scoreLabel: CCLabelTTF!
+    weak var tapToJump: CCLabelTTF!
     //Buttons
     weak var restartButton: CCButton!
     //arrays of CCObjects
@@ -38,6 +39,8 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     let screenHeight = UIScreen.mainScreen().bounds.height
     weak var gameEndScreen: GameEnd!
     var asteroidXVelocity = -500
+    
+    var tutorialOver = false
     
     // score
     var score: Int = 0 {
@@ -61,24 +64,37 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
 
     //Functions
     func didLoadFromCCB() {
-        
+        iAdHelper.sharedHelper()
+        iAdHelper.setBannerPosition(TOP)
         gamePhysicsNode.collisionDelegate = self
         // gamePhysicsNode.debugDraw = true
         userInteractionEnabled = true
         stars.append(star1)
         stars.append(star2)
-        schedule("addAsteroid",  interval: 0.3)
-        schedule("addPointToScore", interval: 1)
+        ship.physicsBody.affectedByGravity = false
+        
         
     }//didLoad
     
+    func endTutorial(){
+        ship.physicsBody.affectedByGravity = true
+        schedule("addAsteroid",  interval: 0.3)
+        schedule("addPointToScore", interval: 1)
+    }
+    
     // applies impulse to spaceship
     override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
+        if tutorialOver == false {
+            tutorialOver = true
+            endTutorial()
+        }
+        
         ship.physicsBody.velocity.y = 0
         ship.physicsBody.applyImpulse(ccp(0, 12500))
         if defaults.boolForKey("musicToggleKey") {
         audio.playEffect("starship-01.wav")
         }
+        tapToJump.visible = false
     }
     // limit spaceship vertical velocity
     override func update(delta: CCTime) {

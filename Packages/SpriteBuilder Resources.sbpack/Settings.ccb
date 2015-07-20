@@ -622,7 +622,7 @@
 									<key>value</key>
 									<array>
 										<real>278.99996948242188</real>
-										<real>-102.74713897705078</real>
+										<real>-145.74716186523438</real>
 									</array>
 								</dict>
 								<dict>
@@ -634,13 +634,13 @@
 									<key>name</key>
 									<string>position</string>
 									<key>time</key>
-									<real>2.5333333015441895</real>
+									<real>2.7333333492279053</real>
 									<key>type</key>
 									<integer>3</integer>
 									<key>value</key>
 									<array>
-										<real>282.66262817382812</real>
-										<real>147.91288757324219</real>
+										<real>278.99996948242188</real>
+										<real>143.12571716308594</real>
 									</array>
 								</dict>
 							</array>
@@ -685,8 +685,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>282.66262817382812</real>
-							<real>147.91288757324219</real>
+							<real>278.99996948242188</real>
+							<real>143.12571716308594</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -723,22 +723,23 @@
 						<string>Text</string>
 						<key>value</key>
 						<array>
-							<string>   Sound
-Rhinoceros Kevin MacLeod (incompetech.com) 
+							<string>
+                             developer
+                            frank Boccia
+
+Sounds 
+"Rhinoceros" Kevin MacLeod (incompetech.com) 
 Licensed under Creative Commons: By Attribution 3.0
 http://creativecommons.org/licenses/by/3.0/
 
- 8-bit Explosion2.aif timgormly (freesound.org)
+" 8-bit Explosion2.aif" timgormly (freesound.org)
 Licensed under Creative Commons: By Attribution 3.0
 http://creativecommons.org/licenses/by/3.0/ 
 
-Starship 01.wav - michael_kur95 (freesound.org)
+"Starship 01.wav" - michael_kur95 (freesound.org)
 Licensed under Creative Commons : By Attribution 3.0 
 http://creativecommons.org/licenses/by/3.0/
 
-
-                                developer
-                               frank Boccia
 </string>
 							<false/>
 						</array>
@@ -1575,7 +1576,7 @@ http://creativecommons.org/licenses/by/3.0/
 			<key>offset</key>
 			<real>0.0</real>
 			<key>position</key>
-			<real>2.7333333492279053</real>
+			<real>3.0999999046325684</real>
 			<key>resolution</key>
 			<real>30</real>
 			<key>scale</key>

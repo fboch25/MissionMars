@@ -12,9 +12,10 @@ class GameEnd: CCNode {
     
     weak var pointsLabel : CCLabelTTF!
     weak var highPointsLabel: CCLabelTTF!
+    weak var homeButton : CCButton!
     
     let defaults = NSUserDefaults.standardUserDefaults()
-    
+  
     func Score(score : Int) {
         pointsLabel.string = "\(score)"
         
@@ -34,6 +35,10 @@ class GameEnd: CCNode {
         let scene = CCBReader.loadAsScene("MainScene")
         CCDirector.sharedDirector().presentScene(scene)
         
+    }
+    func home() {
+        let scene = CCBReader.loadAsScene("Menu")
+        CCDirector.sharedDirector().presentScene(scene)
     }
     
 

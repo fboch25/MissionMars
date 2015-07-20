@@ -1736,7 +1736,7 @@
 						<string>FloatScale</string>
 						<key>value</key>
 						<array>
-							<real>10</real>
+							<real>110</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -1747,7 +1747,7 @@
 						<string>FloatScale</string>
 						<key>value</key>
 						<array>
-							<real>0.0</real>
+							<real>100</real>
 							<integer>0</integer>
 						</array>
 					</dict>
@@ -2010,6 +2010,8 @@
 						<array/>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
 				<key>seqExpanded</key>
 				<true/>
 			</dict>
@@ -2725,8 +2727,6 @@
 						</array>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>

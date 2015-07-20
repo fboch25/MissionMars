@@ -24,45 +24,34 @@ class Menu: CCScene {
     var grounds = [CCSprite]()  // initializes an empty array
     
     // Sound
-    //var audioPlayer = AVAudioPlayer()
+    let audio = OALSimpleAudio.sharedInstance()
+    let defaults = NSUserDefaults.standardUserDefaults()
     
-    var audio = OALSimpleAudio.sharedInstance()
-    
-    
-    
+    // Functions
     func didLoadFromCCB() {
         // gamePhysicsNode.debugDraw = true
         userInteractionEnabled = true
         stars.append(star1)
         stars.append(star2)
         moveComet()
-        
-        audio.playBg("Rhinoceros.mp3", loop: true) 
-        
-        //playAudio()
-    }
-    /* func playAudio(){
-        if NSBundle.mainBundle().pathForResource("Rhinoceros", ofType: "mp3") != nil{
-            var alertSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Rhinoceros", ofType: "mp3")!)
-            var error:NSError?
-            audioPlayer = AVAudioPlayer(contentsOfURL: alertSound, error: &error)
-            audioPlayer.prepareToPlay()
-            audioPlayer.play()
+        if defaults.boolForKey("musicToggleKey") {
+            audio.playBg("Rhinoceros.mp3", loop: true)
         }
-    } */
-
+    }
     override func update(delta: CCTime) {
         if comet.position.x > gamePhysicsNode.contentSizeInPoints.width {
-            comet.position.x = 0
-            moveComet()
+        comet.position.x = 0
+        moveComet()
         }
     }
     func play(){
         CCDirector.sharedDirector().replaceScene(CCBReader.loadAsScene("MainScene"))
-        
     }
     func moveComet() {
         comet.physicsBody.velocity = (ccp(-1000,90))
+    }
+    func toSettings(){
+        CCDirector.sharedDirector().pushScene(CCBReader.loadAsScene("Settings"))
     }
     
 }

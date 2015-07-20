@@ -14,7 +14,7 @@ class Ship: CCSprite {
     
     func explosion() {
         ship.visible = false 
-//        ship.physicsBody.sensor = true
+       // ship.physicsBody.sensor = true
     }
     
 }

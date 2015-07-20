@@ -5,7 +5,7 @@ import AVFoundation
 class MainScene: CCNode, CCPhysicsCollisionDelegate {
     
     var audio = OALSimpleAudio.sharedInstance()
-    
+    let defaults = NSUserDefaults.standardUserDefaults()
     // sound with AVFoundation
     var audioPlayer = AVAudioPlayer()
     weak var ship: Ship!
@@ -43,12 +43,22 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     var score: Int = 0 {
         didSet {
             scoreLabel.string = "\(score)"
-            if score == 1 {
-                schedule("addStroid", interval: 3)
-            }
+            if score == 17 {
+            schedule("addStroid", interval: 5)
+            if score == 20 {
+            schedule("addStroid" , interval: 3)
+            if score == 33 {
+            schedule("addStroid", interval: 1.5)
+            if score >= 45 {
+            schedule("addStroid", interval: 0.8)
+            unschedule("addAsteroid")
+          }
         }
+      }
     }
-    
+  }
+}
+
     //Functions
     func didLoadFromCCB() {
         
@@ -66,6 +76,9 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
         ship.physicsBody.velocity.y = 0
         ship.physicsBody.applyImpulse(ccp(0, 12500))
+        if defaults.boolForKey("musicToggleKey") {
+        audio.playEffect("starship-01.wav")
+        }
     }
     // limit spaceship vertical velocity
     override func update(delta: CCTime) {
@@ -123,13 +136,17 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, stroid nodeB: CCNode!) -> Bool {
         triggerGameOver()
         nodeB.removeFromParent()
+        if defaults.boolForKey("musicToggleKey") {
         audio.playEffect("Explosion.aiff")
+        }
         return true
     }
     // Implement restart button w/ floor Collision
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, floor nodeB: CCNode!) -> Bool {
         triggerGameOver()
+        if defaults.boolForKey("musicToggleKey") {
         audio.playEffect("Explosion.aiff")
+        }
         return true
     }
     // Destroys Stroids when leave screen

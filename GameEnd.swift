@@ -15,13 +15,24 @@ class GameEnd: CCNode {
     weak var pointsLabel : CCLabelTTF!
     weak var highPointsLabel: CCLabelTTF!
     weak var homeButton : CCButton!
+    weak var leaderBoardButton: CCButton!
     let defaults = NSUserDefaults.standardUserDefaults()
-    
-   
-  
+
     func Score(score : Int) {
         pointsLabel.string = "\(score)"
-        
+        GKLocalPlayer.localPlayer().authenticated {
+            let gkScore = GKScore(coder: LeaderBoardIdentifier: "leaderBoardID")
+            gkScore.value = currentHighscore
+            GKScore.reportScores( [gkScore],withCompletionHandler: ( {
+                (error : NSError!)-> Void in
+                if (error != nil) {
+                    println("Error: " + error.localizedDescription);
+                    
+                } else {
+                    println("highScore reported: \(gkScore.value)")
+                }
+            } ) )
+        }
         var currentHighscore = defaults.integerForKey("highScore")
         
         if score > currentHighscore {
@@ -38,12 +49,16 @@ class GameEnd: CCNode {
         CCDirector.sharedDirector().presentScene(scene)
         
     }
+    
     func home() {
         let scene = CCBReader.loadAsScene("Menu")
         CCDirector.sharedDirector().presentScene(scene)
     }
     
-
+    func openLeaderBoard () {
+        showLeaderBoard()
+    }
+    
 }
 
 // MARK: Game Center Handling

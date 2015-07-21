@@ -8,6 +8,7 @@
 
 import Foundation
 import AVFoundation
+import GameKit
 
 class Menu: CCScene {
     
@@ -29,6 +30,7 @@ class Menu: CCScene {
     
     // Functions
     func didLoadFromCCB() {
+        setUpGameCenter()
         // gamePhysicsNode.debugDraw = true
         userInteractionEnabled = true
         stars.append(star1)
@@ -44,6 +46,13 @@ class Menu: CCScene {
         moveComet()
         }
     }
+    
+    func setUpGameCenter() {
+        
+        let gameCenterInteractor = GameCenterInteractor.sharedInstance
+        gameCenterInteractor.authenticationCheck()
+        
+    }
     func play(){
         CCDirector.sharedDirector().replaceScene(CCBReader.loadAsScene("MainScene"))
     }
@@ -56,3 +65,7 @@ class Menu: CCScene {
     
 }
 
+extension GameCenterInteractor:GKLocalPlayerListener
+{
+    // Add functions for monitoring match changes.
+}

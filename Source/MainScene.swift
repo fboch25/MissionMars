@@ -153,28 +153,36 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     
     // Implement restart button w/ asteroid Collision
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, stroid nodeB: CCNode!) -> ObjCBool {
-        triggerGameOver()
-        nodeB.removeFromParent()
-        if defaults.boolForKey("musicToggleKey") {
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-        audio.playEffect("Explosion.aiff")
+        if (gameOver  == false) {
+            triggerGameOver()
+            nodeB.removeFromParent()
+            if defaults.boolForKey("musicToggleKey") {
+                audio.playEffect("Explosion.aiff")
+            }
+            
         }
         return true
     }
+    
     // Implement restart button w/ floor Collision
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, floor nodeB: CCNode!) -> Bool {
-        triggerGameOver()
-        if defaults.boolForKey("musicToggleKey") {
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-        audio.playEffect("Explosion.aiff")
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, floor nodeB: CCNode!) ->  ObjCBool {
+        if (gameOver  == false) {
+            triggerGameOver()
+            if defaults.boolForKey("musicToggleKey") {
+                audio.playEffect("Explosion.aiff")
+            }
         }
         return true
     }
+    
     // Destroys Stroids when leave screen
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, stroid nodeA: CCNode!, stroidNode nodeB: CCNode!) -> Bool {
-        nodeA.removeFromParent()
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, stroid nodeA: CCNode!, stroidNode nodeB: CCNode!) -> ObjCBool {
+//        if (gameOver  == false) {
+            nodeA.removeFromParent()
+//        }
         return true
     }
+    
     // everything that should happen when the game ends
     func triggerGameOver() {
         println("Game Over")
@@ -186,6 +194,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             unschedule("addAsteroid")
             userInteractionEnabled = false
             ship.physicsBody.allowsRotation = false
+            AudioServicesPlayAlertSound(1352)
             var explosion = CCBReader.load("Explosion")
             explosion.position = ship.position
             ship.explosion()

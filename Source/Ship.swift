@@ -13,8 +13,9 @@ class Ship: CCSprite {
     weak var ship: CCSprite!
     
     func explosion() {
-        ship.visible = false 
-       ship.physicsBody.sensor = true
+        ship.visible = false
+        ship.physicsBody.sensor = true
+//        removeFromParent()
     }
     
 }

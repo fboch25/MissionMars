@@ -149,7 +149,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     }
     
     // Implement restart button w/ asteroid Collision
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, stroid nodeB: CCNode!) -> Bool {
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, stroid nodeB: CCNode!) -> ObjCBool {
         triggerGameOver()
         nodeB.removeFromParent()
         if defaults.boolForKey("musicToggleKey") {

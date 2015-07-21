@@ -1,6 +1,6 @@
 import Foundation
 import AVFoundation
-
+import AudioToolbox 
 
 class MainScene: CCNode, CCPhysicsCollisionDelegate {
     
@@ -72,6 +72,9 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         stars.append(star1)
         stars.append(star2)
         ship.physicsBody.affectedByGravity = false
+        if gameOver == false {
+            gameEndScreen.visible = false
+        }
         
         
     }//didLoad
@@ -153,6 +156,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         triggerGameOver()
         nodeB.removeFromParent()
         if defaults.boolForKey("musicToggleKey") {
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         audio.playEffect("Explosion.aiff")
         }
         return true
@@ -161,6 +165,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, floor nodeB: CCNode!) -> Bool {
         triggerGameOver()
         if defaults.boolForKey("musicToggleKey") {
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         audio.playEffect("Explosion.aiff")
         }
         return true
@@ -174,6 +179,8 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     func triggerGameOver() {
         println("Game Over")
         if (gameOver  == false) {
+            gameEndScreen.visible = true
+            scoreLabel.visible = false
             gameOver = true
             unschedule("addPointToScore")
             unschedule("addAsteroid")
@@ -190,8 +197,10 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
                 gameEndScreen.Score(score)
             }
             // just in case
+//            var positionToMoveTo = ccp()
+            
             ship.stopAllActions()
-            let move = CCActionEaseBounceOut(action: CCActionMoveBy(duration: 0.2, position: ccp(0, 4)))
+            let move = CCActionEaseBounceOut(action: CCActionMoveBy(duration: 0.2, position: ccp(0, 0)))
             let moveBack = CCActionEaseBounceOut(action: move.reverse())
             let shakeSequence = CCActionSequence(array: [move, moveBack])
             runAction(shakeSequence)

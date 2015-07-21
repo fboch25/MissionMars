@@ -759,8 +759,6 @@
 								</array>
 							</dict>
 						</array>
-						<key>selected</key>
-						<true/>
 					</dict>
 					<dict>
 						<key>UUID</key>
@@ -1582,8 +1580,8 @@
 									<integer>3</integer>
 									<key>value</key>
 									<array>
-										<real>124.3714599609375</real>
-										<real>346.21792602539062</real>
+										<real>0.5</real>
+										<real>1.7200000286102295</real>
 									</array>
 								</dict>
 								<dict>
@@ -1600,8 +1598,8 @@
 									<integer>3</integer>
 									<key>value</key>
 									<array>
-										<real>124</real>
-										<real>60</real>
+										<real>0.5</real>
+										<real>0.5</real>
 									</array>
 								</dict>
 							</array>
@@ -1639,8 +1637,8 @@
 					<dict>
 						<key>baseValue</key>
 						<array>
-							<real>124.3714599609375</real>
-							<real>346.21792602539062</real>
+							<real>0.21896383166313171</real>
+							<real>1.0819309949874878</real>
 						</array>
 						<key>name</key>
 						<string>position</string>
@@ -1648,11 +1646,11 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>124.3714599609375</real>
-							<real>346.21792602539062</real>
+							<real>0.5</real>
+							<real>1.7200000286102295</real>
 							<integer>0</integer>
-							<integer>0</integer>
-							<integer>0</integer>
+							<integer>2</integer>
+							<integer>2</integer>
 						</array>
 					</dict>
 					<dict>
@@ -1677,6 +1675,8 @@
 						<string>GameEnd.ccb</string>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
 				<key>seqExpanded</key>
 				<true/>
 			</dict>

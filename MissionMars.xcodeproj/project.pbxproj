@@ -101,6 +101,7 @@
 		FC4E10F61B5D38F3003A294A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC4E10F51B5D38F3003A294A /* Images.xcassets */; };
 		FC4E10FE1B5D40AE003A294A /* iAdHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4E10FD1B5D40AE003A294A /* iAdHelper.m */; };
 		FC4E11001B5D6063003A294A /* AdSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4E10FF1B5D6063003A294A /* AdSwift.swift */; };
+		FCCC7B6A1B5E8D5A00A4E05B /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCCC7B691B5E8D5A00A4E05B /* GameKit.framework */; };
 		FCF05A711B53F5D00086408D /* Asteroid.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF05A6C1B53F5D00086408D /* Asteroid.swift */; };
 		FCF05A731B53F5D00086408D /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF05A6E1B53F5D00086408D /* Menu.swift */; };
 		FCF05A741B53F5D00086408D /* Ship.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF05A6F1B53F5D00086408D /* Ship.swift */; };
@@ -232,6 +233,7 @@
 		FC4E10FC1B5D40AE003A294A /* iAdHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iAdHelper.h; sourceTree = "<group>"; };
 		FC4E10FD1B5D40AE003A294A /* iAdHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iAdHelper.m; sourceTree = "<group>"; };
 		FC4E10FF1B5D6063003A294A /* AdSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdSwift.swift; sourceTree = "<group>"; };
+		FCCC7B691B5E8D5A00A4E05B /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		FCF05A6C1B53F5D00086408D /* Asteroid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Asteroid.swift; path = Source/Asteroid.swift; sourceTree = "<group>"; };
 		FCF05A6E1B53F5D00086408D /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Menu.swift; path = Source/Menu.swift; sourceTree = "<group>"; };
 		FCF05A6F1B53F5D00086408D /* Ship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Ship.swift; path = Source/Ship.swift; sourceTree = "<group>"; };
@@ -279,13 +281,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B77F1B3817B978D7009739AE /* AudioToolbox.framework in Frameworks */,
+				FCCC7B6A1B5E8D5A00A4E05B /* GameKit.framework in Frameworks */,
 				B77F1B3A17B978D7009739AE /* AVFoundation.framework in Frameworks */,
 				7A97911819E631CD001FFC4D /* libcocos2d.a in Frameworks */,
 				8392007A18EE8E3300B6C429 /* GLKit.framework in Frameworks */,
 				B77F1B3217B978D7009739AE /* QuartzCore.framework in Frameworks */,
 				B77F1B3417B978D7009739AE /* OpenGLES.framework in Frameworks */,
 				B77F1B3617B978D7009739AE /* OpenAL.framework in Frameworks */,
-				B77F1B3817B978D7009739AE /* AudioToolbox.framework in Frameworks */,
 				B77F1B3C17B978D7009739AE /* UIKit.framework in Frameworks */,
 				B77F1B3E17B978D7009739AE /* Foundation.framework in Frameworks */,
 				B77F1B4017B978D7009739AE /* CoreGraphics.framework in Frameworks */,
@@ -522,6 +525,7 @@
 		B77F1B3017B978D7009739AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FCCC7B691B5E8D5A00A4E05B /* GameKit.framework */,
 				BC5399D31A44DCC90063F482 /* AndroidKit.framework */,
 				BC5399D41A44DCC90063F482 /* CoreJava.framework */,
 				BC5399D51A44DCC90063F482 /* GLActivityKit.framework */,

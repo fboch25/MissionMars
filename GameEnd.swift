@@ -7,14 +7,17 @@
 //
 
 import Foundation
+import GameKit
+import AudioToolbox
 
 class GameEnd: CCNode {
     
     weak var pointsLabel : CCLabelTTF!
     weak var highPointsLabel: CCLabelTTF!
     weak var homeButton : CCButton!
-    
     let defaults = NSUserDefaults.standardUserDefaults()
+    
+   
   
     func Score(score : Int) {
         pointsLabel.string = "\(score)"
@@ -29,8 +32,7 @@ class GameEnd: CCNode {
         
     }
     
-    
-    // restart Game
+       // restart Game
     func restart() {
         let scene = CCBReader.loadAsScene("MainScene")
         CCDirector.sharedDirector().presentScene(scene)
@@ -43,3 +45,22 @@ class GameEnd: CCNode {
     
 
 }
+
+// MARK: Game Center Handling
+extension GameEnd: GKGameCenterControllerDelegate {
+    
+    func showLeaderBoard() {
+        var viewController = CCDirector.sharedDirector().parentViewController!
+        var gameCenterViewController = GKGameCenterViewController()
+        gameCenterViewController.gameCenterDelegate = self
+        viewController.presentViewController(gameCenterViewController, animated: true, completion: nil)
+    }
+    
+    // Delegate methods
+    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController!) {
+        gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+}
+
+

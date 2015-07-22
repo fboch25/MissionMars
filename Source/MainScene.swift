@@ -203,7 +203,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             // GamoverTimeline
             if animationManager.runningSequenceName != "Gameover Timeline" {
                 animationManager.runAnimationsForSequenceNamed("Gameover Timeline")
-                gameEndScreen.Score(score)
+                gameEndScreen.saveHighScore(score)
             }
             // just in case
 //            var positionToMoveTo = ccp()

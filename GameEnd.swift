@@ -17,19 +17,18 @@ class GameEnd: CCNode {
     weak var homeButton : CCButton!
     weak var leaderBoardButton: CCButton!
     let defaults = NSUserDefaults.standardUserDefaults()
-
-    func Score(score : Int) {
+    
+    
+    func saveHighScore(score : Int) {
         pointsLabel.string = "\(score)"
-        GKLocalPlayer.localPlayer().authenticated {
-            let gkScore = GKScore(coder: LeaderBoardIdentifier: "leaderBoardID")
-            gkScore.value = currentHighscore
-            GKScore.reportScores( [gkScore],withCompletionHandler: ( {
+        if GKLocalPlayer.localPlayer().authenticated {
+           var scoreReporter = GKScore(leaderboardIdentifier: "MissionMarsSinglePlayerLeaderBoard")
+            scoreReporter.value = Int64(score)
+            var scoreArray: [GKScore] = [scoreReporter]
+            GKScore.reportScores(scoreArray,withCompletionHandler: ( {
                 (error : NSError!)-> Void in
                 if (error != nil) {
                     println("Error: " + error.localizedDescription);
-                    
-                } else {
-                    println("highScore reported: \(gkScore.value)")
                 }
             } ) )
         }

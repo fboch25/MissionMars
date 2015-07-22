@@ -13,7 +13,7 @@ class Ship: CCSprite {
     weak var ship: CCSprite!
     
     func didLoadFromCCB(){
-       spriteFrame = CCSpriteFrame(imageNamed: "Ships/BlueSpaceship.png")
+       spriteFrame = CCSpriteFrame(imageNamed: "Ships/GrennSpaceship.png")
     }
     
     override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {

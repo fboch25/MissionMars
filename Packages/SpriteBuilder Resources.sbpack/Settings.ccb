@@ -10,7 +10,7 @@
 		<false/>
 	</dict>
 	<key>UUID</key>
-	<integer>13</integer>
+	<integer>14</integer>
 	<key>centeredOrigin</key>
 	<false/>
 	<key>currentResolution</key>
@@ -373,7 +373,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>Cancel@4x.png</string>
+							<string>Buttons/Cancel@4x.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -595,6 +595,8 @@
 						</array>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
 			</dict>
 			<dict>
 				<key>UUID</key>
@@ -1221,7 +1223,7 @@ http://creativecommons.org/licenses/by/3.0/
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>Vol-Up@4x.png</string>
+							<string>Buttons/Vol-Up@4x.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -1563,7 +1565,7 @@ http://creativecommons.org/licenses/by/3.0/
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>Small-Button-Blue@4x.png</string>
+							<string>Buttons/Small-Button-Blue@4x.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -1761,8 +1763,6 @@ http://creativecommons.org/licenses/by/3.0/
 						</array>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 			<dict>
 				<key>UUID</key>
@@ -2098,7 +2098,7 @@ http://creativecommons.org/licenses/by/3.0/
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>Vol-Up@4x.png</string>
+							<string>Buttons/Settings@4x.png</string>
 						</array>
 					</dict>
 					<dict>

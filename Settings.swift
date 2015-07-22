@@ -12,6 +12,7 @@ class Settings: CCNode {
     
     let defaults = NSUserDefaults.standardUserDefaults()
     let audio = OALSimpleAudio.sharedInstance()
+    
     weak var vibrationToggleButton: CCButton!
     weak var toggleVibrationText: CCLabelTTF!
     weak var musicToggleButton: CCButton!

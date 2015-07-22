@@ -112,7 +112,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>Gradient@4x.png</string>
+							<string>Background/Gradient@4x.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -295,7 +295,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>Ringed-Planet@4x.png</string>
+							<string>Background/Ringed-Planet@4x.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -403,7 +403,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>Stars@4x.png</string>
+							<string>Background/Stars@4x.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -511,7 +511,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>Stars@4x.png</string>
+							<string>Background/Stars@4x.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -1884,8 +1884,6 @@
 						</array>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>

@@ -62,7 +62,9 @@ class Menu: CCScene {
     func toSettings(){
         CCDirector.sharedDirector().pushScene(CCBReader.loadAsScene("Settings"))
     }
-    
+    func toStore(){
+        CCDirector.sharedDirector().pushScene(CCBReader.loadAsScene("Store"))
+    }
 }
 
 extension GameCenterInteractor:GKLocalPlayerListener

@@ -13,13 +13,16 @@ class Ship: CCSprite {
     weak var ship: CCSprite!
     
     func didLoadFromCCB(){
-       spriteFrame = CCSpriteFrame(imageNamed: "Ships/GrennSpaceship.png")
+       spriteFrame = CCSpriteFrame(imageNamed: "Ships/BlueSpaceship.png")
+    }
+    
+    override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
+     
     }
     
     func explosion() {
         ship.visible = false
         ship.physicsBody.sensor = true
-//        removeFromParent()
     }
     
 }

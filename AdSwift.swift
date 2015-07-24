@@ -24,6 +24,7 @@ class iAdHandler: NSObject {
     
     var interstitial = ADInterstitialAd()
     var interstitialAdView: UIView = UIView()
+    var interstitialActionIndex = 0
     
     var closeButton: UIButton!
     
@@ -135,7 +136,11 @@ class iAdHandler: NSObject {
             interstitial.presentInView(interstitialAdView)
             UIViewController.prepareInterstitialAds()
             
-            closeButton = UIButton(frame: CGRect(x: 270, y:  25, width: 25, height: 25))
+            
+            
+            closeButton = UIButton(frame: CGRect(x: interstitialAdView.frame.width - 550, y: interstitialAdView.frame.height - 300, width: 25, height: 25))
+            println(closeButton.frame)
+            
             closeButton.setBackgroundImage(UIImage(named: "close"), forState: UIControlState.Normal)
             closeButton.addTarget(self, action: Selector("close"), forControlEvents: UIControlEvents.TouchDown)
             self.view.addSubview(closeButton)

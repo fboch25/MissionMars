@@ -54,7 +54,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             schedule("addStroid", interval: 1.5)
             if score >= 45 {
             schedule("addStroid", interval: 0.8)
-            unschedule("addAsteroid")
+            // unschedule("addAsteroid")
           }
         }
       }
@@ -69,6 +69,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         }
         iAdHelper.sharedHelper()
         iAdHelper.setBannerPosition(TOP)
+        iAdHandler.sharedInstance.loadInterstitialAd()
         gamePhysicsNode.collisionDelegate = self
         // gamePhysicsNode.debugDraw = true
         userInteractionEnabled = true
@@ -98,7 +99,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         ship.physicsBody.velocity.y = 0
         ship.physicsBody.applyImpulse(ccp(0, 12500))
         // plays Jump effect
-        if defaults.boolForKey("soundIsSelected") {
+        if defaults.boolForKey("musicIsSelected") {
         audio.playEffect("starship-01.wav")
         }
         // tap to jum label invisible
@@ -160,7 +161,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         if (gameOver  == false) {
             triggerGameOver()
             nodeB.removeFromParent()
-            if defaults.boolForKey("soundIsSelected") {
+            if defaults.boolForKey("musicIsSelected") {
                 audio.playEffect("Explosion.aiff")
             } 
             
@@ -172,7 +173,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, floor nodeB: CCNode!) ->  ObjCBool {
         if (gameOver  == false) {
             triggerGameOver()
-            if defaults.boolForKey("soundIsSelected") {
+            if defaults.boolForKey("musicIsSelected") {
                 audio.playEffect("Explosion.aiff")
             }
         }
@@ -191,11 +192,21 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     func triggerGameOver() {
         println("Game Over")
         if (gameOver  == false) {
+            
+            switch (iAdHandler.sharedInstance.interstitialActionIndex % 3) {
+                case 0:
+                    iAdHandler.sharedInstance.displayInterstitialAd()
+                default:
+                    break
+            }
+            iAdHandler.sharedInstance.interstitialActionIndex++
+            
             gameEndScreen.visible = true
             scoreLabel.visible = false
             gameOver = true
             unschedule("addPointToScore")
             unschedule("addAsteroid")
+            unschedule("addStroid")
             userInteractionEnabled = false
             ship.physicsBody.allowsRotation = false
             if !VIBRATION {
@@ -205,7 +216,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             explosion.position = ship.position
             ship.explosion()
             addChild(explosion)
-            unschedule("addStroid")
+        
             // GamoverTimeline
             if animationManager.runningSequenceName != "Gameover Timeline" {
                 animationManager.runAnimationsForSequenceNamed("Gameover Timeline")

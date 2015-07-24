@@ -32,34 +32,34 @@ class Settings: CCNode {
         //Music Load
         if defaults.boolForKey("musicIsSelected") {
             musicToggleButton.selected = true
-            toggleMusicText.string = "MUSIC: ON"
+            toggleMusicText.string = "SOUND: ON"
             audio.bgMuted = false
         } else {
             musicToggleButton.selected = false
-            toggleMusicText.string = "MUSIC: OFF"
+            toggleMusicText.string = "SOUND: OFF"
             audio.bgMuted = true
         }
         
         //Sound Load
-        if defaults.boolForKey("soundIsSelected") {
-            soundEffectsToggleButton.selected = true
-            toggleSoundEffectsText.string = "EFFECTS: ON"
-            audio.effectsMuted = true
-            
-        } else {
-            soundEffectsToggleButton.selected = false
-            toggleSoundEffectsText.string = "EFFECTS: OFF"
-            audio.effectsMuted = false
-        }
+//        if defaults.boolForKey("soundIsSelected") {
+//            soundEffectsToggleButton.selected = true
+//            toggleSoundEffectsText.string = "EFFECTS: ON"
+//            audio.effectsMuted = true
+//            
+//        } else {
+//            soundEffectsToggleButton.selected = false
+//            toggleSoundEffectsText.string = "EFFECTS: OFF"
+//            audio.effectsMuted = false
+//        }
         
         //Vibration Load
         if defaults.boolForKey("vibrationIsSelected") {
             vibrationToggleButton.selected = true
-            toggleVibrationText.string = "VIBRATION: ON"
+            toggleVibrationText.string = "VIBRATION: OFF"
             VIBRATION = true
         } else {
             vibrationToggleButton.selected = false
-            toggleVibrationText.string = "VIBRATION: OFF"
+            toggleVibrationText.string = "VIBRATION: ON"
             VIBRATION = false
         }
         
@@ -73,14 +73,14 @@ class Settings: CCNode {
         if currentState {
             defaults.setBool(true, forKey: "musicIsSelected")
             musicToggleButton.selected = true
-            toggleMusicText.string = "MUSIC: OFF"
-            audio.bgMuted = true
+            toggleMusicText.string = "SOUND: ON"
+            audio.bgMuted = false
         } else {
         
             defaults.setBool(false, forKey: "musicIsSelected")
             musicToggleButton.selected = false
-            toggleMusicText.string = "MUSIC: ON"
-            audio.bgMuted = false
+            toggleMusicText.string = "SOUND: OFF"
+            audio.bgMuted = true
         }
     }
     
@@ -91,33 +91,33 @@ class Settings: CCNode {
         if vibration {
             defaults.setBool(true, forKey: "vibrationIsSelected")
             vibrationToggleButton.selected = true
-            toggleVibrationText.string = "VIBRATION: ON"
+            toggleVibrationText.string = "VIBRATION: OFF"
             VIBRATION = true
         } else {
             
             defaults.setBool(false, forKey: "vibrationIsSelected")
             vibrationToggleButton.selected = false
-            toggleVibrationText.string = "VIBRATION: OFF"
+            toggleVibrationText.string = "VIBRATION: ON"
             VIBRATION = false
         }
         
     }
     
-    func toggleSoundEffects() {
-        
-        var soundEffect = !defaults.boolForKey("soundIsSelected")
-        
-        if soundEffect {
-            defaults.setBool(true, forKey: "soundIsSelected")
-            soundEffectsToggleButton.selected = true
-            toggleSoundEffectsText.string = "EFFECTS: ON"
-            audio.effectsMuted = true
-            
-        } else {
-            defaults.setBool(false, forKey: "soundIsSelected")
-            soundEffectsToggleButton.selected = false
-            toggleSoundEffectsText.string = "EFFECTS: OFF"
-            audio.effectsMuted = false
-        }
-    }
+//    func toggleSoundEffects() {
+//        
+//        var soundEffect = !defaults.boolForKey("soundIsSelected")
+//        
+//        if soundEffect {
+//            defaults.setBool(true, forKey: "soundIsSelected")
+//            soundEffectsToggleButton.selected = true
+//            toggleSoundEffectsText.string = "EFFECTS: ON"
+//            audio.effectsMuted = true
+//            
+//        } else {
+//            defaults.setBool(false, forKey: "soundIsSelected")
+//            soundEffectsToggleButton.selected = false
+//            toggleSoundEffectsText.string = "EFFECTS: OFF"
+//            audio.effectsMuted = false
+//        }
+//    }
 }

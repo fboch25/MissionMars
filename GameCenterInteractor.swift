@@ -67,7 +67,7 @@ class GameCenterInteractor: NSObject {
             if (viewController != nil)
             {
                 dispatch_async(dispatch_get_main_queue(), {
-                    self.showAuthenticationDialogueWhenReasonable(presentingViewController: self.callingViewController!, gameCenterController: viewController)
+                    self.showAuthenticationDialogueWhenReasonable(presentingViewController: CCDirector.sharedDirector().parentViewController!, gameCenterController: viewController)
                 })
             }
                 

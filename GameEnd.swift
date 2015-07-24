@@ -22,7 +22,7 @@ class GameEnd: CCNode {
     func saveHighScore(score : Int) {
         pointsLabel.string = "\(score)"
         if GKLocalPlayer.localPlayer().authenticated {
-           var scoreReporter = GKScore(leaderboardIdentifier: "MissionMarsSinglePlayerLeaderBoard")
+            var scoreReporter = GKScore(leaderboardIdentifier: "MissionMarsSinglePlayerLeaderBoard")
             scoreReporter.value = Int64(score)
             var scoreArray: [GKScore] = [scoreReporter]
             GKScore.reportScores(scoreArray,withCompletionHandler: ( {
@@ -42,7 +42,7 @@ class GameEnd: CCNode {
         
     }
     
-       // restart Game
+    // restart Game
     func restart() {
         let scene = CCBReader.loadAsScene("MainScene")
         CCDirector.sharedDirector().presentScene(scene)

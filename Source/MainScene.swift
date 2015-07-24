@@ -64,6 +64,9 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
 
     //Functions
     func didLoadFromCCB() {
+        if VIBRATION == nil {
+            VIBRATION = true
+        }
         iAdHelper.sharedHelper()
         iAdHelper.setBannerPosition(TOP)
         gamePhysicsNode.collisionDelegate = self
@@ -94,9 +97,11 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         
         ship.physicsBody.velocity.y = 0
         ship.physicsBody.applyImpulse(ccp(0, 12500))
-        if defaults.boolForKey("musicToggleKey") {
+        // plays Jump effect
+        if defaults.boolForKey("soundIsSelected") {
         audio.playEffect("starship-01.wav")
         }
+        // tap to jum label invisible
         tapToJump.visible = false
     }
     // limit spaceship vertical velocity
@@ -137,7 +142,6 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         //generate asteroid, give it velocity "asteroidXVelocity"
         asteroidXVelocity -= 5
         //generate random
-        //if random is 1, send badAssteroid
         var newStroid = CCBReader.load("Asteroid3") as! Stroid
         //add Asteroid to Asteroid array
         stroidArray.append(newStroid)
@@ -156,9 +160,9 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         if (gameOver  == false) {
             triggerGameOver()
             nodeB.removeFromParent()
-            if defaults.boolForKey("musicToggleKey") {
+            if defaults.boolForKey("soundIsSelected") {
                 audio.playEffect("Explosion.aiff")
-            }
+            } 
             
         }
         return true
@@ -168,7 +172,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, floor nodeB: CCNode!) ->  ObjCBool {
         if (gameOver  == false) {
             triggerGameOver()
-            if defaults.boolForKey("musicToggleKey") {
+            if defaults.boolForKey("soundIsSelected") {
                 audio.playEffect("Explosion.aiff")
             }
         }
@@ -194,7 +198,9 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             unschedule("addAsteroid")
             userInteractionEnabled = false
             ship.physicsBody.allowsRotation = false
+            if !VIBRATION {
             AudioServicesPlayAlertSound(1352)
+            }
             var explosion = CCBReader.load("Explosion")
             explosion.position = ship.position
             ship.explosion()

@@ -6,13 +6,13 @@
 //  Copyright (c) 2015 Apportable. All rights reserved.
 //
 
-import Foundation
+// import Foundation
 
-class Store: CCNode {
+//class Store: CCNode {
     
-    func pop(){
-        CCDirector.sharedDirector().popScene()
-    }
+    //func pop(){
+      //  CCDirector.sharedDirector().popScene()
+   // }
 
 
-}
+//}

@@ -616,6 +616,8 @@
 								<string>AlienSpaceShip.ccb</string>
 							</dict>
 						</array>
+						<key>selected</key>
+						<true/>
 					</dict>
 					<dict>
 						<key>UUID</key>
@@ -1424,7 +1426,7 @@
 						<key>type</key>
 						<string>FontTTF</string>
 						<key>value</key>
-						<string>good times rg.ttf</string>
+						<string>wlm-fonts_banana/good times rg.ttf</string>
 					</dict>
 					<dict>
 						<key>name</key>

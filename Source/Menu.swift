@@ -36,7 +36,7 @@ class Menu: CCScene {
         stars.append(star1)
         stars.append(star2)
         moveComet()
-        if defaults.boolForKey("musicToggleKey") {
+        if defaults.boolForKey("musicIsSelected") {
             audio.playBg("Rhinoceros.mp3", loop: true)
         }
     }

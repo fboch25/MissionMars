@@ -48,19 +48,20 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             scoreLabel.string = "\(score)"
             if score == 17 {
             schedule("addStroid", interval: 5)
-            if score == 20 {
-            schedule("addStroid" , interval: 3)
-            if score == 33 {
-            schedule("addStroid", interval: 1.5)
-            if score >= 45 {
+            }
+            if score == 30 {
+            schedule("addStroid" , interval: 3.5)
+            }
+            if score == 45 {
+            schedule("addStroid", interval: 2)
+            }
+            if score == 75 {
             schedule("addStroid", interval: 0.8)
-            // unschedule("addAsteroid")
-          }
+            unschedule("addAsteroid")
+            }
+    
         }
-      }
     }
-  }
-}
 
     //Functions
     func didLoadFromCCB() {

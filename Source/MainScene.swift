@@ -173,7 +173,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     // Implement restart button w/ floor Collision
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, floor nodeB: CCNode!) ->  ObjCBool {
         if (gameOver  == false) {
-            triggerGameOver()
+             triggerGameOver()
             if defaults.boolForKey("musicIsSelected") {
                 audio.playEffect("Explosion.aiff")
             }

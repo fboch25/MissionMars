@@ -40,6 +40,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     weak var gameEndScreen: GameEnd!
     var asteroidXVelocity = -500
     
+    
     var tutorialOver = false
     
     // score
@@ -68,9 +69,11 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         if VIBRATION == nil {
             VIBRATION = true
         }
+        
         iAdHelper.sharedHelper()
         iAdHelper.setBannerPosition(TOP)
         iAdHandler.sharedInstance.loadInterstitialAd()
+        
         gamePhysicsNode.collisionDelegate = self
         // gamePhysicsNode.debugDraw = true
         userInteractionEnabled = true

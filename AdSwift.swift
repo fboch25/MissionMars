@@ -76,6 +76,8 @@ class iAdHandler: NSObject {
     If a banner ad has not been successfully loaded, nothing will happen.
     */
     func displayBannerAd() {
+        
+        
         if adBannerView.bannerLoaded {
             adBannerView.hidden = false
             UIView.animateWithDuration(0.5, animations: {() -> Void in

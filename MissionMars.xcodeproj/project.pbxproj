@@ -106,6 +106,7 @@
 		FCCC7B701B5ED3C000A4E05B /* GameCenterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCC7B6F1B5ED3C000A4E05B /* GameCenterInteractor.swift */; };
 		FCCC7B721B600DEE00A4E05B /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCC7B711B600DEE00A4E05B /* Store.swift */; };
 		FCCC7B901B6289F200A4E05B /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = FCCC7B8F1B6289F200A4E05B /* close.png */; };
+		FCCC7BF81B66885C00A4E05B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCCC7BF71B66885C00A4E05B /* StoreKit.framework */; };
 		FCF05A711B53F5D00086408D /* Asteroid.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF05A6C1B53F5D00086408D /* Asteroid.swift */; };
 		FCF05A731B53F5D00086408D /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF05A6E1B53F5D00086408D /* Menu.swift */; };
 		FCF05A741B53F5D00086408D /* Ship.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF05A6F1B53F5D00086408D /* Ship.swift */; };
@@ -242,6 +243,7 @@
 		FCCC7B6F1B5ED3C000A4E05B /* GameCenterInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCenterInteractor.swift; sourceTree = "<group>"; };
 		FCCC7B711B600DEE00A4E05B /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		FCCC7B8F1B6289F200A4E05B /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = close.png; path = "Published-Android/Buttons/resources-tablethd/close.png"; sourceTree = "<group>"; };
+		FCCC7BF71B66885C00A4E05B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		FCF05A6C1B53F5D00086408D /* Asteroid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Asteroid.swift; path = Source/Asteroid.swift; sourceTree = "<group>"; };
 		FCF05A6E1B53F5D00086408D /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Menu.swift; path = Source/Menu.swift; sourceTree = "<group>"; };
 		FCF05A6F1B53F5D00086408D /* Ship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Ship.swift; path = Source/Ship.swift; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCCC7BF81B66885C00A4E05B /* StoreKit.framework in Frameworks */,
 				B77F1B3817B978D7009739AE /* AudioToolbox.framework in Frameworks */,
 				FCCC7B6A1B5E8D5A00A4E05B /* GameKit.framework in Frameworks */,
 				B77F1B3A17B978D7009739AE /* AVFoundation.framework in Frameworks */,
@@ -536,6 +539,7 @@
 		B77F1B3017B978D7009739AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FCCC7BF71B66885C00A4E05B /* StoreKit.framework */,
 				FCCC7B691B5E8D5A00A4E05B /* GameKit.framework */,
 				BC5399D31A44DCC90063F482 /* AndroidKit.framework */,
 				BC5399D41A44DCC90063F482 /* CoreJava.framework */,

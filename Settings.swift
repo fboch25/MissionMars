@@ -7,8 +7,12 @@
 //
 var VIBRATION: Bool!
 import Foundation
+import StoreKit
 
 class Settings: CCNode {
+
+//SKProductsRequestDelegate, SKPaymentTransactionObserver {
+    
     // audio
     let defaults = NSUserDefaults.standardUserDefaults()
     let audio = OALSimpleAudio.sharedInstance()
@@ -19,15 +23,15 @@ class Settings: CCNode {
     weak var toggleMusicText: CCLabelTTF!
     weak var soundEffectsToggleButton: CCButton!
     weak var toggleSoundEffectsText: CCLabelTTF!
+    weak var removeAdsButton: CCButton!
     
     // loads setting screen
     func pop(){
         CCDirector.sharedDirector().popScene()
     }
     
-    
     func didLoadFromCCB() {
-//        VIBRATION = true
+        //        VIBRATION = true
         
         //Music Load
         if defaults.boolForKey("musicIsSelected") {
@@ -40,18 +44,6 @@ class Settings: CCNode {
             audio.bgMuted = true
         }
         
-        //Sound Load
-//        if defaults.boolForKey("soundIsSelected") {
-//            soundEffectsToggleButton.selected = true
-//            toggleSoundEffectsText.string = "EFFECTS: ON"
-//            audio.effectsMuted = true
-//            
-//        } else {
-//            soundEffectsToggleButton.selected = false
-//            toggleSoundEffectsText.string = "EFFECTS: OFF"
-//            audio.effectsMuted = false
-//        }
-        
         //Vibration Load
         if defaults.boolForKey("vibrationIsSelected") {
             vibrationToggleButton.selected = true
@@ -62,8 +54,6 @@ class Settings: CCNode {
             toggleVibrationText.string = "VIBRATION: ON"
             VIBRATION = false
         }
-        
-        
     }
     // SoundFunctions
     func toggleMusic() {
@@ -76,7 +66,7 @@ class Settings: CCNode {
             toggleMusicText.string = "SOUND: ON"
             audio.bgMuted = false
         } else {
-        
+            
             defaults.setBool(false, forKey: "musicIsSelected")
             musicToggleButton.selected = false
             toggleMusicText.string = "SOUND: OFF"
@@ -100,24 +90,6 @@ class Settings: CCNode {
             toggleVibrationText.string = "VIBRATION: ON"
             VIBRATION = false
         }
-        
     }
-    
-//    func toggleSoundEffects() {
-//        
-//        var soundEffect = !defaults.boolForKey("soundIsSelected")
-//        
-//        if soundEffect {
-//            defaults.setBool(true, forKey: "soundIsSelected")
-//            soundEffectsToggleButton.selected = true
-//            toggleSoundEffectsText.string = "EFFECTS: ON"
-//            audio.effectsMuted = true
-//            
-//        } else {
-//            defaults.setBool(false, forKey: "soundIsSelected")
-//            soundEffectsToggleButton.selected = false
-//            toggleSoundEffectsText.string = "EFFECTS: OFF"
-//            audio.effectsMuted = false
-//        }
-//    }
 }
+

@@ -11,6 +11,7 @@ import Foundation
 class Ship: CCSprite {
     
     weak var ship: CCSprite!
+    var invulnerable = false 
     
     func didLoadFromCCB(){
         //spriteFrame = CCSpriteFrame(imageNamed: "Ships/PinkSpaceship.png")
@@ -23,6 +24,10 @@ class Ship: CCSprite {
     func explosion() {
         ship.visible = false
         ship.physicsBody.sensor = true
+    }
+    
+    func jump() {
+        
     }
     
 }

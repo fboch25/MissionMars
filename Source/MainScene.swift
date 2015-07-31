@@ -1,3 +1,12 @@
+
+//
+//  MainScene.swift
+//  MissionMars
+//
+//  Created by Frank Joseph Boccia on 7/6/15.
+//  Copyright (c) 2015 Apportable. All rights reserved.
+//
+
 import Foundation
 import AVFoundation
 import AudioToolbox 
@@ -6,29 +15,43 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     
     var audio = OALSimpleAudio.sharedInstance()
     let defaults = NSUserDefaults.standardUserDefaults()
+    
     // sound with AVFoundation
     var audioPlayer = AVAudioPlayer()
+    
+    // Spaceship
     weak var ship: Ship!
+    
     //Physics nodes
     weak var gamePhysicsNode : CCPhysicsNode!
+    
     //Sprites
     weak var ground1 : CCSprite!
     weak var ground2 : CCSprite!
     weak var star1 : CCSprite!
     weak var star2 : CCSprite!
+    weak var Teleporter : CCSprite!
+    
     //Nodes
     weak var barrier: CCNode!
     weak var gameEnd : CCNode!
+    
     //Labels
     weak var scoreLabel: CCLabelTTF!
     weak var tapToJump: CCLabelTTF!
+    
+    
     //Buttons
     weak var restartButton: CCButton!
+    
     //arrays of CCObjects
     var stars = [CCSprite]()
     var grounds = [CCSprite]()
+    
     //Particle System
     var explosion: CCParticleSystem!
+    var jump: CCParticleSystem!
+    
     //Constants & Variables
     var gameOver: Bool = false
     var asteroidArray: [Asteroid] = []
@@ -39,8 +62,9 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     let screenHeight = UIScreen.mainScreen().bounds.height
     weak var gameEndScreen: GameEnd!
     var asteroidXVelocity = -500
+    var randomItemTime = 5 + arc4random_uniform(16)
     
-    
+    // Tutorial Over
     var tutorialOver = false
     
     // score
@@ -74,6 +98,9 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         iAdHelper.setBannerPosition(TOP)
         iAdHandler.sharedInstance.loadInterstitialAd()
         
+        //schedule first item
+        scheduleOnce("spawnRandomPowerUp", delay: CCTime(randomItemTime))
+        
         gamePhysicsNode.collisionDelegate = self
         // gamePhysicsNode.debugDraw = true
         userInteractionEnabled = true
@@ -91,6 +118,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         ship.physicsBody.affectedByGravity = true
         schedule("addAsteroid",  interval: 0.3)
         schedule("addPointToScore", interval: 1)
+        
     }
     
     // applies impulse to spaceship
@@ -98,6 +126,10 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         if tutorialOver == false {
             tutorialOver = true
             endTutorial()
+            var jump = CCBReader.load("Jump")
+            jump.position = ship.positionInPoints
+            ship.jump()
+            addChild(jump) 
         }
         
         ship.physicsBody.velocity.y = 0
@@ -154,7 +186,23 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         newStroid.scale = 0.5
         gamePhysicsNode.addChild(newStroid)
         newStroid.physicsBody.velocity = ccp(-1000,0)
-    }    
+    }
+    // PowerUps
+    func placeBlastPowerUp() {
+        var blast = CCBReader.load("Blast") as! Blast
+        var random = 20 + arc4random_uniform(231)
+        blast.position = CGPoint(x: UIScreen.mainScreen().bounds.width + 1, y: CGFloat(random))
+        blast.scale = 0.3
+        gamePhysicsNode.addChild(blast)
+    }
+    
+    func placeShieldPowerup() {
+        var shield = CCBReader.load("Shield") as! Shield
+        var random = 20 + arc4random_uniform(231)
+        shield.position = CGPoint(x: UIScreen.mainScreen().bounds.width + 1, y: CGFloat(random))
+        shield.scale = 0.3
+        gamePhysicsNode.addChild(shield)
+    }
     // Scoring
     func addPointToScore() {
         score++
@@ -183,13 +231,46 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         }
         return true
     }
+    // Collision PowerUps
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, shieldItem: Shield!) -> Bool {
+        shieldPower()
+        shieldItem.removeFromParent()
+        return false
+    }
+    
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, blastItem: CCNode!) -> Bool {
+        blastPower()
+        blastItem.removeFromParent()
+        return false
+    }
     
     // Destroys Stroids when leave screen
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, stroid nodeA: CCNode!, stroidNode nodeB: CCNode!) -> ObjCBool {
-//        if (gameOver  == false) {
             nodeA.removeFromParent()
-//        }
         return true
+    }
+  
+//MARK: power up functions and spawning
+    func spawnRandomPowerUp() {
+        var powerUpTypeRandom = arc4random_uniform(2) + 1
+        
+        if powerUpTypeRandom == 1 {
+            placeBlastPowerUp()
+        } else if powerUpTypeRandom == 2 {
+            placeShieldPowerup()
+        }
+        
+        randomItemTime = 6 + arc4random_uniform(15)
+        scheduleOnce("spawnRandomPowerUp", delay: CCTime(randomItemTime))
+    }
+    
+    func shieldPower() {
+        
+        
+    }
+    
+    func blastPower() {
+        
     }
     
     // everything that should happen when the game ends
@@ -204,20 +285,20 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
                     break
             }
             iAdHandler.sharedInstance.interstitialActionIndex++
-            
             gameEndScreen.visible = true
             scoreLabel.visible = false
             gameOver = true
             unschedule("addPointToScore")
             unschedule("addAsteroid")
             unschedule("addStroid")
+            unschedule("spawnRandomPowerUp")
             userInteractionEnabled = false
             ship.physicsBody.allowsRotation = false
             if !VIBRATION {
             AudioServicesPlayAlertSound(1352)
             }
             var explosion = CCBReader.load("Explosion")
-            explosion.position = ship.position
+            explosion.position = ship.positionInPoints
             ship.explosion()
             addChild(explosion)
         
@@ -226,9 +307,8 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
                 animationManager.runAnimationsForSequenceNamed("Gameover Timeline")
                 gameEndScreen.saveHighScore(score)
             }
-            // just in case
-//            var positionToMoveTo = ccp()
             
+            // just in case
             ship.stopAllActions()
             let move = CCActionEaseBounceOut(action: CCActionMoveBy(duration: 0.2, position: ccp(0, 0)))
             let moveBack = CCActionEaseBounceOut(action: move.reverse())

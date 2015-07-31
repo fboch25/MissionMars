@@ -107,6 +107,8 @@
 		FCCC7B721B600DEE00A4E05B /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCC7B711B600DEE00A4E05B /* Store.swift */; };
 		FCCC7B901B6289F200A4E05B /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = FCCC7B8F1B6289F200A4E05B /* close.png */; };
 		FCCC7BF81B66885C00A4E05B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCCC7BF71B66885C00A4E05B /* StoreKit.framework */; };
+		FCCC7BFC1B6AB3AA00A4E05B /* Blast.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCC7BFB1B6AB3AA00A4E05B /* Blast.swift */; };
+		FCCC7BFE1B6AB3B900A4E05B /* Shield.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCC7BFD1B6AB3B900A4E05B /* Shield.swift */; };
 		FCF05A711B53F5D00086408D /* Asteroid.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF05A6C1B53F5D00086408D /* Asteroid.swift */; };
 		FCF05A731B53F5D00086408D /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF05A6E1B53F5D00086408D /* Menu.swift */; };
 		FCF05A741B53F5D00086408D /* Ship.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF05A6F1B53F5D00086408D /* Ship.swift */; };
@@ -244,6 +246,8 @@
 		FCCC7B711B600DEE00A4E05B /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		FCCC7B8F1B6289F200A4E05B /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = close.png; path = "Published-Android/Buttons/resources-tablethd/close.png"; sourceTree = "<group>"; };
 		FCCC7BF71B66885C00A4E05B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		FCCC7BFB1B6AB3AA00A4E05B /* Blast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Blast.swift; sourceTree = "<group>"; };
+		FCCC7BFD1B6AB3B900A4E05B /* Shield.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shield.swift; sourceTree = "<group>"; };
 		FCF05A6C1B53F5D00086408D /* Asteroid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Asteroid.swift; path = Source/Asteroid.swift; sourceTree = "<group>"; };
 		FCF05A6E1B53F5D00086408D /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Menu.swift; path = Source/Menu.swift; sourceTree = "<group>"; };
 		FCF05A6F1B53F5D00086408D /* Ship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Ship.swift; path = Source/Ship.swift; sourceTree = "<group>"; };
@@ -479,6 +483,8 @@
 				7A046D7519E84C36004C4763 /* MainScene.swift */,
 				FC4E10FF1B5D6063003A294A /* AdSwift.swift */,
 				FCF05A6C1B53F5D00086408D /* Asteroid.swift */,
+				FCCC7BFB1B6AB3AA00A4E05B /* Blast.swift */,
+				FCCC7BFD1B6AB3B900A4E05B /* Shield.swift */,
 				FCF05A701B53F5D00086408D /* Stroid.swift */,
 				FC4E10EF1B59517E003A294A /* Settings.swift */,
 				FCCC7B711B600DEE00A4E05B /* Store.swift */,
@@ -884,6 +890,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCCC7BFE1B6AB3B900A4E05B /* Shield.swift in Sources */,
 				FCF05A741B53F5D00086408D /* Ship.swift in Sources */,
 				FCCC7B6E1B5EC9A600A4E05B /* Gamestate.swift in Sources */,
 				FCCC7B701B5ED3C000A4E05B /* GameCenterInteractor.swift in Sources */,
@@ -895,6 +902,7 @@
 				FC4E11001B5D6063003A294A /* AdSwift.swift in Sources */,
 				FCF05A751B53F5D00086408D /* Stroid.swift in Sources */,
 				FCF05A731B53F5D00086408D /* Menu.swift in Sources */,
+				FCCC7BFC1B6AB3AA00A4E05B /* Blast.swift in Sources */,
 				FC4E10F01B59517E003A294A /* Settings.swift in Sources */,
 				7A046D7919E84ED5004C4763 /* MainScene.swift in Sources */,
 				5B121038197487F2004C1E1D /* AppDelegate.m in Sources */,

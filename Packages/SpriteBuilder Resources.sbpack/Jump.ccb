@@ -40,7 +40,7 @@
 		<key>children</key>
 		<array/>
 		<key>customClass</key>
-		<string></string>
+		<string>Jump</string>
 		<key>displayName</key>
 		<string>CCParticleSystem</string>
 		<key>memberVarAssignmentName</key>
@@ -128,7 +128,7 @@
 				<key>type</key>
 				<string>Float</string>
 				<key>value</key>
-				<real>-1</real>
+				<real>0.079999998211860657</real>
 			</dict>
 			<dict>
 				<key>name</key>
@@ -136,7 +136,7 @@
 				<key>type</key>
 				<string>Integer</string>
 				<key>value</key>
-				<integer>300</integer>
+				<integer>100</integer>
 			</dict>
 			<dict>
 				<key>name</key>
@@ -145,8 +145,8 @@
 				<string>FloatVar</string>
 				<key>value</key>
 				<array>
-					<real>1</real>
-					<real>1</real>
+					<real>0.05000000074505806</real>
+					<real>0.05000000074505806</real>
 				</array>
 			</dict>
 			<dict>
@@ -201,7 +201,7 @@
 				<key>value</key>
 				<array>
 					<real>270</real>
-					<real>0.0</real>
+					<real>25</real>
 				</array>
 			</dict>
 			<dict>
@@ -283,8 +283,8 @@
 				<string>FloatVar</string>
 				<key>value</key>
 				<array>
-					<real>60</real>
-					<real>20</real>
+					<real>1000</real>
+					<real>200</real>
 				</array>
 			</dict>
 			<dict>
@@ -375,7 +375,7 @@
 			<key>offset</key>
 			<real>0.0</real>
 			<key>position</key>
-			<real>0.0</real>
+			<real>1.8333333730697632</real>
 			<key>resolution</key>
 			<real>30</real>
 			<key>scale</key>

@@ -100,7 +100,7 @@
 		FC4E10F41B5971A0003A294A /* starship-01.wav in Resources */ = {isa = PBXBuildFile; fileRef = FC4E10F31B5971A0003A294A /* starship-01.wav */; };
 		FC4E10F61B5D38F3003A294A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC4E10F51B5D38F3003A294A /* Images.xcassets */; };
 		FC4E10FE1B5D40AE003A294A /* iAdHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4E10FD1B5D40AE003A294A /* iAdHelper.m */; };
-		FC4E11001B5D6063003A294A /* AdSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4E10FF1B5D6063003A294A /* AdSwift.swift */; };
+		FC4E11001B5D6063003A294A /* iAdHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4E10FF1B5D6063003A294A /* iAdHandler.swift */; };
 		FCCC7B6A1B5E8D5A00A4E05B /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCCC7B691B5E8D5A00A4E05B /* GameKit.framework */; };
 		FCCC7B6E1B5EC9A600A4E05B /* Gamestate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCC7B6D1B5EC9A600A4E05B /* Gamestate.swift */; };
 		FCCC7B701B5ED3C000A4E05B /* GameCenterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCC7B6F1B5ED3C000A4E05B /* GameCenterInteractor.swift */; };
@@ -109,6 +109,8 @@
 		FCCC7BF81B66885C00A4E05B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCCC7BF71B66885C00A4E05B /* StoreKit.framework */; };
 		FCCC7BFC1B6AB3AA00A4E05B /* Blast.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCC7BFB1B6AB3AA00A4E05B /* Blast.swift */; };
 		FCCC7BFE1B6AB3B900A4E05B /* Shield.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCC7BFD1B6AB3B900A4E05B /* Shield.swift */; };
+		FCCC7C001B6BC68900A4E05B /* Teleportation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCC7BFF1B6BC68900A4E05B /* Teleportation.swift */; };
+		FCCC7C021B6BE5BA00A4E05B /* Jump.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCC7C011B6BE5BA00A4E05B /* Jump.swift */; };
 		FCF05A711B53F5D00086408D /* Asteroid.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF05A6C1B53F5D00086408D /* Asteroid.swift */; };
 		FCF05A731B53F5D00086408D /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF05A6E1B53F5D00086408D /* Menu.swift */; };
 		FCF05A741B53F5D00086408D /* Ship.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF05A6F1B53F5D00086408D /* Ship.swift */; };
@@ -239,7 +241,7 @@
 		FC4E10F51B5D38F3003A294A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "Source/libs/cocos2d-iphone/external/SSZipArchive/Images.xcassets"; sourceTree = "<group>"; };
 		FC4E10FC1B5D40AE003A294A /* iAdHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iAdHelper.h; sourceTree = "<group>"; };
 		FC4E10FD1B5D40AE003A294A /* iAdHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iAdHelper.m; sourceTree = "<group>"; };
-		FC4E10FF1B5D6063003A294A /* AdSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdSwift.swift; sourceTree = "<group>"; };
+		FC4E10FF1B5D6063003A294A /* iAdHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iAdHandler.swift; sourceTree = "<group>"; };
 		FCCC7B691B5E8D5A00A4E05B /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		FCCC7B6D1B5EC9A600A4E05B /* Gamestate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gamestate.swift; sourceTree = "<group>"; };
 		FCCC7B6F1B5ED3C000A4E05B /* GameCenterInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCenterInteractor.swift; sourceTree = "<group>"; };
@@ -248,6 +250,8 @@
 		FCCC7BF71B66885C00A4E05B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		FCCC7BFB1B6AB3AA00A4E05B /* Blast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Blast.swift; sourceTree = "<group>"; };
 		FCCC7BFD1B6AB3B900A4E05B /* Shield.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shield.swift; sourceTree = "<group>"; };
+		FCCC7BFF1B6BC68900A4E05B /* Teleportation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Teleportation.swift; sourceTree = "<group>"; };
+		FCCC7C011B6BE5BA00A4E05B /* Jump.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Jump.swift; sourceTree = "<group>"; };
 		FCF05A6C1B53F5D00086408D /* Asteroid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Asteroid.swift; path = Source/Asteroid.swift; sourceTree = "<group>"; };
 		FCF05A6E1B53F5D00086408D /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Menu.swift; path = Source/Menu.swift; sourceTree = "<group>"; };
 		FCF05A6F1B53F5D00086408D /* Ship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Ship.swift; path = Source/Ship.swift; sourceTree = "<group>"; };
@@ -481,7 +485,9 @@
 				FC4E10FD1B5D40AE003A294A /* iAdHelper.m */,
 				7A40362019DDEF0D007B6E8F /* Platforms */,
 				7A046D7519E84C36004C4763 /* MainScene.swift */,
-				FC4E10FF1B5D6063003A294A /* AdSwift.swift */,
+				FCCC7C011B6BE5BA00A4E05B /* Jump.swift */,
+				FCCC7BFF1B6BC68900A4E05B /* Teleportation.swift */,
+				FC4E10FF1B5D6063003A294A /* iAdHandler.swift */,
 				FCF05A6C1B53F5D00086408D /* Asteroid.swift */,
 				FCCC7BFB1B6AB3AA00A4E05B /* Blast.swift */,
 				FCCC7BFD1B6AB3B900A4E05B /* Shield.swift */,
@@ -892,6 +898,8 @@
 			files = (
 				FCCC7BFE1B6AB3B900A4E05B /* Shield.swift in Sources */,
 				FCF05A741B53F5D00086408D /* Ship.swift in Sources */,
+				FCCC7C001B6BC68900A4E05B /* Teleportation.swift in Sources */,
+				FCCC7C021B6BE5BA00A4E05B /* Jump.swift in Sources */,
 				FCCC7B6E1B5EC9A600A4E05B /* Gamestate.swift in Sources */,
 				FCCC7B701B5ED3C000A4E05B /* GameCenterInteractor.swift in Sources */,
 				FC4626661B54001100C2DD56 /* GameEnd.swift in Sources */,
@@ -899,7 +907,7 @@
 				FCF05A711B53F5D00086408D /* Asteroid.swift in Sources */,
 				FC4E10FE1B5D40AE003A294A /* iAdHelper.m in Sources */,
 				FCCC7B721B600DEE00A4E05B /* Store.swift in Sources */,
-				FC4E11001B5D6063003A294A /* AdSwift.swift in Sources */,
+				FC4E11001B5D6063003A294A /* iAdHandler.swift in Sources */,
 				FCF05A751B53F5D00086408D /* Stroid.swift in Sources */,
 				FCF05A731B53F5D00086408D /* Menu.swift in Sources */,
 				FCCC7BFC1B6AB3AA00A4E05B /* Blast.swift in Sources */,

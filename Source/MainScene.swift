@@ -30,7 +30,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     weak var ground2 : CCSprite!
     weak var star1 : CCSprite!
     weak var star2 : CCSprite!
-    weak var Teleporter : CCSprite!
+    
     
     //Nodes
     weak var barrier: CCNode!
@@ -62,7 +62,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     let screenHeight = UIScreen.mainScreen().bounds.height
     weak var gameEndScreen: GameEnd!
     var asteroidXVelocity = -500
-    var randomItemTime = 5 + arc4random_uniform(16)
+    var randomItemTime: UInt32 = 5 + arc4random_uniform(16)
     
     // Tutorial Over
     var tutorialOver = false
@@ -87,6 +87,9 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     
         }
     }
+    
+    var hasShield: Bool = false
+    var shieldTimeRemaining: Double = 0
 
     //Functions
     func didLoadFromCCB() {
@@ -96,6 +99,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         
         iAdHelper.sharedHelper()
         iAdHelper.setBannerPosition(TOP)
+        
         iAdHandler.sharedInstance.loadInterstitialAd()
         
         //schedule first item
@@ -126,14 +130,20 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         if tutorialOver == false {
             tutorialOver = true
             endTutorial()
-            var jump = CCBReader.load("Jump")
-            jump.position = ship.positionInPoints
-            ship.jump()
-            addChild(jump) 
         }
+        
+        var jump = CCBReader.load("Jump")
+        jump.zOrder -= 10
+        jump.positionInPoints.x = ship.positionInPoints.x
+        jump.positionInPoints.y = ship.positionInPoints.y + 10
+        gamePhysicsNode.addChild(jump)
+       
+        
+        ship.jump()
         
         ship.physicsBody.velocity.y = 0
         ship.physicsBody.applyImpulse(ccp(0, 12500))
+        
         // plays Jump effect
         if defaults.boolForKey("musicIsSelected") {
         audio.playEffect("starship-01.wav")
@@ -141,6 +151,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         // tap to jum label invisible
         tapToJump.visible = false
     }
+    
     // limit spaceship vertical velocity
     override func update(delta: CCTime) {
         barrier.position.x = ship.position.x
@@ -157,6 +168,14 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
                 if gameOver == false {
                     star.position.x = star.position.x - CGFloat(200) * CGFloat(delta)
                 }
+            }
+        }
+        
+        // Check if player has a shield, then check to see if the sheild time is up
+        if hasShield {
+            shieldTimeRemaining -= delta
+            if shieldTimeRemaining < 0 {
+                hasShield = false
             }
         }
     }
@@ -211,12 +230,18 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     // Implement restart button w/ asteroid Collision
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, stroid nodeB: CCNode!) -> ObjCBool {
         if (gameOver  == false) {
-            triggerGameOver()
-            nodeB.removeFromParent()
-            if defaults.boolForKey("musicIsSelected") {
-                audio.playEffect("Explosion.aiff")
-            } 
-            
+            if !hasShield { // Check if a shield is enabled
+                triggerGameOver()
+                nodeB.removeFromParent()
+                
+                if defaults.boolForKey("musicIsSelected") {
+                    audio.playEffect("Explosion.aiff")
+                }
+            }
+            else { // If shield is on, simply remove the astroid from the scene and avoid game over
+                nodeB.removeFromParent()
+                hasShield = false
+            }
         }
         return true
     }
@@ -225,30 +250,44 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, floor nodeB: CCNode!) ->  ObjCBool {
         if (gameOver  == false) {
              triggerGameOver()
+            
             if defaults.boolForKey("musicIsSelected") {
                 audio.playEffect("Explosion.aiff")
             }
         }
         return true
     }
-    // Collision PowerUps
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, shieldItem: Shield!) -> Bool {
-        shieldPower()
-        shieldItem.removeFromParent()
-        return false
-    }
-    
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, blastItem: CCNode!) -> Bool {
-        blastPower()
-        blastItem.removeFromParent()
-        return false
-    }
-    
+   
     // Destroys Stroids when leave screen
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, stroid nodeA: CCNode!, stroidNode nodeB: CCNode!) -> ObjCBool {
             nodeA.removeFromParent()
         return true
     }
+    
+    //Teleport Collision
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, teleport nodeB: CCNode!) -> ObjCBool {
+        return true
+    }
+    
+    // Collision PowerUps
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, shieldItem: Shield!) -> ObjCBool {
+        // Activate shield
+        shieldTimeRemaining = 3
+        hasShield = true
+        
+        var shieldSprite = CCBReader.load("ForceField")
+        shieldSprite.positionInPoints = ship.positionInPoints 
+        ship.addChild(shieldSprite)
+        // shieldItem.removeFromParent()
+        return false
+    }
+    
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, blastItem: CCNode!) -> ObjCBool {
+        blastPower()
+        blastItem.removeFromParent()
+        return false
+    }
+    
   
 //MARK: power up functions and spawning
     func spawnRandomPowerUp() {
@@ -263,12 +302,6 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         randomItemTime = 6 + arc4random_uniform(15)
         scheduleOnce("spawnRandomPowerUp", delay: CCTime(randomItemTime))
     }
-    
-    func shieldPower() {
-        
-        
-    }
-    
     func blastPower() {
         
     }

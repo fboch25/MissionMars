@@ -11,7 +11,7 @@ import Foundation
 class Shield: CCSprite {
     
     func didLoadFromCCB() {
-        physicsBody.velocity = ccp(-250,0)
+        physicsBody.velocity = ccp(-450,0)
         physicsBody.sensor = true
     }
     

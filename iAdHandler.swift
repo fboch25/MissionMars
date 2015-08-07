@@ -77,7 +77,7 @@ class iAdHandler: NSObject {
     */
     func displayBannerAd() {
         
-        
+        CCDirector.sharedDirector().stopAnimation()
         if adBannerView.bannerLoaded {
             adBannerView.hidden = false
             UIView.animateWithDuration(0.5, animations: {() -> Void in
@@ -138,18 +138,19 @@ class iAdHandler: NSObject {
             interstitial.presentInView(interstitialAdView)
             UIViewController.prepareInterstitialAds()
             
-            
+            CCDirector.sharedDirector().stopAnimation()
             
             closeButton = UIButton(frame: CGRect(x: interstitialAdView.frame.width - 550, y: interstitialAdView.frame.height - 300, width: 25, height: 25))
             println(closeButton.frame)
             
             closeButton.setBackgroundImage(UIImage(named: "close"), forState: UIControlState.Normal)
-            closeButton.addTarget(self, action: Selector("close"), forControlEvents: UIControlEvents.TouchDown)
+            closeButton.addTarget(self, action: "close", forControlEvents: UIControlEvents.TouchDown)
             self.view.addSubview(closeButton)
             
             println("Interstitial loaded!")
         }
         else {
+            loadInterstitialAd()
             println("Interstitial not loaded yet!")
         }
         
@@ -160,9 +161,10 @@ class iAdHandler: NSObject {
     
     It closes the `interstitialAdView` and `closeButton` sub-views.
     */
-    func close() {
+    func close(){
         interstitialAdView.removeFromSuperview()
         closeButton.removeFromSuperview()
+        CCDirector.sharedDirector().startAnimation()
     }
     
     // MARK: Convenience Functions

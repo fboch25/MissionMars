@@ -10,11 +10,11 @@ import Foundation
 
 class Ship: CCSprite {
     
-    weak var ship: CCSprite!
-    var invulnerable = false 
+    var invulnerable = false
+    
     
     func didLoadFromCCB(){
-        //spriteFrame = CCSpriteFrame(imageNamed: "Ships/PinkSpaceship.png")
+       // spriteFrame = CCSpriteFrame(imageNamed: "Ships/GrennSpaceship.png")
     }
     
     override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
@@ -22,9 +22,11 @@ class Ship: CCSprite {
     }
     
     func explosion() {
-        ship.visible = false
-        ship.physicsBody.sensor = true
+        visible = false
+        physicsBody.sensor = true
     }
+    
+    
     
     func jump() {
         

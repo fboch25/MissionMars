@@ -483,11 +483,11 @@
 			children = (
 				FC4E10FC1B5D40AE003A294A /* iAdHelper.h */,
 				FC4E10FD1B5D40AE003A294A /* iAdHelper.m */,
+				FC4E10FF1B5D6063003A294A /* iAdHandler.swift */,
 				7A40362019DDEF0D007B6E8F /* Platforms */,
 				7A046D7519E84C36004C4763 /* MainScene.swift */,
 				FCCC7C011B6BE5BA00A4E05B /* Jump.swift */,
 				FCCC7BFF1B6BC68900A4E05B /* Teleportation.swift */,
-				FC4E10FF1B5D6063003A294A /* iAdHandler.swift */,
 				FCF05A6C1B53F5D00086408D /* Asteroid.swift */,
 				FCCC7BFB1B6AB3AA00A4E05B /* Blast.swift */,
 				FCCC7BFD1B6AB3B900A4E05B /* Shield.swift */,

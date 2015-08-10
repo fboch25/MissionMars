@@ -54,7 +54,8 @@ class Settings: CCNode {
             VIBRATION = false
         }
         
-//        // In App Purchases
+////        // In App Purchases
+//        
 //        product_id = "com.Bocci.MissionMars.removeads";
 //        
 //        SKPaymentQueue.defaultQueue().addTransactionObserver(self)
@@ -70,18 +71,14 @@ class Settings: CCNode {
 //        
 //        if (SKPaymentQueue.canMakePayments())
 //        {
-//            var productID:NSSet = NSSet(object: self.product_id!);
-//            var productsRequest: SKProductsRequest = SKProductsRequest(productIdentifiers: productID as Set<NSObject>);
-//            productsRequest.delegate = self
+//        var productID:NSSet = NSSet(object: self.product_id!);
+//        var productsRequest: SKProductsRequest = SKProductsRequest(productIdentifiers: productID as! Set<NSObject>);
+//            productsRequest.delegate = (self)
 //            productsRequest.start()
 //            println("Fetching Products")
 //        }else{
 //            println("can't make purchases")
 //        }
-//        
-    
-
-        
     }
     
     // SoundFunctions
@@ -120,8 +117,8 @@ class Settings: CCNode {
             VIBRATION = false
         }
     }
-}
 
+//
 //    func buyProduct(product: SKProduct){
 //        println("Sending the Payment Request to Apple");
 //        var payment = SKPayment(product: product)
@@ -147,7 +144,7 @@ class Settings: CCNode {
 //        } else {
 //            println("nothing")
 //        }
-//    }
+//    
 //
 //    func request(request: SKRequest!, didFailWithError error: NSError!) {
 //        println("Error Fetching product information");
@@ -179,7 +176,11 @@ class Settings: CCNode {
 //
 //                default:
 //                    break;
+//                    }
+//                }
 //            }
 //        }
 //    }
-// }
+}
+
+

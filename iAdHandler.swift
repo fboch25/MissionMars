@@ -78,6 +78,7 @@ class iAdHandler: NSObject {
     func displayBannerAd() {
         
         CCDirector.sharedDirector().stopAnimation()
+        
         if adBannerView.bannerLoaded {
             adBannerView.hidden = false
             UIView.animateWithDuration(0.5, animations: {() -> Void in

@@ -8,10 +8,5 @@
 
 import Foundation
 class Gamestate : NSObject {
-    
-    
-    
-    
-    
-    
+
 }

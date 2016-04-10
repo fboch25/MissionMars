@@ -136,7 +136,7 @@
 				<key>type</key>
 				<string>Integer</string>
 				<key>value</key>
-				<integer>100</integer>
+				<integer>1000</integer>
 			</dict>
 			<dict>
 				<key>name</key>
@@ -375,7 +375,7 @@
 			<key>offset</key>
 			<real>0.0</real>
 			<key>position</key>
-			<real>1.8333333730697632</real>
+			<real>4.3333334922790527</real>
 			<key>resolution</key>
 			<real>30</real>
 			<key>scale</key>

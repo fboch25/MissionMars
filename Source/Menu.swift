@@ -24,6 +24,7 @@ class Menu: CCScene {
     var stars = [CCSprite]()
     var grounds = [CCSprite]()  // initializes an empty array
     
+    
     // Sound
     let audio = OALSimpleAudio.sharedInstance()
     let defaults = NSUserDefaults.standardUserDefaults()
@@ -36,9 +37,9 @@ class Menu: CCScene {
         stars.append(star1)
         stars.append(star2)
         moveComet()
-        if defaults.boolForKey("musicIsSelected") {
-            audio.playBg("Rhinoceros.mp3", loop: true)
-        }
+//        if defaults.boolForKey("musicIsSelected") {
+//            audio.playBg("Rhinoceros.mp3", loop: true)
+//        }
     }
     override func update(delta: CCTime) {
         if comet.position.x > gamePhysicsNode.contentSizeInPoints.width {
@@ -67,7 +68,7 @@ class Menu: CCScene {
     }
 }
 
-extension GameCenterInteractor:GKLocalPlayerListener
-{
+// extension GameCenterInteractor: GKLocalPlayerListener{
+// }
     // Add functions for monitoring match changes.
-}
+

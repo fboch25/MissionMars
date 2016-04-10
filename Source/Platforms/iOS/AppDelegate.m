@@ -27,11 +27,15 @@
 
 #import "AppDelegate.h"
 #import "CCBuilderReader.h"
-
+#import <Startapp/Startapp.h>
 @implementation AppController
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    STAStartAppSDK *sdk = [STAStartAppSDK sharedInstance];
+    sdk.appID = @"208633933";
+    [sdk disableReturnAd];
+    
     // Configure Cocos2d with the options set in SpriteBuilder
     NSString* configPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Published-iOS"]; // TODO: add support for Published-Android support
     configPath = [configPath stringByAppendingPathComponent:@"configCocos2d.plist"];

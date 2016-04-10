@@ -109,12 +109,25 @@
 		FCCC7BF81B66885C00A4E05B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCCC7BF71B66885C00A4E05B /* StoreKit.framework */; };
 		FCCC7BFC1B6AB3AA00A4E05B /* Blast.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCC7BFB1B6AB3AA00A4E05B /* Blast.swift */; };
 		FCCC7BFE1B6AB3B900A4E05B /* Shield.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCC7BFD1B6AB3B900A4E05B /* Shield.swift */; };
-		FCCC7C001B6BC68900A4E05B /* Teleportation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCC7BFF1B6BC68900A4E05B /* Teleportation.swift */; };
 		FCCC7C021B6BE5BA00A4E05B /* Jump.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCC7C011B6BE5BA00A4E05B /* Jump.swift */; };
 		FCF05A711B53F5D00086408D /* Asteroid.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF05A6C1B53F5D00086408D /* Asteroid.swift */; };
 		FCF05A731B53F5D00086408D /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF05A6E1B53F5D00086408D /* Menu.swift */; };
 		FCF05A741B53F5D00086408D /* Ship.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF05A6F1B53F5D00086408D /* Ship.swift */; };
 		FCF05A751B53F5D00086408D /* Stroid.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF05A701B53F5D00086408D /* Stroid.swift */; };
+		FCF2CD9E1CB98D6200FF9446 /* StartApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCF2CD9D1CB98D6200FF9446 /* StartApp.framework */; };
+		FCF2CDA21CB98DFC00FF9446 /* StartApp.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FCF2CDA11CB98DFB00FF9446 /* StartApp.bundle */; };
+		FCF537001B792E11005F274C /* Laser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF536FF1B792E11005F274C /* Laser.swift */; };
+		FCF537021B7A3EA3005F274C /* Teleport.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF537011B7A3EA3005F274C /* Teleport.swift */; };
+		FCF537061B87B83A005F274C /* Teleporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF537051B87B83A005F274C /* Teleporter.swift */; };
+		FCF5375A1BB36B2D005F274C /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCF537591BB36B2D005F274C /* GoogleMobileAds.framework */; };
+		FCF5375C1BB36BC5005F274C /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCF5375B1BB36BC5005F274C /* AdSupport.framework */; };
+		FCF5375E1BB36BDF005F274C /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCF5375D1BB36BDF005F274C /* CoreMedia.framework */; };
+		FCF537601BB36BEC005F274C /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCF5375F1BB36BEC005F274C /* CoreTelephony.framework */; };
+		FCF537621BB36BFC005F274C /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCF537611BB36BFC005F274C /* EventKit.framework */; };
+		FCF537641BB36C04005F274C /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCF537631BB36C04005F274C /* EventKitUI.framework */; };
+		FCF537661BB36C0E005F274C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCF537651BB36C0E005F274C /* MessageUI.framework */; };
+		FCF537681BB36C22005F274C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCF537671BB36C22005F274C /* SystemConfiguration.framework */; };
+		FCF5376A1BB36C8D005F274C /* Admob.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF537691BB36C8D005F274C /* Admob.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -250,12 +263,25 @@
 		FCCC7BF71B66885C00A4E05B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		FCCC7BFB1B6AB3AA00A4E05B /* Blast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Blast.swift; sourceTree = "<group>"; };
 		FCCC7BFD1B6AB3B900A4E05B /* Shield.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shield.swift; sourceTree = "<group>"; };
-		FCCC7BFF1B6BC68900A4E05B /* Teleportation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Teleportation.swift; sourceTree = "<group>"; };
 		FCCC7C011B6BE5BA00A4E05B /* Jump.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Jump.swift; sourceTree = "<group>"; };
 		FCF05A6C1B53F5D00086408D /* Asteroid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Asteroid.swift; path = Source/Asteroid.swift; sourceTree = "<group>"; };
 		FCF05A6E1B53F5D00086408D /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Menu.swift; path = Source/Menu.swift; sourceTree = "<group>"; };
 		FCF05A6F1B53F5D00086408D /* Ship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Ship.swift; path = Source/Ship.swift; sourceTree = "<group>"; };
 		FCF05A701B53F5D00086408D /* Stroid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Stroid.swift; path = Source/Stroid.swift; sourceTree = "<group>"; };
+		FCF2CD9D1CB98D6200FF9446 /* StartApp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = StartApp.framework; sourceTree = "<group>"; };
+		FCF2CDA11CB98DFB00FF9446 /* StartApp.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = StartApp.bundle; sourceTree = "<group>"; };
+		FCF536FF1B792E11005F274C /* Laser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Laser.swift; sourceTree = "<group>"; };
+		FCF537011B7A3EA3005F274C /* Teleport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Teleport.swift; sourceTree = "<group>"; };
+		FCF537051B87B83A005F274C /* Teleporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Teleporter.swift; sourceTree = "<group>"; };
+		FCF537591BB36B2D005F274C /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
+		FCF5375B1BB36BC5005F274C /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		FCF5375D1BB36BDF005F274C /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		FCF5375F1BB36BEC005F274C /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		FCF537611BB36BFC005F274C /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
+		FCF537631BB36C04005F274C /* EventKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKitUI.framework; path = System/Library/Frameworks/EventKitUI.framework; sourceTree = SDKROOT; };
+		FCF537651BB36C0E005F274C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		FCF537671BB36C22005F274C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		FCF537691BB36C8D005F274C /* Admob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Admob.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -299,6 +325,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCF537681BB36C22005F274C /* SystemConfiguration.framework in Frameworks */,
+				FCF2CD9E1CB98D6200FF9446 /* StartApp.framework in Frameworks */,
+				FCF537661BB36C0E005F274C /* MessageUI.framework in Frameworks */,
+				FCF537641BB36C04005F274C /* EventKitUI.framework in Frameworks */,
+				FCF537621BB36BFC005F274C /* EventKit.framework in Frameworks */,
+				FCF537601BB36BEC005F274C /* CoreTelephony.framework in Frameworks */,
+				FCF5375E1BB36BDF005F274C /* CoreMedia.framework in Frameworks */,
+				FCF5375C1BB36BC5005F274C /* AdSupport.framework in Frameworks */,
 				FCCC7BF81B66885C00A4E05B /* StoreKit.framework in Frameworks */,
 				B77F1B3817B978D7009739AE /* AudioToolbox.framework in Frameworks */,
 				FCCC7B6A1B5E8D5A00A4E05B /* GameKit.framework in Frameworks */,
@@ -311,6 +345,7 @@
 				B77F1B3C17B978D7009739AE /* UIKit.framework in Frameworks */,
 				B77F1B3E17B978D7009739AE /* Foundation.framework in Frameworks */,
 				B77F1B4017B978D7009739AE /* CoreGraphics.framework in Frameworks */,
+				FCF5375A1BB36B2D005F274C /* GoogleMobileAds.framework in Frameworks */,
 				B77F1B4217B978D7009739AE /* CoreText.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -486,10 +521,13 @@
 				FC4E10FF1B5D6063003A294A /* iAdHandler.swift */,
 				7A40362019DDEF0D007B6E8F /* Platforms */,
 				7A046D7519E84C36004C4763 /* MainScene.swift */,
+				FCF537691BB36C8D005F274C /* Admob.swift */,
+				FCF536FF1B792E11005F274C /* Laser.swift */,
 				FCCC7C011B6BE5BA00A4E05B /* Jump.swift */,
-				FCCC7BFF1B6BC68900A4E05B /* Teleportation.swift */,
 				FCF05A6C1B53F5D00086408D /* Asteroid.swift */,
 				FCCC7BFB1B6AB3AA00A4E05B /* Blast.swift */,
+				FCF537051B87B83A005F274C /* Teleporter.swift */,
+				FCF537011B7A3EA3005F274C /* Teleport.swift */,
 				FCCC7BFD1B6AB3B900A4E05B /* Shield.swift */,
 				FCF05A701B53F5D00086408D /* Stroid.swift */,
 				FC4E10EF1B59517E003A294A /* Settings.swift */,
@@ -528,6 +566,9 @@
 		B77F1B2517B978D7009739AE = {
 			isa = PBXGroup;
 			children = (
+				FCF2CDA11CB98DFB00FF9446 /* StartApp.bundle */,
+				FCF2CD9D1CB98D6200FF9446 /* StartApp.framework */,
+				FCF537591BB36B2D005F274C /* GoogleMobileAds.framework */,
 				FC4E10F51B5D38F3003A294A /* Images.xcassets */,
 				B737893C1807616C0076A88C /* Source */,
 				B77F1B4617B978D7009739AE /* Resources */,
@@ -551,6 +592,13 @@
 		B77F1B3017B978D7009739AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FCF537671BB36C22005F274C /* SystemConfiguration.framework */,
+				FCF537651BB36C0E005F274C /* MessageUI.framework */,
+				FCF537631BB36C04005F274C /* EventKitUI.framework */,
+				FCF537611BB36BFC005F274C /* EventKit.framework */,
+				FCF5375F1BB36BEC005F274C /* CoreTelephony.framework */,
+				FCF5375D1BB36BDF005F274C /* CoreMedia.framework */,
+				FCF5375B1BB36BC5005F274C /* AdSupport.framework */,
 				FCCC7BF71B66885C00A4E05B /* StoreKit.framework */,
 				FCCC7B691B5E8D5A00A4E05B /* GameKit.framework */,
 				BC5399D31A44DCC90063F482 /* AndroidKit.framework */,
@@ -680,7 +728,9 @@
 		B77F1B2617B978D7009739AE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastSwiftMigration = 0720;
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = Apportable;
 				TargetAttributes = {
 					7A4035FE19DDEE84007B6E8F = {
@@ -811,6 +861,7 @@
 				B71F5916188484E7003F4D28 /* iPhone-old@2x.png in Resources */,
 				B737893B180761570076A88C /* Published-iOS in Resources */,
 				B71F591A188484E7003F4D28 /* Settings@2x.png in Resources */,
+				FCF2CDA21CB98DFC00FF9446 /* StartApp.bundle in Resources */,
 				FC4626681B55A5CF00C2DD56 /* Rhinoceros.mp3 in Resources */,
 				FC4E10EE1B594907003A294A /* Explosion.aiff in Resources */,
 				FCCC7B901B6289F200A4E05B /* close.png in Resources */,
@@ -898,7 +949,6 @@
 			files = (
 				FCCC7BFE1B6AB3B900A4E05B /* Shield.swift in Sources */,
 				FCF05A741B53F5D00086408D /* Ship.swift in Sources */,
-				FCCC7C001B6BC68900A4E05B /* Teleportation.swift in Sources */,
 				FCCC7C021B6BE5BA00A4E05B /* Jump.swift in Sources */,
 				FCCC7B6E1B5EC9A600A4E05B /* Gamestate.swift in Sources */,
 				FCCC7B701B5ED3C000A4E05B /* GameCenterInteractor.swift in Sources */,
@@ -907,12 +957,16 @@
 				FCF05A711B53F5D00086408D /* Asteroid.swift in Sources */,
 				FC4E10FE1B5D40AE003A294A /* iAdHelper.m in Sources */,
 				FCCC7B721B600DEE00A4E05B /* Store.swift in Sources */,
+				FCF5376A1BB36C8D005F274C /* Admob.swift in Sources */,
+				FCF537001B792E11005F274C /* Laser.swift in Sources */,
 				FC4E11001B5D6063003A294A /* iAdHandler.swift in Sources */,
 				FCF05A751B53F5D00086408D /* Stroid.swift in Sources */,
 				FCF05A731B53F5D00086408D /* Menu.swift in Sources */,
 				FCCC7BFC1B6AB3AA00A4E05B /* Blast.swift in Sources */,
 				FC4E10F01B59517E003A294A /* Settings.swift in Sources */,
 				7A046D7919E84ED5004C4763 /* MainScene.swift in Sources */,
+				FCF537061B87B83A005F274C /* Teleporter.swift in Sources */,
+				FCF537021B7A3EA3005F274C /* Teleport.swift in Sources */,
 				5B121038197487F2004C1E1D /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -977,6 +1031,7 @@
 					"-ObjC",
 					"-lz",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.cocos2d.MissionMars;
 				PRODUCT_MODULE_NAME = MissionMars;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1021,6 +1076,7 @@
 					"-ObjC",
 					"-lz",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.cocos2d.MissionMars;
 				PRODUCT_MODULE_NAME = MissionMars;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1069,6 +1125,7 @@
 					"-lgles_apportable",
 					"-landroid",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.cocos2d.MissionMars;
 				PRODUCT_MODULE_NAME = MissionMars;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1117,6 +1174,7 @@
 					"-lgles_apportable",
 					"-landroid",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.cocos2d.MissionMars;
 				PRODUCT_MODULE_NAME = MissionMars;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1139,6 +1197,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1154,7 +1213,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1186,7 +1245,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1203,6 +1262,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Source/Prefix.pch;
@@ -1214,18 +1277,19 @@
 					"\"Source/libs/cocos2d-iphone/external/ObjectAL\"/**",
 				);
 				INFOPLIST_FILE = Source/Resources/Platforms/iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-ObjC",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.FrankBoccia.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = MissionMars;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1241,6 +1305,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Source/Prefix.pch;
 				HEADER_SEARCH_PATHS = (
@@ -1251,16 +1319,17 @@
 					"\"Source/libs/cocos2d-iphone/external/ObjectAL\"/**",
 				);
 				INFOPLIST_FILE = Source/Resources/Platforms/iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-ObjC",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.FrankBoccia.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = MissionMars;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/Bridging-Header.h";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

@@ -1,4 +1,3 @@
-
 //
 //  MainScene.swift
 //  MissionMars
@@ -12,7 +11,7 @@ import AVFoundation
 import AudioToolbox 
 
 class MainScene: CCNode, CCPhysicsCollisionDelegate {
-    
+
     var audio = OALSimpleAudio.sharedInstance()
     let defaults = NSUserDefaults.standardUserDefaults()
     
@@ -25,34 +24,40 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     //Physics nodes
     weak var gamePhysicsNode : CCPhysicsNode!
     
-    //Sprites
-    weak var ground1 : CCSprite!
-    weak var ground2 : CCSprite!
-    weak var star1 : CCSprite!
-    weak var star2 : CCSprite!
+    // Sprites
+    weak var ground1: CCSprite!
+    weak var ground2: CCSprite!
+    weak var star1: CCSprite!
+    weak var star2: CCSprite!
+    weak var Teleporter: CCSprite!
     
     
-    //Nodes
+    // Nodes
     weak var barrier: CCNode!
-    weak var gameEnd : CCNode!
+    weak var gameEnd: CCNode!
     
-    //Labels
+    // Labels
     weak var scoreLabel: CCLabelTTF!
+    weak var shieldLabel: CCLabelTTF!
     weak var tapToJump: CCLabelTTF!
     
     
-    //Buttons
+    // Buttons
     weak var restartButton: CCButton!
+    weak var shootButton: CCButton!
     
-    //arrays of CCObjects
+
+    
+    // arrays of CCObjects
     var stars = [CCSprite]()
     var grounds = [CCSprite]()
     
-    //Particle System
+    
+    // Particle System
     var explosion: CCParticleSystem!
     var jump: CCParticleSystem!
     
-    //Constants & Variables
+    // Constants & Variables
     var gameOver: Bool = false
     var asteroidArray: [Asteroid] = []
     var stroidArray: [Stroid] = []
@@ -62,7 +67,18 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     let screenHeight = UIScreen.mainScreen().bounds.height
     weak var gameEndScreen: GameEnd!
     var asteroidXVelocity = -500
-    var randomItemTime: UInt32 = 1 //+ arc4random_uniform(1)
+    var randomItemTime: UInt32 = 5 + arc4random_uniform(16)
+    // Advertisements
+    let view: UIViewController = CCDirector.sharedDirector().parentViewController!
+    // Returns a UIView of the cocos2d view controller.var startAppAd: STAStartAppAd?
+    var startAppAd: STAStartAppAd?
+    
+    
+    // Shield PowerUp
+    var hasShield: Bool = false
+    var shieldTimeRemaining: Double = 0
+    var shieldLabelTimer: Double = 0
+    
     
     // Tutorial Over
     var tutorialOver = false
@@ -71,7 +87,10 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     var score: Int = 0 {
         didSet {
             scoreLabel.string = "\(score)"
-            if score == 17 {
+           /* if score == 2 {
+                 addTeleporter() 
+            } */
+            if score == 5 {
             schedule("addStroid", interval: 5)
             }
             if score == 30 {
@@ -84,25 +103,21 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             schedule("addStroid", interval: 0.8)
             unschedule("addAsteroid")
             }
-    
         }
     }
-    // Shield PowerUp
-    var hasShield: Bool = false
-    var shieldTimeRemaining: Double = 0
-
     //Functions
     func didLoadFromCCB() {
+        startAppAd = STAStartAppAd()
+        startAppAd!.loadAd()
         if VIBRATION == nil {
             VIBRATION = true
         }
         
-        iAdHelper.sharedHelper()
-        iAdHelper.setBannerPosition(TOP)
-        
-        iAdHandler.sharedInstance.loadInterstitialAd()
-        
+//        iAdHelper.sharedHelper()
+//        iAdHelper.setBannerPosition(TOP)
+        //iAdHandler.sharedInstance.loadInterstitialAd()
         gamePhysicsNode.collisionDelegate = self
+        
         // gamePhysicsNode.debugDraw = true
         userInteractionEnabled = true
         stars.append(star1)
@@ -112,7 +127,20 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             gameEndScreen.visible = false
         }
         
-    }//didLoad
+    }// endDidLoad
+    
+    
+    // Laser Function
+    func shoot() {
+        let greenLaser = CCBReader.load("Laser") as! Laser
+        gamePhysicsNode.addChild(greenLaser)
+        greenLaser.positionInPoints = ccp(ship.positionInPoints.x, ship.positionInPoints.y)
+        greenLaser.physicsBody.applyImpulse(ccp(100,0))
+    }
+    
+    func Teleportation () {
+        
+    }
     
     // User Begins Game by Tapping Screen
     func endTutorial(){
@@ -130,7 +158,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             endTutorial()
         }
         // Load Jump Particle Effect
-        var jump = CCBReader.load("Jump")
+        let jump = CCBReader.load("Jump")
         jump.zOrder -= 10
         jump.positionInPoints.x = ship.positionInPoints.x
         jump.positionInPoints.y = ship.positionInPoints.y + 10
@@ -172,24 +200,25 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         // Check if player has a shield, then check to see if the sheild time is up
         if hasShield {
             shieldTimeRemaining -= delta
-            if shieldTimeRemaining < 0 {
+            if shieldTimeRemaining  < 0 {
                 hasShield = false
                 ship.removeChildByName("Shield")
-                
+            }
+                shieldLabelTimer -= delta
+            if shieldLabelTimer < 0 {
+                shieldLabel.visible = false
             }
         }
     }
-    
     // Add asteroids
     func addAsteroid() {
         // Load Asteroid Image
-        var asteroid = CCBReader.load("TestStroid") as! Asteroid
-        var random = arc4random_uniform(400)
+        let asteroid = CCBReader.load("TestStroid") as! Asteroid
+        let random = arc4random_uniform(400)
         asteroid.scale = 0.5
         //add Asteroid to Asteroid array
         asteroidArray.append(asteroid)
-        //println(random)
-        //asteroid.position = CGPoint(x: ship.position.x + screenWidth + asteroid.contentSizeInPoints.width, y: CGFloat(clampf(Float(random), Float(screenHeight/5), Float(5*screenHeight/5))))
+        
         asteroid.position = CGPoint(x: UIScreen.mainScreen().bounds.width + 1, y: CGFloat(random))
         gamePhysicsNode.addChild(asteroid)
     }
@@ -198,29 +227,29 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     func addStroid() {
         //generate asteroid, give it velocity "asteroidXVelocity"
         asteroidXVelocity -= 5
-        //generate random
         
-        // Load Flaming Ball 
-        var newStroid = CCBReader.load("Asteroid3") as! Stroid
+        
+        // Load Flaming Ball
+        let newStroid = CCBReader.load("Asteroid3") as! Stroid
         //add Asteroid to Asteroid array
         stroidArray.append(newStroid)
-        newStroid.position = CGPoint(x: ship.position.x + screenWidth + newStroid.contentSizeInPoints.width, y: ship.position.y)
+        newStroid.position = CGPoint(x: ship.position.x + screenWidth + newStroid.contentSizeInPoints.width, y: ship.positionInPoints.y)
         newStroid.scale = 0.5
         gamePhysicsNode.addChild(newStroid)
         newStroid.physicsBody.velocity = ccp(-1000,0)
     }
     // Green Laser Power Up
     func placeBlastPowerUp() {
-        var blast = CCBReader.load("Blast") as! Blast
-        var random = 20 + arc4random_uniform(231)
+        let blast = CCBReader.load("Blast") as! Blast
+        let random = 20 + arc4random_uniform(231)
         blast.position = CGPoint(x: UIScreen.mainScreen().bounds.width + 1, y: CGFloat(random))
         blast.scale = 0.3
         gamePhysicsNode.addChild(blast)
     }
     // Shield Power Up
     func placeShieldPowerup() {
-        var shield = CCBReader.load("Shield") as! Shield
-        var random = 20 + arc4random_uniform(231)
+        let shield = CCBReader.load("Shield") as! Shield
+        let random = 20 + arc4random_uniform(231)
         shield.position = CGPoint(x: UIScreen.mainScreen().bounds.width + 1, y: CGFloat(random))
         shield.scale = 0.3
         gamePhysicsNode.addChild(shield)
@@ -244,7 +273,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             else { // If shield is on, simply remove the astroid from the scene and avoid game over
                 nodeB.removeFromParent()
                 
-                shieldTimeRemaining = 0
+                //shieldTimeRemaining = 0
             }
         }
         return true
@@ -269,9 +298,10 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     }
     
     //Teleport Collision
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, teleport nodeB: CCNode!) -> ObjCBool {
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, teleportNode: CCNode!) -> ObjCBool {
+        let fireBall = CCBReader.loadAsScene("FireBall")
         return true
-    }
+   }
     
     // Collision PowerUps
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, bullet: CCNode!, stroid: CCNode!) -> ObjCBool {
@@ -280,34 +310,44 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         return true
     }
     
-    
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, shieldItem: Shield!) -> ObjCBool {
-        // Activate shield
+        // Activate Timer
+        shieldLabel.visible = true
+        shieldLabelTimer = 5
         
-        shieldTimeRemaining = 3
+        // Activate shield
+        shieldTimeRemaining = 5
         hasShield = true
         
         // Load Shield Image
-        var shieldSprite = CCBReader.load("ForceField")
+        let shieldSprite = CCBReader.load("ForceField")
         shieldSprite.positionInPoints = ccp(ship.contentSizeInPoints.width / 2, ship.contentSizeInPoints.height / 2)
         shieldSprite.name = "Shield"
-        shieldSprite.scale = 0.4
+        shieldSprite.scale = 0.5
         ship.addChild(shieldSprite)
+        
+        if shieldItem != nil {
         shieldItem.removeFromParent()
+        }
         return false
     }
     
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, blastItem: CCNode!) -> ObjCBool {
        // Activate BulletsShooting
-        self.schedule("shooting", interval: 0.5, repeat: 6, delay: 0)
+        
+        self.schedule("shooting", interval: 0.2, `repeat`: 10, delay: 0)
+        if blastItem != nil {
         blastItem.removeFromParent()
+        }
         return false
     }
     
   
 //MARK: Power up Functions and Spawning
     func spawnRandomPowerUp() {
-        var powerUpTypeRandom = arc4random_uniform(2) + 1
+        // Random Spawn
+        
+        let powerUpTypeRandom = arc4random_uniform(2) + 1
         
         if powerUpTypeRandom == 1 {
             placeBlastPowerUp()
@@ -315,34 +355,35 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             placeShieldPowerup()
         }
         
-        randomItemTime = 6 + arc4random_uniform(15)
+        randomItemTime = 6 + arc4random_uniform(14)
         scheduleOnce("spawnRandomPowerUp", delay: CCTime(randomItemTime))
     }
     
     // Laser Function
     func shooting() {
-        var greenLaser = CCBReader.load("Laser")
+        let greenLaser = CCBReader.load("Laser") as! Laser
         gamePhysicsNode.addChild(greenLaser)
-        greenLaser.positionInPoints = ccp(ship.position.x, ship.position.y)
-        greenLaser.runAction(CCActionMoveBy(duration: 1, position: CGPoint(x: CCDirector.sharedDirector().viewSize().width, y: greenLaser.position.y)))
-       
-        
-       
+        greenLaser.positionInPoints = ccp(ship.positionInPoints.x, ship.positionInPoints.y)
+        greenLaser.physicsBody.velocity.x = 1000
     }
     
     // everything that should happen when the game ends
     func triggerGameOver() {
-        println("Game Over")
+        print("Game Over", terminator: "")
+        if CCRANDOM_0_1() <= 0.25 {
+            startAppAd!.showAd()
+       }
+        print(startAppAd)
         if (gameOver  == false) {
             
-            switch (iAdHandler.sharedInstance.interstitialActionIndex % 3) {
-                case 0:
-                    iAdHandler.sharedInstance.displayInterstitialAd()
-                default:
-                    break
-            }
+//            switch (iAdHandler.sharedInstance.interstitialActionIndex % 3) {
+//                case 0:
+//                    iAdHandler.sharedInstance.displayInterstitialAd()
+//                default:
+//                    break
+//              }
             
-            iAdHandler.sharedInstance.interstitialActionIndex++
+            //iAdHandler.sharedInstance.interstitialActionIndex++
             gameEndScreen.visible = true
             scoreLabel.visible = false
             gameOver = true
@@ -363,7 +404,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             }
             
             // Explosion Particle Effect
-            var explosion = CCBReader.load("Explosion")
+            let explosion = CCBReader.load("Explosion")
             explosion.position = ship.positionInPoints
             ship.explosion()
             addChild(explosion)

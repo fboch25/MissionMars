@@ -25,7 +25,7 @@
 
 #import <UIKit/UIKit.h>
 #import "cocos2d.h"
-
+#import <Startapp/Startapp.h>
 @interface AppController : CCAppDelegate
 {
 }

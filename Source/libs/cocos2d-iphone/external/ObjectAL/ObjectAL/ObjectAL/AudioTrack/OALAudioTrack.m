@@ -1,3 +1,1232 @@
+////
+////  OALAudioTrack.m
+////  ObjectAL
+////
+////  Created by Karl Stenerud on 10-08-21.
+////
+////  Copyright (c) 2009 Karl Stenerud. All rights reserved.
+////
+//// Permission is hereby granted, free of charge, to any person obtaining a copy
+//// of this software and associated documentation files (the "Software"), to deal
+//// in the Software without restriction, including without limitation the rights
+//// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//// copies of the Software, and to permit persons to whom the Software is
+//// furnished to do so, subject to the following conditions:
+////
+//// The above copyright notice and this permission notice shall remain in place
+//// in this source code.
+////
+//// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//// THE SOFTWARE.
+////
+//// Attribution is not required, but appreciated :)
+////
+//
+//#import "OALAudioTrack.h"
+//#import "OALAudioActions.h"
+//#import "OALAudioTracks.h"
+//#import "OALTools.h"
+//#import "OALUtilityActions.h"
+//#import "ObjectALMacros.h"
+//#import "ARCSafe_MemMgmt.h"
+//
+//#if __CC_PLATFORM_ANDROID
+//#import <AndroidKit/AndroidAssetFileDescriptor.h>
+//#import <AndroidKit/AndroidAssetManager.h>
+//#import <JavaKit/JavaFileDescriptor.h>
+//#import "CCActivity.h"
+//#endif
+//
+//#pragma mark Asynchronous Operations
+//
+///** \cond */
+///**
+// * (INTERNAL USE) NSOperation for running an audio operation asynchronously.
+// */
+//@interface OAL_AsyncAudioTrackOperation: NSOperation
+//{
+//	/** The audio track object to perform the operation on */
+//	OALAudioTrack* audioTrack;
+//	/** The URL of the sound file to play */
+//	NSURL* url;
+//	/** The seekTime of the sound file */
+//	NSTimeInterval seekTime;
+//	/** The target to inform when the operation completes */
+//	id target;
+//	/** The selector to call when the operation completes */
+//	SEL selector;
+//}
+//
+///** (INTERNAL USE) Create a new Asynchronous Operation.
+// *
+// * @param track the audio track to perform the operation on.
+// * @param seekTime the position in the file to start playing at.
+// * @param url the URL containing the sound file.
+// * @param target the target to inform when the operation completes.
+// * @param selector the selector to call when the operation completes.
+// */ 
+//+ (id) operationWithTrack:(OALAudioTrack*) track url:(NSURL*) url seekTime:(NSTimeInterval)seekTime target:(id) target selector:(SEL) selector;
+//
+///** (INTERNAL USE) Initialize an Asynchronous Operation.
+// *
+// * @param track the audio track to perform the operation on.
+// * @param seekTime the position in the file to start playing at.
+// * @param url the URL containing the sound file.
+// * @param target the target to inform when the operation completes.
+// * @param selector the selector to call when the operation completes.
+// */ 
+//- (id) initWithTrack:(OALAudioTrack*) track url:(NSURL*) url seekTime:(NSTimeInterval)seekTime target:(id) target selector:(SEL) selector;
+//
+//@end
+//
+//@implementation OAL_AsyncAudioTrackOperation
+//
+//+ (id) operationWithTrack:(OALAudioTrack*) track url:(NSURL*) url seekTime:(NSTimeInterval)seekTime target:(id) target selector:(SEL) selector
+//{
+//	return as_autorelease([[self alloc] initWithTrack:track url:url seekTime:seekTime target:target selector:selector]);
+//}
+//
+//- (id) initWithTrack:(OALAudioTrack*) track url:(NSURL*) urlIn seekTime:(NSTimeInterval)seekTimeIn target:(id) targetIn selector:(SEL) selectorIn
+//{
+//	if(nil != (self = [super init]))
+//	{
+//		audioTrack = as_retain(track);
+//		url = as_retain(urlIn);
+//		seekTime = seekTimeIn;
+//		target = targetIn;
+//		selector = selectorIn;
+//	}
+//	return self;
+//}
+//
+//- (void) dealloc
+//{
+//	as_release(audioTrack);
+//	as_release(url);
+//    as_superdealloc();
+//}
+//
+//@end
+//
+//
+///**
+// * (INTERNAL USE) NSOperation for playing an audio file asynchronously.
+// */
+//@interface OAL_AsyncAudioTrackPlayOperation : OAL_AsyncAudioTrackOperation
+//{
+//	/** The number of times to loop during playback */
+//	NSInteger loops;
+//}
+//
+///**
+// * (INTERNAL USE) Create an asynchronous play operation.
+// *
+// * @param track the audio track to perform the operation on.
+// * @param url The URL of the file to play.
+// * @param loops The number of times to loop playback (-1 = forever).
+// * @param target The target to inform when playback finishes.
+// * @param selector the selector to call when playback finishes.
+// * @return a new operation.
+// */
+//+ (id) operationWithTrack:(OALAudioTrack*) track url:(NSURL*) url loops:(NSInteger) loops target:(id) target selector:(SEL) selector;
+//
+///**
+// * (INTERNAL USE) Initialize an asynchronous play operation.
+// *
+// * @param track the audio track to perform the operation on.
+// * @param url The URL of the file to play.
+// * @param loops The number of times to loop playback (-1 = forever).
+// * @param target The target to inform when playback finishes.
+// * @param selector the selector to call when playback finishes.
+// * @return The initialized operation.
+// */
+//- (id) initWithTrack:(OALAudioTrack*) track url:(NSURL*) url loops:(NSInteger) loops target:(id) target selector:(SEL) selector;
+//
+//@end
+//
+//
+//@implementation OAL_AsyncAudioTrackPlayOperation
+//
+//+ (id) operationWithTrack:(OALAudioTrack*) track url:(NSURL*) url loops:(NSInteger) loops target:(id) target selector:(SEL) selector
+//{
+//	return as_autorelease([[self alloc] initWithTrack:track url:url loops:loops target:target selector:selector]);
+//}
+//
+//- (id) initWithTrack:(OALAudioTrack*) track url:(NSURL*) urlIn loops:(NSInteger) loopsIn target:(id) targetIn selector:(SEL) selectorIn
+//{
+//	if(nil != (self = [super initWithTrack:track url:urlIn seekTime:0 target:targetIn selector:selectorIn]))
+//	{
+//		loops = loopsIn;
+//	}
+//	return self;
+//}
+//
+//- (id) initWithTrack:(OALAudioTrack*) track url:(NSURL*) urlIn target:(id) targetIn selector:(SEL) selectorIn
+//{
+//	return [self initWithTrack:track url:urlIn loops:0 target:targetIn selector:selectorIn];
+//}
+//
+//- (void)main
+//{
+//	[audioTrack playUrl:url loops:loops];
+//	[target performSelectorOnMainThread:selector withObject:audioTrack waitUntilDone:NO];
+//}
+//
+//@end
+//
+//
+///**
+// * (INTERNAL USE) NSOperation for preloading an audio file asynchronously.
+// */
+//@interface OAL_AsyncAudioTrackPreloadOperation : OAL_AsyncAudioTrackOperation
+//{
+//}
+//
+//@end
+//
+//
+//@implementation OAL_AsyncAudioTrackPreloadOperation
+//
+//- (void)main
+//{
+//	[audioTrack preloadUrl:url seekTime:seekTime];
+//	[target performSelectorOnMainThread:selector withObject:audioTrack waitUntilDone:NO];
+//}
+//
+//@end
+//
+//#pragma mark -
+//#pragma mark Private Methods
+//
+///**
+// * (INTERNAL USE) Private interface to OALAudioTrack.
+// */
+//@interface OALAudioTrack (Private)
+//
+///** (INTERNAL USE) Called by SuspendHandler.
+// */
+//- (void) setSuspended:(bool) value;
+//
+//@end
+///** \endcond */
+//
+//#pragma mark -
+//#pragma mark AudioTrack
+//
+//@implementation OALAudioTrack
+//
+//#pragma mark Object Management
+//
+//+ (id) track
+//{
+//	return as_autorelease([[self alloc] init]);
+//}
+//
+//- (id) init
+//{
+//	if(nil != (self = [super init]))
+//	{
+//		OAL_LOG_DEBUG(@"%@: Init", self);
+//		
+//		suspendHandler = [[OALSuspendHandler alloc] initWithTarget:self selector:@selector(setSuspended:)];
+//
+//		operationQueue = [[NSOperationQueue alloc] init];
+//		operationQueue.maxConcurrentOperationCount = 1;
+//		gain = 1.0f;
+//		numberOfLoops = 0;
+//		currentTime = 0.0;
+//		
+//#if __CC_PLATFORM_ANDROID
+//        // We have to manually pause tracks
+//        suspended = NO;
+//#endif
+//		[[OALAudioTracks sharedInstance] notifyTrackInitializing:self];
+//		[[OALAudioTracks sharedInstance] addSuspendListener:self];
+//	}
+//	return self;
+//}
+//
+//- (void) dealloc
+//{
+//	OAL_LOG_DEBUG(@"%@: Dealloc", self);
+//	[[OALAudioTracks sharedInstance] removeSuspendListener:self];
+//	[[OALAudioTracks sharedInstance] notifyTrackDeallocating:self];
+//
+//#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+//    player.delegate = nil;
+//#elif __CC_PLATFORM_ANDROID
+//    [player setOnCompletionListener:nil];
+//#endif
+//    [player stop];
+//
+//	as_release(player);
+//	as_release(operationQueue);
+//	as_release(currentlyLoadedUrl);
+//	as_release(simulatorPlayerRef);
+//	[gainAction stopAction];
+//	as_release(gainAction);
+//	[panAction stopAction];
+//	as_release(panAction);
+//	as_release(suspendHandler);
+//	as_superdealloc();
+//}
+//
+//
+//- (NSString*) description
+//{
+//	return [NSString stringWithFormat:@"<%@: %p: %@>", [self class], self, [currentlyLoadedUrl lastPathComponent]];
+//}
+//
+//#pragma mark Properties
+//
+//@synthesize currentlyLoadedUrl;
+//@synthesize autoPreload;
+//
+//@synthesize preloaded;
+//
+//#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+//- (id<AVAudioPlayerDelegate>) delegate
+//{
+//    return delegate;
+//}
+//
+//- (void) setDelegate:(id<AVAudioPlayerDelegate>) value
+//{
+//    delegate = value;
+//}
+//#elif __CC_PLATFORM_ANDROID
+//- (id) delegate
+//{
+//    return delegate;
+//}
+//
+//- (void) setDelegate:(id) value
+//{
+//    delegate = value;
+//}
+//
+//- (void) _updateVolume {
+//    float right = 0;
+//    float left = 0;
+//    if (muted) {
+//        left = 0;
+//        right = 0;
+//    } else {
+//        // Constant power panning
+//        float piovr2 = 4.0f * atanf(1.0) * 0.5f;
+//        float root2ovr2 = sqrtf(2.0) * 0.5f;
+//        float thispos = pan * piovr2;
+//        float angle = thispos * 0.5f;
+//        left = root2ovr2 * (cosf(angle) - sinf(angle));
+//        right = root2ovr2 * (cosf(angle) + sinf(angle));
+//        left *= gain;
+//        right *= gain;
+//    }
+//    [player setVolume:left rightVolume:right];
+//}
+//
+//- (void)onCompletion:(AndroidMediaPlayer *)mp {
+//    if (mp != player) {
+//        return;
+//    }
+//    if (numberOfLoops > 0) {
+//        [player start];
+//        numberOfLoops--;
+//    }
+//}
+//
+//#endif
+//
+//- (float) pan
+//{
+//    return pan;
+//}
+//
+//- (void) setPan:(float) value
+//{
+//	OPTIONALLY_SYNCHRONIZED(self)
+//	{
+//        pan = value;
+//#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+//        player.pan = pan;
+//#elif __CC_PLATFORM_ANDROID
+//        [self _updateVolume];
+//#endif
+//	}
+//}
+//
+//- (float) volume
+//{
+//	return self.gain;
+//}
+//
+//- (float) gain
+//{
+//    return gain;
+//}
+//
+//- (void) setVolume:(float) value
+//{
+//	self.gain = value;
+//}
+//
+//- (void) setGain:(float) value
+//{
+//	OPTIONALLY_SYNCHRONIZED(self)
+//	{
+//		gain = value;
+//		if(muted)
+//		{
+//			value = 0;
+//		}
+//#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+//		player.volume = value;
+//#elif __CC_PLATFORM_ANDROID
+//        [self _updateVolume];
+//#endif
+//	}
+//}
+//
+//- (bool) muted
+//{
+//    return muted;
+//}
+//
+//- (void) setMuted:(bool) value
+//{
+//	OPTIONALLY_SYNCHRONIZED(self)
+//	{
+//		muted = value;
+//		if(muted)
+//		{
+//			[self stopActions];
+//		}
+//		// Force a re-evaluation of gain.
+//		[self setGain:gain];
+//	}
+//}
+//
+//- (NSInteger) numberOfLoops
+//{
+//    return numberOfLoops;
+//}
+//
+//- (void) setNumberOfLoops:(NSInteger) value
+//{
+//	OPTIONALLY_SYNCHRONIZED(self)
+//	{
+//#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+//		player.numberOfLoops = numberOfLoops = value;
+//#elif __CC_PLATFORM_ANDROID
+//        numberOfLoops = value;
+//        if (value == -1) {
+//            [player setLooping:YES];
+//        }
+//#endif
+//	}
+//}
+//
+//- (bool) paused
+//{
+//    return paused;
+//}
+//
+//- (void) setPaused:(bool) value
+//{
+//	OPTIONALLY_SYNCHRONIZED(self)
+//	{
+//		if(paused != value)
+//		{
+//			paused = value;
+//			if(paused)
+//			{
+//				OAL_LOG_DEBUG(@"%@: Pause", self);
+//				[player pause];
+//				if(playing)
+//				{
+//					[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:)
+//																		   withObject:[NSNotification notificationWithName:OALAudioTrackStoppedPlayingNotification object:self] waitUntilDone:NO];
+//				}
+//			}
+//			else if(playing)
+//			{
+//				OAL_LOG_DEBUG(@"%@: Unpause", self);
+//#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+//				playing = [player play];
+//#elif __CC_PLATFORM_ANDROID
+//                [player start];
+//				playing = [player isPlaying];
+//#endif
+//				if(playing)
+//				{
+//					[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:)
+//																		   withObject:[NSNotification notificationWithName:OALAudioTrackStartedPlayingNotification object:self] waitUntilDone:NO];
+//				}
+//			}
+//		}
+//	}
+//}
+//
+//@synthesize player;
+//
+//@synthesize playing;
+//
+//- (NSTimeInterval) currentTime
+//{
+//	OPTIONALLY_SYNCHRONIZED(self)
+//	{
+//#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+//		return (nil == player) ? currentTime : player.currentTime;
+//#elif __CC_PLATFORM_ANDROID
+//        if (player.isPlaying) {
+//            return [self deviceCurrentTime];
+//        }
+//        return currentTime;
+//#endif
+//	}
+//}
+//
+//- (void) setCurrentTime:(NSTimeInterval) value
+//{
+//	OPTIONALLY_SYNCHRONIZED(self)
+//	{
+//		currentTime = value;
+//		if(nil != player)
+//		{
+//#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+//			player.currentTime = currentTime;
+//#elif __CC_PLATFORM_ANDROID
+//            [player seekToMsec:(int)(value * 1000)];
+//#endif
+//		}
+//	}
+//}
+//
+//- (NSTimeInterval) deviceCurrentTime
+//{
+//	OPTIONALLY_SYNCHRONIZED(self)
+//	{
+//#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+//        return player.deviceCurrentTime;
+//#elif __CC_PLATFORM_ANDROID
+//        return ((NSTimeInterval) [player currentPosition]) / 1000;
+//#endif
+//	}
+//}
+//
+//- (NSTimeInterval) duration
+//{
+//	OPTIONALLY_SYNCHRONIZED(self)
+//	{
+//		return player.duration;
+//	}
+//}
+//
+//- (NSUInteger) numberOfChannels
+//{
+//	OPTIONALLY_SYNCHRONIZED(self)
+//	{
+//#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+//        return player.numberOfChannels;
+//#elif __CC_PLATFORM_ANDROID
+//#warning FIXME need trackInfo / getFormat / MediaFormat / KEY_CHANNEL_COUNT
+//        return (NSUInteger) 2;
+//#endif
+//	}
+//}
+//
+//
+//#pragma mark Suspend Handler
+//
+//- (void) addSuspendListener:(id<OALSuspendListener>) listenerIn
+//{
+//	[suspendHandler addSuspendListener:listenerIn];
+//}
+//
+//- (void) removeSuspendListener:(id<OALSuspendListener>) listenerIn
+//{
+//	[suspendHandler removeSuspendListener:listenerIn];
+//}
+//
+//- (bool) manuallySuspended
+//{
+//	return suspendHandler.manuallySuspended;
+//}
+//
+//- (void) setManuallySuspended:(bool) value
+//{
+//	suspendHandler.manuallySuspended = value;
+//}
+//
+//- (bool) interrupted
+//{
+//	return suspendHandler.interrupted;
+//}
+//
+//- (void) setInterrupted:(bool) value
+//{
+//	suspendHandler.interrupted = value;
+//}
+//
+//- (bool) suspended
+//{
+//	return suspendHandler.suspended;
+//}
+//
+//- (void) setSuspended:(bool) value
+//{
+//	/* Suspend gets a bit complicated here.
+//	 * If multiple AVAudioPlayers are playing when an interrupt begins,
+//	 * only one of them will resume when the interrupt finishes.
+//	 * To counter this, we destroy the player and rebuild it on resume.
+//	 *
+//	 * Note: This has the unfortunate side effect that the OALAudioTrack
+//	 * using hardware playback on resume may not be the same one!
+//	 *
+//	 * TODO: Need to find a way to avoid this situation.
+//	 */
+//#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+//	OPTIONALLY_SYNCHRONIZED(self)
+//	{
+//        if(value)
+//        {
+//            if(preloaded)
+//            {
+//                currentTime = player.currentTime;
+//                if(self.playing)
+//                {
+//                    [player stop];
+//                }
+//            }
+//        }
+//        else
+//        {
+//            if(preloaded)
+//            {
+//                NSError* error = nil;
+//                as_release(player);
+//                player = [[AVAudioPlayer alloc] initWithContentsOfURL:currentlyLoadedUrl error:&error];
+//                if(nil == player)
+//                {
+//                    OAL_LOG_ERROR(@"%@: Could not reload URL %@: %@",
+//                                  self, currentlyLoadedUrl, [error localizedDescription]);
+//                    as_release(player);
+//                    player = nil;
+//                    preloaded = NO;
+//                    playing = NO;
+//                    paused = NO;
+//                    return;
+//                }
+//
+//                player.volume = muted ? 0 : gain;
+//                player.numberOfLoops = numberOfLoops;
+//                player.meteringEnabled = meteringEnabled;
+//                player.delegate = self;
+//                player.pan = pan;
+//
+//                player.currentTime = currentTime;
+//
+//                if(![player prepareToPlay])
+//                {
+//                    OAL_LOG_ERROR(@"%@: Failed to prepareToPlay on resume: %@", self, currentlyLoadedUrl);
+//                    as_release(player);
+//                    player = nil;
+//                    preloaded = NO;
+//                    playing = NO;
+//                    paused = NO;
+//                    return;
+//                }
+//                
+//                if(playing)
+//                {
+//                    playing = [player play];
+//                    if(paused)
+//                    {
+//                        [player pause];
+//                    }
+//                }
+//            }
+//        }
+//        
+//        
+//        /*
+//        if(value)
+//        {
+//            if(self.playing && !self.paused)
+//            {
+//                currentTime = player.currentTime;
+//                [player pause];
+//            }
+//        }
+//        else
+//        {
+//            if(self.playing && !self.paused)
+//            {
+//                player.currentTime = currentTime;
+//                [player play];
+//            }
+//        }
+//         */
+//    }
+//#elif __CC_PLATFORM_ANDROID
+//	OPTIONALLY_SYNCHRONIZED(self)
+//    {
+//        if (value) {
+//            if ([player isPlaying]) {
+//                [player pause];
+//                suspended = YES;
+//            }
+//        } else {
+//            if (suspended) {
+//                [player start];
+//                suspended = NO;
+//            }
+//        }
+//    }
+//#endif
+//}
+//
+//
+//#pragma mark Playback
+//
+//- (bool) preloadUrl:(NSURL*) url
+//{
+//	return [self preloadUrl:url seekTime:0];
+//}
+//
+//#if __CC_PLATFORM_ANDROID
+//- (void) _setPreloaded:(BOOL)value {
+//    preloaded = value;
+//}
+//#endif
+//
+//- (bool) preloadUrl:(NSURL*) url seekTime:(NSTimeInterval)seekTime
+//{
+//	if(nil == url)
+//	{
+//		OAL_LOG_ERROR(@"%@: Cannot open NULL file / url", self);
+//		return NO;
+//	}
+//	
+//	OPTIONALLY_SYNCHRONIZED(self)
+//	{
+//		// Bug: No longer re-using AVAudioPlayer because of bugs when using multiple players.
+//		// Playing two tracks, then stopping one and starting it again will cause prepareToPlay to fail.
+//		
+//		bool wasPlaying = playing;
+//
+//		[self stopActions];
+//		
+//		if(playing || paused)
+//		{
+//			[player stop];
+//		}
+//
+//		as_release(player);
+//
+//		if(wasPlaying)
+//		{
+//			[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:OALAudioTrackStoppedPlayingNotification object:self] waitUntilDone:NO];
+//		}
+//		
+//#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+//		NSError* error = nil;
+//		player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
+//		if(nil != error)
+//		{
+//			OAL_LOG_ERROR(@"%@: Could not load URL %@: %@", self, url, [error localizedDescription]);
+//			return NO;
+//		}
+//		
+//		player.volume = muted ? 0 : gain;
+//		player.numberOfLoops = numberOfLoops;
+//		player.meteringEnabled = meteringEnabled;
+//		player.delegate = self;
+//        player.pan = pan;
+//
+//#elif __CC_PLATFORM_ANDROID
+//        NSURL *fullURL = [OALTools urlForPath:[url relativeString]];
+//        NSString *path = [fullURL path];
+//        NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
+//        
+//        if ([path hasPrefix:bundlePath]) {
+//            NSUInteger bundlePathLength = [bundlePath length] + 1;
+//            path = [path substringWithRange:NSMakeRange(bundlePathLength, [path length] - bundlePathLength)];
+//        }
+//        
+//        if (![[NSFileManager defaultManager] fileExistsAtPath:path]){
+//            OAL_LOG_ERROR(@"%@ Could not find file at path:%@", self, path);
+//            return NO;
+//        }
+//        player = [[AndroidMediaPlayer alloc] init];
+//        AndroidAssetFileDescriptor *assetFd = [[[CCActivity currentActivity] assets] openFd:path];
+//        if (assetFd.fileDescriptor && [assetFd.fileDescriptor valid]) {
+//            [player reset];
+//            [player setDataSource:assetFd.fileDescriptor offset:assetFd.startOffset length:assetFd.length];
+//            [player prepare];
+//        } else {
+//            [player setDataSourceByPath:[url absoluteString]];
+//            [player prepareAsync];
+//        }
+//        if (assetFd) {
+//            [assetFd close];
+//        }
+//
+//        __weak id weakSelf = self;
+//        [player setOnCompletionListener:[AndroidMediaPlayerOnCompletionListener listenerWithBlock:^(AndroidMediaPlayer *mp) {
+//            [weakSelf onCompletion:mp];
+//        }]];
+//#endif
+//		as_release(currentlyLoadedUrl);
+//		currentlyLoadedUrl = as_retain(url);
+//		
+//		self.currentTime = seekTime;
+//		playing = NO;
+//		paused = NO;
+//
+//#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+//        BOOL allOK = [player prepareToPlay]; 
+//		if(!allOK)
+//		{
+//			OAL_LOG_ERROR(@"%@: Failed to prepareToPlay: %@", self, url);
+//		}
+//		else
+//		{
+//			[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:OALAudioTrackSourceChangedNotification object:self] waitUntilDone:NO];
+//		}
+//		preloaded = allOK;
+//		return allOK;
+//#elif __CC_PLATFORM_ANDROID
+//		[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:OALAudioTrackSourceChangedNotification object:self] waitUntilDone:NO];
+//        return YES;
+//#endif
+//	}
+//}
+//
+//- (bool) preloadFile:(NSString*) path
+//{
+//	return [self preloadFile:path seekTime:0];
+//}
+//
+//- (bool) preloadFile:(NSString*) path seekTime:(NSTimeInterval)seekTime
+//{
+//	return [self preloadUrl:[OALTools urlForPath:path] seekTime:seekTime];
+//}
+//
+//- (bool) preloadUrlAsync:(NSURL*) url target:(id) target selector:(SEL) selector
+//{
+//	return [self preloadUrlAsync:url seekTime:0 target:target selector:selector];
+//}
+//
+//- (bool) preloadUrlAsync:(NSURL*) url seekTime:(NSTimeInterval)seekTime target:(id) target selector:(SEL) selector
+//{
+//	OPTIONALLY_SYNCHRONIZED(self)
+//	{
+//		[operationQueue addOperation:[OAL_AsyncAudioTrackPreloadOperation operationWithTrack:self url:url seekTime:seekTime target:target selector:selector]];
+//		return NO;
+//	}
+//}
+//
+//- (bool) preloadFileAsync:(NSString*) path target:(id) target selector:(SEL) selector
+//{
+//	return [self preloadFileAsync:path seekTime:0 target:target selector:selector];
+//}
+//
+//- (bool) preloadFileAsync:(NSString*) path seekTime:(NSTimeInterval)seekTime target:(id) target selector:(SEL) selector
+//{
+//	return [self preloadUrlAsync:[OALTools urlForPath:path] seekTime:seekTime target:target selector:selector];
+//}
+//
+//- (bool) playUrl:(NSURL*) url
+//{
+//	return [self playUrl:url loops:0];
+//}
+//
+//- (bool) playUrl:(NSURL*) url loops:(NSInteger) loops
+//{
+//	OPTIONALLY_SYNCHRONIZED(self)
+//	{
+//		if([self preloadUrl:url])
+//		{
+//			self.numberOfLoops = loops;
+//			return [self play];
+//		}
+//		return NO;
+//	}
+//}
+//
+//- (bool) playFile:(NSString*) path
+//{
+//#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+//	return [self playUrl:[OALTools urlForPath:path]];
+//#elif __CC_PLATFORM_ANDROID
+//	return [self playUrl:[NSURL fileURLWithPath:path]];
+//#endif
+//}
+//
+//- (bool) playFile:(NSString*) path loops:(NSInteger) loops
+//{
+//#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+//	return [self playUrl:[OALTools urlForPath:path] loops:loops];
+//#elif __CC_PLATFORM_ANDROID
+//    NSURL *url = [NSURL fileURLWithPath:path];
+//	return [self playUrl:[NSURL fileURLWithPath:path] loops:loops];
+//#endif
+//}
+//
+//- (void) playUrlAsync:(NSURL*) url target:(id) target selector:(SEL) selector
+//{
+//	[self playUrlAsync:url loops:0 target:target selector:selector];
+//}
+//
+//- (void) playUrlAsync:(NSURL*) url loops:(NSInteger) loops target:(id) target selector:(SEL) selector
+//{
+//	[operationQueue addOperation:[OAL_AsyncAudioTrackPlayOperation operationWithTrack:self url:url loops:loops target:target selector:selector]];
+//}
+//
+//- (void) playFileAsync:(NSString*) path target:(id) target selector:(SEL) selector
+//{
+//	[self playFileAsync:path loops:0 target:target selector:selector];
+//}
+//
+//- (void) playFileAsync:(NSString*) path loops:(NSInteger) loops target:(id) target selector:(SEL) selector
+//{
+//	[self playUrlAsync:[OALTools urlForPath:path] loops:loops target:target selector:selector];
+//}
+//
+//- (bool) play
+//{
+//	OPTIONALLY_SYNCHRONIZED(self)
+//	{
+//		[self stopActions];
+//#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+//        [player stop];
+//		player.currentTime = currentTime;
+//		player.volume = muted ? 0 : gain;
+//		player.numberOfLoops = numberOfLoops;
+//		paused = NO;
+//		playing = [player play];
+//#elif __CC_PLATFORM_ANDROID
+//        if ([player isPlaying]) {
+//            [player pause];
+//        }
+//        int currentPosition = [player currentPosition];
+//        if (currentPosition != -1 && currentPosition != 0) {
+//            [player seekToMsec:(int32_t)(currentTime * 1000)];
+//        }
+//        [self _updateVolume];
+//        [player setLooping:(-1 == numberOfLoops) ? YES : NO];
+//        paused = NO;
+//        [player start];
+//		playing = [player isPlaying];
+//#endif
+//        // Kick deviceCurrentTime so that it's valid next call
+//        [self deviceCurrentTime];
+//		if(playing)
+//		{
+//			[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:OALAudioTrackStartedPlayingNotification object:self] waitUntilDone:NO];
+//		}
+//		return playing;
+//	}
+//}
+//
+//- (bool) playAtTime:(NSTimeInterval) time
+//{
+//	OPTIONALLY_SYNCHRONIZED(self)
+//	{
+//        [self stopActions];
+//#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+//        [player stop];
+//        player.currentTime = currentTime;
+//        player.volume = muted ? 0 : gain;
+//        player.numberOfLoops = numberOfLoops;
+//        paused = NO;
+//        playing = [player playAtTime:time];
+//#elif __CC_PLATFORM_ANDROID
+//        [player stop];
+//        [player seekToMsec:(int32_t)(currentTime * 1000)];
+//        [self _updateVolume];
+//        [player setLooping:(-1 == numberOfLoops) ? YES : NO];
+//        paused = NO;
+//        [player start];
+//        playing = [player isPlaying];
+//#endif
+//        if(playing)
+//        {
+//            [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:OALAudioTrackStartedPlayingNotification object:self] waitUntilDone:NO];
+//        }
+//        return playing;
+//	}
+//}
+//
+//- (bool) playAfterTrack:(OALAudioTrack*) track
+//{
+//    return [self playAfterTrack:track timeAdjust:0];
+//}
+//
+//- (bool) playAfterTrack:(OALAudioTrack*) track timeAdjust:(NSTimeInterval) timeAdjust
+//{
+//    NSTimeInterval deviceTime = track.deviceCurrentTime;
+//    NSTimeInterval trackTimeRemaining = track.duration - track.currentTime;
+//    return [self playAtTime:deviceTime + trackTimeRemaining + timeAdjust];
+//}
+//
+//
+//- (void) stop
+//{
+//	OPTIONALLY_SYNCHRONIZED(self)
+//	{
+//		[self stopActions];
+//#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+//		[player stop];
+//#elif __CC_PLATFORM_ANDROID
+//		[player pause];
+//#endif
+//		if(playing)
+//		{
+//			[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:OALAudioTrackStoppedPlayingNotification object:self] waitUntilDone:NO];
+//		}
+//		
+//		self.currentTime = 0;
+//#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+//		player.currentTime = 0;
+//#elif __CC_PLATFORM_ANDROID
+//        [player seekToMsec:0];
+//#endif
+//		paused = NO;
+//		playing = NO;
+//		preloaded = NO;
+//	}
+//}
+//
+//- (void) stopActions
+//{
+//	[self stopFade];
+//	[self stopPan];
+//}
+//
+//
+//- (void) fadeTo:(float) value
+//	   duration:(float) duration
+//		 target:(id) target
+//	   selector:(SEL) selector
+//{
+//	// Must always be synchronized
+//	@synchronized(self)
+//	{
+//		[self stopFade];
+//		gainAction = [OALSequentialActions actions:
+//                      [OALPropertyAction gainActionWithDuration:duration endValue:value],
+//                      [OALCallAction actionWithCallTarget:target selector:selector withObject:self],
+//                      nil];
+//        gainAction = as_retain(gainAction);
+//		[gainAction runWithTarget:self];
+//	}
+//}
+//
+//- (void) stopFade
+//{
+//	// Must always be synchronized
+//	@synchronized(self)
+//	{
+//		[gainAction stopAction];
+//		as_release(gainAction);
+//		gainAction = nil;
+//	}
+//}
+//
+//- (void) panTo:(float) value
+//	  duration:(float) duration
+//		target:(id) target
+//	  selector:(SEL) selector
+//{
+//    // Must always be synchronized
+//    @synchronized(self)
+//    {
+//        [self stopPan];
+//        panAction = [OALSequentialActions actions:
+//                     [OALPropertyAction panActionWithDuration:duration endValue:value],
+//                     [OALCallAction actionWithCallTarget:target selector:selector withObject:self],
+//                     nil];
+//        panAction = as_retain(panAction);
+//        [panAction runWithTarget:self];
+//    }
+//}
+//
+//- (void) stopPan
+//{
+//    // Must always be synchronized
+//    @synchronized(self)
+//    {
+//        [panAction stopAction];
+//        as_release(panAction);
+//        panAction = nil;
+//    }
+//}
+//
+//- (void) clear
+//{
+//	OPTIONALLY_SYNCHRONIZED(self)
+//	{
+//		[self stopActions];
+//		as_release(currentlyLoadedUrl);
+//		currentlyLoadedUrl = nil;
+//		
+//		[player stop];
+//		as_release(player);
+//		player = nil;
+//		playing = NO;
+//		paused = NO;
+//		muted = NO;
+//
+//		if(playing)
+//		{
+//			[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:OALAudioTrackStoppedPlayingNotification object:self] waitUntilDone:NO];
+//		}
+//		
+//		self.currentTime = 0;
+//	}
+//}
+//
+//
+//#pragma mark Metering
+//
+//- (bool) meteringEnabled
+//{
+//    return meteringEnabled;
+//}
+//
+//- (void) setMeteringEnabled:(bool) value
+//{
+//	OPTIONALLY_SYNCHRONIZED(self)
+//	{
+//		meteringEnabled = value;
+//#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+//		player.meteringEnabled = meteringEnabled;
+//#endif
+//	}
+//}
+//
+//- (void) updateMeters
+//{
+//#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+//    [player updateMeters];
+//#endif
+//}
+//
+//- (float) averagePowerForChannel:(NSUInteger)channelNumber
+//{
+//	OPTIONALLY_SYNCHRONIZED(self)
+//	{
+//#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+//		return [player averagePowerForChannel:channelNumber];
+//#else
+//        return 1;
+//#endif
+//	}
+//}
+//
+//- (float) peakPowerForChannel:(NSUInteger)channelNumber
+//{
+//	OPTIONALLY_SYNCHRONIZED(self)
+//	{
+//#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+//		return [player peakPowerForChannel:channelNumber];
+//#else
+//        return 1;
+//#endif
+//	}
+//}
+//
+//
+//#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+//#pragma mark -
+//#pragma mark AVAudioPlayerDelegate
+//
+//#if TARGET_OS_IPHONE
+//
+//#pragma clang diagnostic push
+//#pragma clang diagnostic ignored "-Wdeprecated-implementations"
+//
+//- (void) audioPlayerBeginInterruption:(AVAudioPlayer*) playerIn
+//{
+//	if([delegate respondsToSelector:@selector(audioPlayerBeginInterruption:)])
+//	{
+//		[delegate audioPlayerBeginInterruption:playerIn];
+//	}
+//}
+//
+//- (void)audioPlayerEndInterruption:(AVAudioPlayer *)playerIn withOptions:(NSUInteger)flags
+//{
+//	if([delegate respondsToSelector:@selector(audioPlayerEndInterruption:withOptions:)])
+//	{
+//		[delegate audioPlayerEndInterruption:playerIn withOptions:flags];
+//	}
+//}
+//
+//#pragma clang diagnostic pop
+//
+//#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_6_0
+//- (void)audioPlayerEndInterruption:(AVAudioPlayer *)playerIn withFlags:(NSUInteger)flags
+//{
+//	if([delegate respondsToSelector:@selector(audioPlayerEndInterruption:withFlags:)])
+//	{
+//		[delegate audioPlayerEndInterruption:playerIn withFlags:flags];
+//	}
+//}
+//
+//- (void) audioPlayerEndInterruption:(AVAudioPlayer*) playerIn
+//{
+//	if([delegate respondsToSelector:@selector(audioPlayerEndInterruption:)])
+//	{
+//		[delegate audioPlayerEndInterruption:playerIn];
+//	}
+//}
+//#endif // __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_6_0
+//#endif // TARGET_OS_IPHONE
+//
+//- (void) audioPlayerDecodeErrorDidOccur:(AVAudioPlayer*) playerIn error:(NSError*) error
+//{
+//	if([delegate respondsToSelector:@selector(audioPlayerDecodeErrorDidOccur:error:)])
+//	{
+//		[delegate audioPlayerDecodeErrorDidOccur:playerIn error:error];
+//	}
+//}
+//
+//- (void) audioPlayerDidFinishPlaying:(AVAudioPlayer*) playerIn successfully:(BOOL) flag
+//{
+//	OPTIONALLY_SYNCHRONIZED(self)
+//	{
+//		playing = NO;
+//		paused = NO;
+//		preloaded = NO;
+//		if(autoPreload)
+//		{
+//			preloaded = [player prepareToPlay];
+//			if(!preloaded)
+//			{
+//				OAL_LOG_ERROR(@"%@: Failed to prepareToPlay: %@", self, currentlyLoadedUrl);
+//			}
+//		}
+//	}
+//	if([delegate respondsToSelector:@selector(audioPlayerDidFinishPlaying:successfully:)])
+//	{
+//		[delegate audioPlayerDidFinishPlaying:playerIn successfully:flag];
+//	}
+//	
+//	[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:OALAudioTrackFinishedPlayingNotification object:self] waitUntilDone:NO];
+//}
+//
+//#endif
+//@end
+//
+//
+///////
 //
 //  OALAudioTrack.m
 //  ObjectAL
@@ -35,13 +1264,6 @@
 #import "ObjectALMacros.h"
 #import "ARCSafe_MemMgmt.h"
 
-#if __CC_PLATFORM_ANDROID
-#import <AndroidKit/AndroidAssetFileDescriptor.h>
-#import <AndroidKit/AndroidAssetManager.h>
-#import <JavaKit/JavaFileDescriptor.h>
-#import "CCActivity.h"
-#endif
-
 #pragma mark Asynchronous Operations
 
 /** \cond */
@@ -50,16 +1272,16 @@
  */
 @interface OAL_AsyncAudioTrackOperation: NSOperation
 {
-	/** The audio track object to perform the operation on */
-	OALAudioTrack* audioTrack;
-	/** The URL of the sound file to play */
-	NSURL* url;
-	/** The seekTime of the sound file */
-	NSTimeInterval seekTime;
-	/** The target to inform when the operation completes */
-	id target;
-	/** The selector to call when the operation completes */
-	SEL selector;
+    /** The audio track object to perform the operation on */
+    OALAudioTrack* audioTrack;
+    /** The URL of the sound file to play */
+    NSURL* url;
+    /** The seekTime of the sound file */
+    NSTimeInterval seekTime;
+    /** The target to inform when the operation completes */
+    id target;
+    /** The selector to call when the operation completes */
+    SEL selector;
 }
 
 /** (INTERNAL USE) Create a new Asynchronous Operation.
@@ -69,7 +1291,7 @@
  * @param url the URL containing the sound file.
  * @param target the target to inform when the operation completes.
  * @param selector the selector to call when the operation completes.
- */ 
+ */
 + (id) operationWithTrack:(OALAudioTrack*) track url:(NSURL*) url seekTime:(NSTimeInterval)seekTime target:(id) target selector:(SEL) selector;
 
 /** (INTERNAL USE) Initialize an Asynchronous Operation.
@@ -79,7 +1301,7 @@
  * @param url the URL containing the sound file.
  * @param target the target to inform when the operation completes.
  * @param selector the selector to call when the operation completes.
- */ 
+ */
 - (id) initWithTrack:(OALAudioTrack*) track url:(NSURL*) url seekTime:(NSTimeInterval)seekTime target:(id) target selector:(SEL) selector;
 
 @end
@@ -88,26 +1310,26 @@
 
 + (id) operationWithTrack:(OALAudioTrack*) track url:(NSURL*) url seekTime:(NSTimeInterval)seekTime target:(id) target selector:(SEL) selector
 {
-	return as_autorelease([[self alloc] initWithTrack:track url:url seekTime:seekTime target:target selector:selector]);
+    return as_autorelease([[self alloc] initWithTrack:track url:url seekTime:seekTime target:target selector:selector]);
 }
 
 - (id) initWithTrack:(OALAudioTrack*) track url:(NSURL*) urlIn seekTime:(NSTimeInterval)seekTimeIn target:(id) targetIn selector:(SEL) selectorIn
 {
-	if(nil != (self = [super init]))
-	{
-		audioTrack = as_retain(track);
-		url = as_retain(urlIn);
-		seekTime = seekTimeIn;
-		target = targetIn;
-		selector = selectorIn;
-	}
-	return self;
+    if(nil != (self = [super init]))
+    {
+        audioTrack = as_retain(track);
+        url = as_retain(urlIn);
+        seekTime = seekTimeIn;
+        target = targetIn;
+        selector = selectorIn;
+    }
+    return self;
 }
 
 - (void) dealloc
 {
-	as_release(audioTrack);
-	as_release(url);
+    as_release(audioTrack);
+    as_release(url);
     as_superdealloc();
 }
 
@@ -119,8 +1341,8 @@
  */
 @interface OAL_AsyncAudioTrackPlayOperation : OAL_AsyncAudioTrackOperation
 {
-	/** The number of times to loop during playback */
-	NSInteger loops;
+    /** The number of times to loop during playback */
+    NSInteger loops;
 }
 
 /**
@@ -154,27 +1376,27 @@
 
 + (id) operationWithTrack:(OALAudioTrack*) track url:(NSURL*) url loops:(NSInteger) loops target:(id) target selector:(SEL) selector
 {
-	return as_autorelease([[self alloc] initWithTrack:track url:url loops:loops target:target selector:selector]);
+    return as_autorelease([[self alloc] initWithTrack:track url:url loops:loops target:target selector:selector]);
 }
 
 - (id) initWithTrack:(OALAudioTrack*) track url:(NSURL*) urlIn loops:(NSInteger) loopsIn target:(id) targetIn selector:(SEL) selectorIn
 {
-	if(nil != (self = [super initWithTrack:track url:urlIn seekTime:0 target:targetIn selector:selectorIn]))
-	{
-		loops = loopsIn;
-	}
-	return self;
+    if(nil != (self = [super initWithTrack:track url:urlIn seekTime:0 target:targetIn selector:selectorIn]))
+    {
+        loops = loopsIn;
+    }
+    return self;
 }
 
 - (id) initWithTrack:(OALAudioTrack*) track url:(NSURL*) urlIn target:(id) targetIn selector:(SEL) selectorIn
 {
-	return [self initWithTrack:track url:urlIn loops:0 target:targetIn selector:selectorIn];
+    return [self initWithTrack:track url:urlIn loops:0 target:targetIn selector:selectorIn];
 }
 
 - (void)main
 {
-	[audioTrack playUrl:url loops:loops];
-	[target performSelectorOnMainThread:selector withObject:audioTrack waitUntilDone:NO];
+    [audioTrack playUrl:url loops:loops];
+    [target performSelectorOnMainThread:selector withObject:audioTrack waitUntilDone:NO];
 }
 
 @end
@@ -194,8 +1416,8 @@
 
 - (void)main
 {
-	[audioTrack preloadUrl:url seekTime:seekTime];
-	[target performSelectorOnMainThread:selector withObject:audioTrack waitUntilDone:NO];
+    [audioTrack preloadUrl:url seekTime:seekTime];
+    [target performSelectorOnMainThread:selector withObject:audioTrack waitUntilDone:NO];
 }
 
 @end
@@ -224,72 +1446,64 @@
 
 + (id) track
 {
-	return as_autorelease([[self alloc] init]);
+    return as_autorelease([[self alloc] init]);
 }
 
 - (id) init
 {
-	if(nil != (self = [super init]))
-	{
-		OAL_LOG_DEBUG(@"%@: Init", self);
-		
-		suspendHandler = [[OALSuspendHandler alloc] initWithTarget:self selector:@selector(setSuspended:)];
-
-		operationQueue = [[NSOperationQueue alloc] init];
-		operationQueue.maxConcurrentOperationCount = 1;
-		gain = 1.0f;
-		numberOfLoops = 0;
-		currentTime = 0.0;
-		
-#if __CC_PLATFORM_ANDROID
-        // We have to manually pause tracks
-        suspended = NO;
-#endif
-		[[OALAudioTracks sharedInstance] notifyTrackInitializing:self];
-		[[OALAudioTracks sharedInstance] addSuspendListener:self];
-	}
-	return self;
+    if(nil != (self = [super init]))
+    {
+        OAL_LOG_DEBUG(@"%@: Init", self);
+        
+        suspendHandler = [[OALSuspendHandler alloc] initWithTarget:self selector:@selector(setSuspended:)];
+        
+        operationQueue = [[NSOperationQueue alloc] init];
+        operationQueue.maxConcurrentOperationCount = 1;
+        gain = 1.0f;
+        numberOfLoops = 0;
+        currentTime = 0.0;
+        
+        [[OALAudioTracks sharedInstance] notifyTrackInitializing:self];
+        [[OALAudioTracks sharedInstance] addSuspendListener:self];
+    }
+    return self;
 }
 
 - (void) dealloc
 {
-	OAL_LOG_DEBUG(@"%@: Dealloc", self);
-	[[OALAudioTracks sharedInstance] removeSuspendListener:self];
-	[[OALAudioTracks sharedInstance] notifyTrackDeallocating:self];
-
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+    OAL_LOG_DEBUG(@"%@: Dealloc", self);
+    [[OALAudioTracks sharedInstance] removeSuspendListener:self];
+    [[OALAudioTracks sharedInstance] notifyTrackDeallocating:self];
+    
     player.delegate = nil;
-#elif __CC_PLATFORM_ANDROID
-    [player setOnCompletionListener:nil];
-#endif
     [player stop];
-
-	as_release(player);
-	as_release(operationQueue);
-	as_release(currentlyLoadedUrl);
-	as_release(simulatorPlayerRef);
-	[gainAction stopAction];
-	as_release(gainAction);
-	[panAction stopAction];
-	as_release(panAction);
-	as_release(suspendHandler);
-	as_superdealloc();
+    
+    as_release(player);
+    as_release(operationQueue);
+    as_release(currentlyLoadedUrl);
+    as_release(simulatorPlayerRef);
+    [gainAction stopAction];
+    as_release(gainAction);
+    [panAction stopAction];
+    as_release(panAction);
+    as_release(suspendHandler);
+    as_superdealloc();
 }
 
 
 - (NSString*) description
 {
-	return [NSString stringWithFormat:@"<%@: %p: %@>", [self class], self, [currentlyLoadedUrl lastPathComponent]];
+    return [NSString stringWithFormat:@"<%@: %p: %@>", [self class], self, [currentlyLoadedUrl lastPathComponent]];
 }
 
 #pragma mark Properties
 
 @synthesize currentlyLoadedUrl;
+
 @synthesize autoPreload;
 
 @synthesize preloaded;
 
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
 - (id<AVAudioPlayerDelegate>) delegate
 {
     return delegate;
@@ -299,48 +1513,6 @@
 {
     delegate = value;
 }
-#elif __CC_PLATFORM_ANDROID
-- (id) delegate
-{
-    return delegate;
-}
-
-- (void) setDelegate:(id) value
-{
-    delegate = value;
-}
-
-- (void) _updateVolume {
-    float right = 0;
-    float left = 0;
-    if (muted) {
-        left = 0;
-        right = 0;
-    } else {
-        // Constant power panning
-        float piovr2 = 4.0f * atanf(1.0) * 0.5f;
-        float root2ovr2 = sqrtf(2.0) * 0.5f;
-        float thispos = pan * piovr2;
-        float angle = thispos * 0.5f;
-        left = root2ovr2 * (cosf(angle) - sinf(angle));
-        right = root2ovr2 * (cosf(angle) + sinf(angle));
-        left *= gain;
-        right *= gain;
-    }
-    [player setVolume:left rightVolume:right];
-}
-
-- (void)onCompletion:(AndroidMediaPlayer *)mp {
-    if (mp != player) {
-        return;
-    }
-    if (numberOfLoops > 0) {
-        [player start];
-        numberOfLoops--;
-    }
-}
-
-#endif
 
 - (float) pan
 {
@@ -349,20 +1521,16 @@
 
 - (void) setPan:(float) value
 {
-	OPTIONALLY_SYNCHRONIZED(self)
-	{
+    OPTIONALLY_SYNCHRONIZED(self)
+    {
         pan = value;
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
         player.pan = pan;
-#elif __CC_PLATFORM_ANDROID
-        [self _updateVolume];
-#endif
-	}
+    }
 }
 
 - (float) volume
 {
-	return self.gain;
+    return self.gain;
 }
 
 - (float) gain
@@ -372,24 +1540,20 @@
 
 - (void) setVolume:(float) value
 {
-	self.gain = value;
+    self.gain = value;
 }
 
 - (void) setGain:(float) value
 {
-	OPTIONALLY_SYNCHRONIZED(self)
-	{
-		gain = value;
-		if(muted)
-		{
-			value = 0;
-		}
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
-		player.volume = value;
-#elif __CC_PLATFORM_ANDROID
-        [self _updateVolume];
-#endif
-	}
+    OPTIONALLY_SYNCHRONIZED(self)
+    {
+        gain = value;
+        if(muted)
+        {
+            value = 0;
+        }
+        player.volume = value;
+    }
 }
 
 - (bool) muted
@@ -399,16 +1563,16 @@
 
 - (void) setMuted:(bool) value
 {
-	OPTIONALLY_SYNCHRONIZED(self)
-	{
-		muted = value;
-		if(muted)
-		{
-			[self stopActions];
-		}
-		// Force a re-evaluation of gain.
-		[self setGain:gain];
-	}
+    OPTIONALLY_SYNCHRONIZED(self)
+    {
+        muted = value;
+        if(muted)
+        {
+            [self stopActions];
+        }
+        // Force a re-evaluation of gain.
+        [self setGain:gain];
+    }
 }
 
 - (NSInteger) numberOfLoops
@@ -418,17 +1582,10 @@
 
 - (void) setNumberOfLoops:(NSInteger) value
 {
-	OPTIONALLY_SYNCHRONIZED(self)
-	{
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
-		player.numberOfLoops = numberOfLoops = value;
-#elif __CC_PLATFORM_ANDROID
-        numberOfLoops = value;
-        if (value == -1) {
-            [player setLooping:YES];
-        }
-#endif
-	}
+    OPTIONALLY_SYNCHRONIZED(self)
+    {
+        player.numberOfLoops = numberOfLoops = value;
+    }
 }
 
 - (bool) paused
@@ -438,38 +1595,33 @@
 
 - (void) setPaused:(bool) value
 {
-	OPTIONALLY_SYNCHRONIZED(self)
-	{
-		if(paused != value)
-		{
-			paused = value;
-			if(paused)
-			{
-				OAL_LOG_DEBUG(@"%@: Pause", self);
-				[player pause];
-				if(playing)
-				{
-					[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:)
-																		   withObject:[NSNotification notificationWithName:OALAudioTrackStoppedPlayingNotification object:self] waitUntilDone:NO];
-				}
-			}
-			else if(playing)
-			{
-				OAL_LOG_DEBUG(@"%@: Unpause", self);
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
-				playing = [player play];
-#elif __CC_PLATFORM_ANDROID
-                [player start];
-				playing = [player isPlaying];
-#endif
-				if(playing)
-				{
-					[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:)
-																		   withObject:[NSNotification notificationWithName:OALAudioTrackStartedPlayingNotification object:self] waitUntilDone:NO];
-				}
-			}
-		}
-	}
+    OPTIONALLY_SYNCHRONIZED(self)
+    {
+        if(paused != value)
+        {
+            paused = value;
+            if(paused)
+            {
+                OAL_LOG_DEBUG(@"%@: Pause", self);
+                [player pause];
+                if(playing)
+                {
+                    [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:)
+                                                                           withObject:[NSNotification notificationWithName:OALAudioTrackStoppedPlayingNotification object:self] waitUntilDone:NO];
+                }
+            }
+            else if(playing)
+            {
+                OAL_LOG_DEBUG(@"%@: Unpause", self);
+                playing = [player play];
+                if(playing)
+                {
+                    [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:)
+                                                                           withObject:[NSNotification notificationWithName:OALAudioTrackStartedPlayingNotification object:self] waitUntilDone:NO];
+                }
+            }
+        }
+    }
 }
 
 @synthesize player;
@@ -478,66 +1630,46 @@
 
 - (NSTimeInterval) currentTime
 {
-	OPTIONALLY_SYNCHRONIZED(self)
-	{
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
-		return (nil == player) ? currentTime : player.currentTime;
-#elif __CC_PLATFORM_ANDROID
-        if (player.isPlaying) {
-            return [self deviceCurrentTime];
-        }
-        return currentTime;
-#endif
-	}
+    OPTIONALLY_SYNCHRONIZED(self)
+    {
+        return (nil == player) ? currentTime : player.currentTime;
+    }
 }
 
 - (void) setCurrentTime:(NSTimeInterval) value
 {
-	OPTIONALLY_SYNCHRONIZED(self)
-	{
-		currentTime = value;
-		if(nil != player)
-		{
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
-			player.currentTime = currentTime;
-#elif __CC_PLATFORM_ANDROID
-            [player seekToMsec:(int)(value * 1000)];
-#endif
-		}
-	}
+    OPTIONALLY_SYNCHRONIZED(self)
+    {
+        currentTime = value;
+        if(nil != player)
+        {
+            player.currentTime = currentTime;
+        }
+    }
 }
 
 - (NSTimeInterval) deviceCurrentTime
 {
-	OPTIONALLY_SYNCHRONIZED(self)
-	{
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+    OPTIONALLY_SYNCHRONIZED(self)
+    {
         return player.deviceCurrentTime;
-#elif __CC_PLATFORM_ANDROID
-        return ((NSTimeInterval) [player currentPosition]) / 1000;
-#endif
-	}
+    }
 }
 
 - (NSTimeInterval) duration
 {
-	OPTIONALLY_SYNCHRONIZED(self)
-	{
-		return player.duration;
-	}
+    OPTIONALLY_SYNCHRONIZED(self)
+    {
+        return player.duration;
+    }
 }
 
 - (NSUInteger) numberOfChannels
 {
-	OPTIONALLY_SYNCHRONIZED(self)
-	{
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+    OPTIONALLY_SYNCHRONIZED(self)
+    {
         return player.numberOfChannels;
-#elif __CC_PLATFORM_ANDROID
-#warning FIXME need trackInfo / getFormat / MediaFormat / KEY_CHANNEL_COUNT
-        return (NSUInteger) 2;
-#endif
-	}
+    }
 }
 
 
@@ -545,54 +1677,53 @@
 
 - (void) addSuspendListener:(id<OALSuspendListener>) listenerIn
 {
-	[suspendHandler addSuspendListener:listenerIn];
+    [suspendHandler addSuspendListener:listenerIn];
 }
 
 - (void) removeSuspendListener:(id<OALSuspendListener>) listenerIn
 {
-	[suspendHandler removeSuspendListener:listenerIn];
+    [suspendHandler removeSuspendListener:listenerIn];
 }
 
 - (bool) manuallySuspended
 {
-	return suspendHandler.manuallySuspended;
+    return suspendHandler.manuallySuspended;
 }
 
 - (void) setManuallySuspended:(bool) value
 {
-	suspendHandler.manuallySuspended = value;
+    suspendHandler.manuallySuspended = value;
 }
 
 - (bool) interrupted
 {
-	return suspendHandler.interrupted;
+    return suspendHandler.interrupted;
 }
 
 - (void) setInterrupted:(bool) value
 {
-	suspendHandler.interrupted = value;
+    suspendHandler.interrupted = value;
 }
 
 - (bool) suspended
 {
-	return suspendHandler.suspended;
+    return suspendHandler.suspended;
 }
 
 - (void) setSuspended:(bool) value
 {
-	/* Suspend gets a bit complicated here.
-	 * If multiple AVAudioPlayers are playing when an interrupt begins,
-	 * only one of them will resume when the interrupt finishes.
-	 * To counter this, we destroy the player and rebuild it on resume.
-	 *
-	 * Note: This has the unfortunate side effect that the OALAudioTrack
-	 * using hardware playback on resume may not be the same one!
-	 *
-	 * TODO: Need to find a way to avoid this situation.
-	 */
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
-	OPTIONALLY_SYNCHRONIZED(self)
-	{
+    /* Suspend gets a bit complicated here.
+     * If multiple AVAudioPlayers are playing when an interrupt begins,
+     * only one of them will resume when the interrupt finishes.
+     * To counter this, we destroy the player and rebuild it on resume.
+     *
+     * Note: This has the unfortunate side effect that the OALAudioTrack
+     * using hardware playback on resume may not be the same one!
+     *
+     * TODO: Need to find a way to avoid this situation.
+     */
+    OPTIONALLY_SYNCHRONIZED(self)
+    {
         if(value)
         {
             if(preloaded)
@@ -608,7 +1739,7 @@
         {
             if(preloaded)
             {
-                NSError* error = nil;
+                NSError* error;
                 as_release(player);
                 player = [[AVAudioPlayer alloc] initWithContentsOfURL:currentlyLoadedUrl error:&error];
                 if(nil == player)
@@ -622,15 +1753,15 @@
                     paused = NO;
                     return;
                 }
-
+                
                 player.volume = muted ? 0 : gain;
                 player.numberOfLoops = numberOfLoops;
                 player.meteringEnabled = meteringEnabled;
                 player.delegate = self;
                 player.pan = pan;
-
+                
                 player.currentTime = currentTime;
-
+                
                 if(![player prepareToPlay])
                 {
                     OAL_LOG_ERROR(@"%@: Failed to prepareToPlay on resume: %@", self, currentlyLoadedUrl);
@@ -655,40 +1786,24 @@
         
         
         /*
-        if(value)
-        {
-            if(self.playing && !self.paused)
-            {
-                currentTime = player.currentTime;
-                [player pause];
-            }
-        }
-        else
-        {
-            if(self.playing && !self.paused)
-            {
-                player.currentTime = currentTime;
-                [player play];
-            }
-        }
+         if(value)
+         {
+         if(self.playing && !self.paused)
+         {
+         currentTime = player.currentTime;
+         [player pause];
+         }
+         }
+         else
+         {
+         if(self.playing && !self.paused)
+         {
+         player.currentTime = currentTime;
+         [player play];
+         }
+         }
          */
     }
-#elif __CC_PLATFORM_ANDROID
-	OPTIONALLY_SYNCHRONIZED(self)
-    {
-        if (value) {
-            if ([player isPlaying]) {
-                [player pause];
-                suspended = YES;
-            }
-        } else {
-            if (suspended) {
-                [player start];
-                suspended = NO;
-            }
-        }
-    }
-#endif
 }
 
 
@@ -696,272 +1811,193 @@
 
 - (bool) preloadUrl:(NSURL*) url
 {
-	return [self preloadUrl:url seekTime:0];
+    return [self preloadUrl:url seekTime:0];
 }
-
-#if __CC_PLATFORM_ANDROID
-- (void) _setPreloaded:(BOOL)value {
-    preloaded = value;
-}
-#endif
 
 - (bool) preloadUrl:(NSURL*) url seekTime:(NSTimeInterval)seekTime
 {
-	if(nil == url)
-	{
-		OAL_LOG_ERROR(@"%@: Cannot open NULL file / url", self);
-		return NO;
-	}
-	
-	OPTIONALLY_SYNCHRONIZED(self)
-	{
-		// Bug: No longer re-using AVAudioPlayer because of bugs when using multiple players.
-		// Playing two tracks, then stopping one and starting it again will cause prepareToPlay to fail.
-		
-		bool wasPlaying = playing;
-
-		[self stopActions];
-		
-		if(playing || paused)
-		{
-			[player stop];
-		}
-
-		as_release(player);
-
-		if(wasPlaying)
-		{
-			[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:OALAudioTrackStoppedPlayingNotification object:self] waitUntilDone:NO];
-		}
-		
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
-		NSError* error = nil;
-		player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
-		if(nil != error)
-		{
-			OAL_LOG_ERROR(@"%@: Could not load URL %@: %@", self, url, [error localizedDescription]);
-			return NO;
-		}
-		
-		player.volume = muted ? 0 : gain;
-		player.numberOfLoops = numberOfLoops;
-		player.meteringEnabled = meteringEnabled;
-		player.delegate = self;
-        player.pan = pan;
-
-#elif __CC_PLATFORM_ANDROID
-        NSURL *fullURL = [OALTools urlForPath:[url relativeString]];
-        NSString *path = [fullURL path];
-        NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
+    if(nil == url)
+    {
+        OAL_LOG_ERROR(@"%@: Cannot open NULL file / url", self);
+        return NO;
+    }
+    
+    OPTIONALLY_SYNCHRONIZED(self)
+    {
+        // Bug: No longer re-using AVAudioPlayer because of bugs when using multiple players.
+        // Playing two tracks, then stopping one and starting it again will cause prepareToPlay to fail.
         
-        if ([path hasPrefix:bundlePath]) {
-            NSUInteger bundlePathLength = [bundlePath length] + 1;
-            path = [path substringWithRange:NSMakeRange(bundlePathLength, [path length] - bundlePathLength)];
+        bool wasPlaying = playing;
+        
+        [self stopActions];
+        
+        if(playing || paused)
+        {
+            [player stop];
         }
         
-        if (![[NSFileManager defaultManager] fileExistsAtPath:path]){
-            OAL_LOG_ERROR(@"%@ Could not find file at path:%@", self, path);
+        as_release(player);
+        
+        if(wasPlaying)
+        {
+            [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:OALAudioTrackStoppedPlayingNotification object:self] waitUntilDone:NO];
+        }
+        
+        NSError* error;
+        player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
+        if(nil == player)
+        {
+            OAL_LOG_ERROR(@"%@: Could not load URL %@: %@", self, url, [error localizedDescription]);
             return NO;
         }
-        player = [[AndroidMediaPlayer alloc] init];
-        AndroidAssetFileDescriptor *assetFd = [[[CCActivity currentActivity] assets] openFd:path];
-        if (assetFd.fileDescriptor && [assetFd.fileDescriptor valid]) {
-            [player reset];
-            [player setDataSource:assetFd.fileDescriptor offset:assetFd.startOffset length:assetFd.length];
-            [player prepare];
-        } else {
-            [player setDataSourceByPath:[url absoluteString]];
-            [player prepareAsync];
+        
+        player.volume = muted ? 0 : gain;
+        player.numberOfLoops = numberOfLoops;
+        player.meteringEnabled = meteringEnabled;
+        player.delegate = self;
+        player.pan = pan;
+        
+        as_release(currentlyLoadedUrl);
+        currentlyLoadedUrl = as_retain(url);
+        
+        self.currentTime = seekTime;
+        playing = NO;
+        paused = NO;
+        
+        BOOL allOK = [player prepareToPlay];
+        if(!allOK)
+        {
+            OAL_LOG_ERROR(@"%@: Failed to prepareToPlay: %@", self, url);
         }
-        if (assetFd) {
-            [assetFd close];
+        else
+        {
+            [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:OALAudioTrackSourceChangedNotification object:self] waitUntilDone:NO];
         }
-
-        __weak id weakSelf = self;
-        [player setOnCompletionListener:[AndroidMediaPlayerOnCompletionListener listenerWithBlock:^(AndroidMediaPlayer *mp) {
-            [weakSelf onCompletion:mp];
-        }]];
-#endif
-		as_release(currentlyLoadedUrl);
-		currentlyLoadedUrl = as_retain(url);
-		
-		self.currentTime = seekTime;
-		playing = NO;
-		paused = NO;
-
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
-		BOOL allOK = [player prepareToPlay];
-		if(!allOK)
-		{
-			OAL_LOG_ERROR(@"%@: Failed to prepareToPlay: %@", self, url);
-		}
-		else
-		{
-			[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:OALAudioTrackSourceChangedNotification object:self] waitUntilDone:NO];
-		}
-		preloaded = allOK;
-		return allOK;
-#elif __CC_PLATFORM_ANDROID
-		[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:OALAudioTrackSourceChangedNotification object:self] waitUntilDone:NO];
-        return YES;
-#endif
-	}
+        preloaded = allOK;
+        return allOK;
+    }
 }
 
 - (bool) preloadFile:(NSString*) path
 {
-	return [self preloadFile:path seekTime:0];
+    return [self preloadFile:path seekTime:0];
 }
 
 - (bool) preloadFile:(NSString*) path seekTime:(NSTimeInterval)seekTime
 {
-	return [self preloadUrl:[OALTools urlForPath:path] seekTime:seekTime];
+    return [self preloadUrl:[OALTools urlForPath:path] seekTime:seekTime];
 }
 
 - (bool) preloadUrlAsync:(NSURL*) url target:(id) target selector:(SEL) selector
 {
-	return [self preloadUrlAsync:url seekTime:0 target:target selector:selector];
+    return [self preloadUrlAsync:url seekTime:0 target:target selector:selector];
 }
 
 - (bool) preloadUrlAsync:(NSURL*) url seekTime:(NSTimeInterval)seekTime target:(id) target selector:(SEL) selector
 {
-	OPTIONALLY_SYNCHRONIZED(self)
-	{
-		[operationQueue addOperation:[OAL_AsyncAudioTrackPreloadOperation operationWithTrack:self url:url seekTime:seekTime target:target selector:selector]];
-		return NO;
-	}
+    OPTIONALLY_SYNCHRONIZED(self)
+    {
+        [operationQueue addOperation:[OAL_AsyncAudioTrackPreloadOperation operationWithTrack:self url:url seekTime:seekTime target:target selector:selector]];
+        return NO;
+    }
 }
 
 - (bool) preloadFileAsync:(NSString*) path target:(id) target selector:(SEL) selector
 {
-	return [self preloadFileAsync:path seekTime:0 target:target selector:selector];
+    return [self preloadFileAsync:path seekTime:0 target:target selector:selector];
 }
 
 - (bool) preloadFileAsync:(NSString*) path seekTime:(NSTimeInterval)seekTime target:(id) target selector:(SEL) selector
 {
-	return [self preloadUrlAsync:[OALTools urlForPath:path] seekTime:seekTime target:target selector:selector];
+    return [self preloadUrlAsync:[OALTools urlForPath:path] seekTime:seekTime target:target selector:selector];
 }
 
 - (bool) playUrl:(NSURL*) url
 {
-	return [self playUrl:url loops:0];
+    return [self playUrl:url loops:0];
 }
 
 - (bool) playUrl:(NSURL*) url loops:(NSInteger) loops
 {
-	OPTIONALLY_SYNCHRONIZED(self)
-	{
-		if([self preloadUrl:url])
-		{
-			self.numberOfLoops = loops;
-			return [self play];
-		}
-		return NO;
-	}
+    OPTIONALLY_SYNCHRONIZED(self)
+    {
+        if([self preloadUrl:url])
+        {
+            self.numberOfLoops = loops;
+            return [self play];
+        }
+        return NO;
+    }
 }
 
 - (bool) playFile:(NSString*) path
 {
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
-	return [self playUrl:[OALTools urlForPath:path]];
-#elif __CC_PLATFORM_ANDROID
-	return [self playUrl:[NSURL fileURLWithPath:path]];
-#endif
+    return [self playUrl:[OALTools urlForPath:path]];
 }
 
 - (bool) playFile:(NSString*) path loops:(NSInteger) loops
 {
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
-	return [self playUrl:[OALTools urlForPath:path] loops:loops];
-#elif __CC_PLATFORM_ANDROID
-    NSURL *url = [NSURL fileURLWithPath:path];
-	return [self playUrl:[NSURL fileURLWithPath:path] loops:loops];
-#endif
+    return [self playUrl:[OALTools urlForPath:path] loops:loops];
 }
 
 - (void) playUrlAsync:(NSURL*) url target:(id) target selector:(SEL) selector
 {
-	[self playUrlAsync:url loops:0 target:target selector:selector];
+    [self playUrlAsync:url loops:0 target:target selector:selector];
 }
 
 - (void) playUrlAsync:(NSURL*) url loops:(NSInteger) loops target:(id) target selector:(SEL) selector
 {
-	[operationQueue addOperation:[OAL_AsyncAudioTrackPlayOperation operationWithTrack:self url:url loops:loops target:target selector:selector]];
+    [operationQueue addOperation:[OAL_AsyncAudioTrackPlayOperation operationWithTrack:self url:url loops:loops target:target selector:selector]];
 }
 
 - (void) playFileAsync:(NSString*) path target:(id) target selector:(SEL) selector
 {
-	[self playFileAsync:path loops:0 target:target selector:selector];
+    [self playFileAsync:path loops:0 target:target selector:selector];
 }
 
 - (void) playFileAsync:(NSString*) path loops:(NSInteger) loops target:(id) target selector:(SEL) selector
 {
-	[self playUrlAsync:[OALTools urlForPath:path] loops:loops target:target selector:selector];
+    [self playUrlAsync:[OALTools urlForPath:path] loops:loops target:target selector:selector];
 }
 
 - (bool) play
 {
-	OPTIONALLY_SYNCHRONIZED(self)
-	{
-		[self stopActions];
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
+    OPTIONALLY_SYNCHRONIZED(self)
+    {
+        [self stopActions];
         [player stop];
-		player.currentTime = currentTime;
-		player.volume = muted ? 0 : gain;
-		player.numberOfLoops = numberOfLoops;
-		paused = NO;
-		playing = [player play];
-#elif __CC_PLATFORM_ANDROID
-        if ([player isPlaying]) {
-            [player pause];
-        }
-        int currentPosition = [player currentPosition];
-        if (currentPosition != -1 && currentPosition != 0) {
-            [player seekToMsec:(int32_t)(currentTime * 1000)];
-        }
-        [self _updateVolume];
-        [player setLooping:(-1 == numberOfLoops) ? YES : NO];
+        player.currentTime = currentTime;
+        player.volume = muted ? 0 : gain;
+        player.numberOfLoops = numberOfLoops;
         paused = NO;
-        [player start];
-		playing = [player isPlaying];
-#endif
+        playing = [player play];
         // Kick deviceCurrentTime so that it's valid next call
         [self deviceCurrentTime];
-		if(playing)
-		{
-			[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:OALAudioTrackStartedPlayingNotification object:self] waitUntilDone:NO];
-		}
-		return playing;
-	}
+        if(playing)
+        {
+            [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:OALAudioTrackStartedPlayingNotification object:self] waitUntilDone:NO];
+        }
+        return playing;
+    }
 }
 
 - (bool) playAtTime:(NSTimeInterval) time
 {
-	OPTIONALLY_SYNCHRONIZED(self)
-	{
+    OPTIONALLY_SYNCHRONIZED(self)
+    {
         [self stopActions];
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
         [player stop];
         player.currentTime = currentTime;
         player.volume = muted ? 0 : gain;
         player.numberOfLoops = numberOfLoops;
         paused = NO;
         playing = [player playAtTime:time];
-#elif __CC_PLATFORM_ANDROID
-        [player stop];
-        [player seekToMsec:(int32_t)(currentTime * 1000)];
-        [self _updateVolume];
-        [player setLooping:(-1 == numberOfLoops) ? YES : NO];
-        paused = NO;
-        [player start];
-        playing = [player isPlaying];
-#endif
         if(playing)
         {
             [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:OALAudioTrackStartedPlayingNotification object:self] waitUntilDone:NO];
         }
         return playing;
-	}
+    }
 }
 
 - (bool) playAfterTrack:(OALAudioTrack*) track
@@ -979,71 +2015,63 @@
 
 - (void) stop
 {
-	OPTIONALLY_SYNCHRONIZED(self)
-	{
-		[self stopActions];
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
-		[player stop];
-#elif __CC_PLATFORM_ANDROID
-		[player pause];
-#endif
-		if(playing)
-		{
-			[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:OALAudioTrackStoppedPlayingNotification object:self] waitUntilDone:NO];
-		}
-		
-		self.currentTime = 0;
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
-		player.currentTime = 0;
-#elif __CC_PLATFORM_ANDROID
-        [player seekToMsec:0];
-#endif
-		paused = NO;
-		playing = NO;
-		preloaded = NO;
-	}
+    OPTIONALLY_SYNCHRONIZED(self)
+    {
+        [self stopActions];
+        [player stop];
+        if(playing)
+        {
+            [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:OALAudioTrackStoppedPlayingNotification object:self] waitUntilDone:NO];
+        }
+        
+        self.currentTime = 0;
+        player.currentTime = 0;
+        paused = NO;
+        playing = NO;
+        preloaded = NO;
+    }
 }
 
 - (void) stopActions
 {
-	[self stopFade];
-	[self stopPan];
+    [self stopFade];
+    [self stopPan];
 }
 
 
 - (void) fadeTo:(float) value
-	   duration:(float) duration
-		 target:(id) target
-	   selector:(SEL) selector
+       duration:(float) duration
+         target:(id) target
+       selector:(SEL) selector
 {
-	// Must always be synchronized
-	@synchronized(self)
-	{
-		[self stopFade];
-		gainAction = [OALSequentialActions actions:
+    // Must always be synchronized
+    @synchronized(self)
+    {
+        [self stopFade];
+        gainAction = [OALSequentialActions actions:
                       [OALPropertyAction gainActionWithDuration:duration endValue:value],
                       [OALCallAction actionWithCallTarget:target selector:selector withObject:self],
                       nil];
         gainAction = as_retain(gainAction);
-		[gainAction runWithTarget:self];
-	}
+        [gainAction runWithTarget:self];
+    }
 }
 
 - (void) stopFade
 {
-	// Must always be synchronized
-	@synchronized(self)
-	{
-		[gainAction stopAction];
-		as_release(gainAction);
-		gainAction = nil;
-	}
+    // Must always be synchronized
+    @synchronized(self)
+    {
+        [gainAction stopAction];
+        as_release(gainAction);
+        gainAction = nil;
+    }
 }
 
 - (void) panTo:(float) value
-	  duration:(float) duration
-		target:(id) target
-	  selector:(SEL) selector
+      duration:(float) duration
+        target:(id) target
+      selector:(SEL) selector
 {
     // Must always be synchronized
     @synchronized(self)
@@ -1071,26 +2099,26 @@
 
 - (void) clear
 {
-	OPTIONALLY_SYNCHRONIZED(self)
-	{
-		[self stopActions];
-		as_release(currentlyLoadedUrl);
-		currentlyLoadedUrl = nil;
-		
-		[player stop];
-		as_release(player);
-		player = nil;
-		playing = NO;
-		paused = NO;
-		muted = NO;
-
-		if(playing)
-		{
-			[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:OALAudioTrackStoppedPlayingNotification object:self] waitUntilDone:NO];
-		}
-		
-		self.currentTime = 0;
-	}
+    OPTIONALLY_SYNCHRONIZED(self)
+    {
+        [self stopActions];
+        as_release(currentlyLoadedUrl);
+        currentlyLoadedUrl = nil;
+        
+        [player stop];
+        as_release(player);
+        player = nil;
+        playing = NO;
+        paused = NO;
+        muted = NO;
+        
+        if(playing)
+        {
+            [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:OALAudioTrackStoppedPlayingNotification object:self] waitUntilDone:NO];
+        }
+        
+        self.currentTime = 0;
+    }
 }
 
 
@@ -1103,126 +2131,107 @@
 
 - (void) setMeteringEnabled:(bool) value
 {
-	OPTIONALLY_SYNCHRONIZED(self)
-	{
-		meteringEnabled = value;
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
-		player.meteringEnabled = meteringEnabled;
-#endif
-	}
+    OPTIONALLY_SYNCHRONIZED(self)
+    {
+        meteringEnabled = value;
+        player.meteringEnabled = meteringEnabled;
+    }
 }
 
 - (void) updateMeters
 {
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
     [player updateMeters];
-#endif
 }
 
 - (float) averagePowerForChannel:(NSUInteger)channelNumber
 {
-	OPTIONALLY_SYNCHRONIZED(self)
-	{
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
-		return [player averagePowerForChannel:channelNumber];
-#else
-        return 1;
-#endif
-	}
+    OPTIONALLY_SYNCHRONIZED(self)
+    {
+        return [player averagePowerForChannel:channelNumber];
+    }
 }
 
 - (float) peakPowerForChannel:(NSUInteger)channelNumber
 {
-	OPTIONALLY_SYNCHRONIZED(self)
-	{
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
-		return [player peakPowerForChannel:channelNumber];
-#else
-        return 1;
-#endif
-	}
+    OPTIONALLY_SYNCHRONIZED(self)
+    {
+        return [player peakPowerForChannel:channelNumber];
+    }
 }
 
 
-#if __CC_PLATFORM_IOS || __CC_PLATFORM_MAC
 #pragma mark -
 #pragma mark AVAudioPlayerDelegate
 
 #if TARGET_OS_IPHONE
-
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-implementations"
-
 - (void) audioPlayerBeginInterruption:(AVAudioPlayer*) playerIn
 {
-	if([delegate respondsToSelector:@selector(audioPlayerBeginInterruption:)])
-	{
-		[delegate audioPlayerBeginInterruption:playerIn];
-	}
+    if([delegate respondsToSelector:@selector(audioPlayerBeginInterruption:)])
+    {
+        [delegate audioPlayerBeginInterruption:playerIn];
+    }
 }
 
 - (void)audioPlayerEndInterruption:(AVAudioPlayer *)playerIn withOptions:(NSUInteger)flags
 {
-	if([delegate respondsToSelector:@selector(audioPlayerEndInterruption:withOptions:)])
-	{
-		[delegate audioPlayerEndInterruption:playerIn withOptions:flags];
-	}
+    if([delegate respondsToSelector:@selector(audioPlayerEndInterruption:withOptions:)])
+    {
+        [delegate audioPlayerEndInterruption:playerIn withOptions:flags];
+    }
 }
-
 #pragma clang diagnostic pop
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_6_0
 - (void)audioPlayerEndInterruption:(AVAudioPlayer *)playerIn withFlags:(NSUInteger)flags
 {
-	if([delegate respondsToSelector:@selector(audioPlayerEndInterruption:withFlags:)])
-	{
-		[delegate audioPlayerEndInterruption:playerIn withFlags:flags];
-	}
+    if([delegate respondsToSelector:@selector(audioPlayerEndInterruption:withFlags:)])
+    {
+        [delegate audioPlayerEndInterruption:playerIn withFlags:flags];
+    }
 }
 
 - (void) audioPlayerEndInterruption:(AVAudioPlayer*) playerIn
 {
-	if([delegate respondsToSelector:@selector(audioPlayerEndInterruption:)])
-	{
-		[delegate audioPlayerEndInterruption:playerIn];
-	}
+    if([delegate respondsToSelector:@selector(audioPlayerEndInterruption:)])
+    {
+        [delegate audioPlayerEndInterruption:playerIn];
+    }
 }
 #endif // __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_6_0
 #endif // TARGET_OS_IPHONE
 
 - (void) audioPlayerDecodeErrorDidOccur:(AVAudioPlayer*) playerIn error:(NSError*) error
 {
-	if([delegate respondsToSelector:@selector(audioPlayerDecodeErrorDidOccur:error:)])
-	{
-		[delegate audioPlayerDecodeErrorDidOccur:playerIn error:error];
-	}
+    if([delegate respondsToSelector:@selector(audioPlayerDecodeErrorDidOccur:error:)])
+    {
+        [delegate audioPlayerDecodeErrorDidOccur:playerIn error:error];
+    }
 }
 
 - (void) audioPlayerDidFinishPlaying:(AVAudioPlayer*) playerIn successfully:(BOOL) flag
 {
-	OPTIONALLY_SYNCHRONIZED(self)
-	{
-		playing = NO;
-		paused = NO;
-		preloaded = NO;
-		if(autoPreload)
-		{
-			preloaded = [player prepareToPlay];
-			if(!preloaded)
-			{
-				OAL_LOG_ERROR(@"%@: Failed to prepareToPlay: %@", self, currentlyLoadedUrl);
-			}
-		}
-	}
-	if([delegate respondsToSelector:@selector(audioPlayerDidFinishPlaying:successfully:)])
-	{
-		[delegate audioPlayerDidFinishPlaying:playerIn successfully:flag];
-	}
-	
-	[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:OALAudioTrackFinishedPlayingNotification object:self] waitUntilDone:NO];
+    OPTIONALLY_SYNCHRONIZED(self)
+    {
+        playing = NO;
+        paused = NO;
+        preloaded = NO;
+        if(autoPreload)
+        {
+            preloaded = [player prepareToPlay];
+            if(!preloaded)
+            {
+                OAL_LOG_ERROR(@"%@: Failed to prepareToPlay: %@", self, currentlyLoadedUrl);
+            }
+        }
+    }
+    if([delegate respondsToSelector:@selector(audioPlayerDidFinishPlaying:successfully:)])
+    {
+        [delegate audioPlayerDidFinishPlaying:playerIn successfully:flag];
+    }
+    
+    [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:OALAudioTrackFinishedPlayingNotification object:self] waitUntilDone:NO];
 }
 
-#endif
 @end
-
-

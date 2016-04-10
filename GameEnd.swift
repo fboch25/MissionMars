@@ -22,17 +22,17 @@ class GameEnd: CCNode {
     func saveHighScore(score : Int) {
         pointsLabel.string = "\(score)"
         if GKLocalPlayer.localPlayer().authenticated {
-            var scoreReporter = GKScore(leaderboardIdentifier: "MissionMarsSinglePlayerLeaderBoard")
+            let scoreReporter = GKScore(leaderboardIdentifier: "MissionMarsSinglePlayerLeaderBoard")
             scoreReporter.value = Int64(score)
-            var scoreArray: [GKScore] = [scoreReporter]
+            let scoreArray: [GKScore] = [scoreReporter]
             GKScore.reportScores(scoreArray,withCompletionHandler: ( {
-                (error : NSError!)-> Void in
+                (error : NSError?)-> Void in
                 if (error != nil) {
-                    println("Error: " + error.localizedDescription);
+                    print("Error: " + error!.localizedDescription, terminator: "");
                 }
             } ) )
         }
-        var currentHighscore = defaults.integerForKey("highScore")
+        let currentHighscore = defaults.integerForKey("highScore")
         
         if score > currentHighscore {
             defaults.setInteger(score, forKey: "highScore")
@@ -64,14 +64,14 @@ class GameEnd: CCNode {
 extension GameEnd: GKGameCenterControllerDelegate {
     
     func showLeaderBoard() {
-        var viewController = CCDirector.sharedDirector().parentViewController!
-        var gameCenterViewController = GKGameCenterViewController()
+        let viewController = CCDirector.sharedDirector().parentViewController!
+        let gameCenterViewController = GKGameCenterViewController()
         gameCenterViewController.gameCenterDelegate = self
         viewController.presentViewController(gameCenterViewController, animated: true, completion: nil)
     }
     
     // Delegate methods
-    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController!) {
+    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController) {
         gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
     }
     

@@ -70,12 +70,12 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             ship.rotation = 90
             userInteractionEnabled = false
             ship.physicsBody.allowsRotation = false
-            var die = CCBReader.load("DIE") as! Die
+            let die = CCBReader.load("DIE") as! Die
             die.position = ship.position
             ship.die()
             addChild(die)
             let defaults = NSUserDefaults.standardUserDefaults()
-            var highscore = defaults.integerForKey("highscore")
+            let highscore = defaults.integerForKey("highscore")
             if score > highscore {
                 defaults.setInteger(score, forKey: "highscore")
             }
@@ -111,8 +111,8 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             let groundWorldPosition = gamePhysicsNode.convertToWorldSpace(ground.position)
             let groundScreenPosition = convertToNodeSpace(groundWorldPosition)
             if groundScreenPosition.x <= (-CGFloat(715)) {
-                println(groundScreenPosition)
-                println(ground.contentSize.width)
+                print(groundScreenPosition)
+                print(ground.contentSize.width)
                 ground.position = ccp(ground.position.x + CGFloat(715) * 2, ground.position.y)
                 
             }
@@ -121,8 +121,8 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         // scroll stars
         for star in stars {
             if star.position.x <= (-CGFloat(840)) {
-                println(star.position.x)
-                println(star.contentSize.width)
+                print(star.position.x)
+                print(star.contentSize.width)
                 star.position = ccp(star.position.x + CGFloat(840) * 2, star.position.y)
                 
                 
@@ -137,13 +137,13 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     }
     // Add asteroids
     func addAsteroid() {
-        var asteroid = CCBReader.load("Asteroid") as! Asteroid
-        var random : CGFloat = CGFloat(arc4random_uniform(UInt32(screenHeight)))
-        println(random)
+        let asteroid = CCBReader.load("Asteroid") as! Asteroid
+        let random : CGFloat = CGFloat(arc4random_uniform(UInt32(screenHeight)))
+        print(random)
         asteroid.position = CGPoint(x: ship.position.x + screenWidth + asteroid.contentSizeInPoints.width, y: CGFloat(clampf(Float(random), Float(screenHeight/5), Float(5*screenHeight/5))))
         asteroid.scale = 0.5
         if asteroid.position.y > CGFloat(500) {
-            var random : CGFloat = CGFloat(arc4random_uniform(300))
+            let random : CGFloat = CGFloat(arc4random_uniform(300))
             asteroid.position.y -= random
         }
         gamePhysicsNode.addChild(asteroid)

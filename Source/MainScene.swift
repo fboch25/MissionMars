@@ -31,7 +31,6 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     weak var star2: CCSprite!
     weak var Teleporter: CCSprite!
     
-    
     // Nodes
     weak var barrier: CCNode!
     weak var gameEnd: CCNode!
@@ -41,17 +40,13 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     weak var shieldLabel: CCLabelTTF!
     weak var tapToJump: CCLabelTTF!
     
-    
     // Buttons
     weak var restartButton: CCButton!
     weak var shootButton: CCButton!
     
-
-    
     // arrays of CCObjects
     var stars = [CCSprite]()
     var grounds = [CCSprite]()
-    
     
     // Particle System
     var explosion: CCParticleSystem!
@@ -91,17 +86,17 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
                  addTeleporter() 
             } */
             if score == 5 {
-            schedule("addStroid", interval: 5)
+            schedule(#selector(MainScene.addStroid), interval: 5)
             }
             if score == 30 {
-            schedule("addStroid" , interval: 3.5)
+            schedule(#selector(MainScene.addStroid) , interval: 3.5)
             }
             if score == 45 {
-            schedule("addStroid", interval: 2)
+            schedule(#selector(MainScene.addStroid), interval: 2)
             }
             if score == 75 {
-            schedule("addStroid", interval: 0.8)
-            unschedule("addAsteroid")
+            schedule(#selector(MainScene.addStroid), interval: 0.8)
+            unschedule(#selector(MainScene.addAsteroid))
             }
         }
     }
@@ -145,16 +140,17 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     // User Begins Game by Tapping Screen
     func endTutorial(){
         ship.physicsBody.affectedByGravity = true
-        schedule("addAsteroid",  interval: 0.3)
-        schedule("addPointToScore", interval: 1)
+        schedule(#selector(MainScene.addAsteroid),  interval: 0.3)
+        schedule(#selector(MainScene.addPointToScore), interval: 1)
         //schedule first item
-        scheduleOnce("spawnRandomPowerUp", delay: CCTime(randomItemTime))
+        scheduleOnce(#selector(MainScene.spawnRandomPowerUp), delay: CCTime(randomItemTime))
     }
     
     // Applies impulse to spaceship
     override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
         if tutorialOver == false {
             tutorialOver = true
+           
             endTutorial()
         }
         // Load Jump Particle Effect
@@ -199,6 +195,9 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         
         // Check if player has a shield, then check to see if the sheild time is up
         if hasShield {
+//           let shieldNumber = [5,4,3,2,1]
+//            for (shieldLabel, shieldLabelTimer) in shieldNumber
+//            {
             shieldTimeRemaining -= delta
             if shieldTimeRemaining  < 0 {
                 hasShield = false
@@ -256,7 +255,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     }
     // Scoring
     func addPointToScore() {
-        score++
+        score += 1
     }
     
     // Implement restart button w/ asteroid Collision
@@ -335,7 +334,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, ship nodeA: CCNode!, blastItem: CCNode!) -> ObjCBool {
        // Activate BulletsShooting
         
-        self.schedule("shooting", interval: 0.2, `repeat`: 10, delay: 0)
+        self.schedule(#selector(MainScene.shooting), interval: 0.2, repeat: 10, delay: 0)
         if blastItem != nil {
         blastItem.removeFromParent()
         }
@@ -356,7 +355,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         }
         
         randomItemTime = 6 + arc4random_uniform(14)
-        scheduleOnce("spawnRandomPowerUp", delay: CCTime(randomItemTime))
+        scheduleOnce(#selector(MainScene.spawnRandomPowerUp), delay: CCTime(randomItemTime))
     }
     
     // Laser Function
@@ -389,10 +388,10 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             gameOver = true
             
             // Unschedule Functions
-            unschedule("addPointToScore")
-            unschedule("addAsteroid")
-            unschedule("addStroid")
-            unschedule("spawnRandomPowerUp")
+            unschedule(#selector(MainScene.addPointToScore))
+            unschedule(#selector(MainScene.addAsteroid))
+            unschedule(#selector(MainScene.addStroid))
+            unschedule(#selector(MainScene.spawnRandomPowerUp))
             
             // Disable User Interaction
             userInteractionEnabled = false

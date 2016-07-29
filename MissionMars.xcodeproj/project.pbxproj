@@ -119,7 +119,6 @@
 		FCF537001B792E11005F274C /* Laser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF536FF1B792E11005F274C /* Laser.swift */; };
 		FCF537021B7A3EA3005F274C /* Teleport.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF537011B7A3EA3005F274C /* Teleport.swift */; };
 		FCF537061B87B83A005F274C /* Teleporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF537051B87B83A005F274C /* Teleporter.swift */; };
-		FCF5375A1BB36B2D005F274C /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCF537591BB36B2D005F274C /* GoogleMobileAds.framework */; };
 		FCF5375C1BB36BC5005F274C /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCF5375B1BB36BC5005F274C /* AdSupport.framework */; };
 		FCF5375E1BB36BDF005F274C /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCF5375D1BB36BDF005F274C /* CoreMedia.framework */; };
 		FCF537601BB36BEC005F274C /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCF5375F1BB36BEC005F274C /* CoreTelephony.framework */; };
@@ -273,7 +272,6 @@
 		FCF536FF1B792E11005F274C /* Laser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Laser.swift; sourceTree = "<group>"; };
 		FCF537011B7A3EA3005F274C /* Teleport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Teleport.swift; sourceTree = "<group>"; };
 		FCF537051B87B83A005F274C /* Teleporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Teleporter.swift; sourceTree = "<group>"; };
-		FCF537591BB36B2D005F274C /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
 		FCF5375B1BB36BC5005F274C /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		FCF5375D1BB36BDF005F274C /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		FCF5375F1BB36BEC005F274C /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -345,7 +343,6 @@
 				B77F1B3C17B978D7009739AE /* UIKit.framework in Frameworks */,
 				B77F1B3E17B978D7009739AE /* Foundation.framework in Frameworks */,
 				B77F1B4017B978D7009739AE /* CoreGraphics.framework in Frameworks */,
-				FCF5375A1BB36B2D005F274C /* GoogleMobileAds.framework in Frameworks */,
 				B77F1B4217B978D7009739AE /* CoreText.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -568,7 +565,6 @@
 			children = (
 				FCF2CDA11CB98DFB00FF9446 /* StartApp.bundle */,
 				FCF2CD9D1CB98D6200FF9446 /* StartApp.framework */,
-				FCF537591BB36B2D005F274C /* GoogleMobileAds.framework */,
 				FC4E10F51B5D38F3003A294A /* Images.xcassets */,
 				B737893C1807616C0076A88C /* Source */,
 				B77F1B4617B978D7009739AE /* Resources */,

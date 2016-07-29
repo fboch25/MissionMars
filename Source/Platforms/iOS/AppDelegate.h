@@ -28,6 +28,7 @@
 #import <Startapp/Startapp.h>
 @interface AppController : CCAppDelegate
 {
+    STABannerView *bannerView;
 }
 
 @end

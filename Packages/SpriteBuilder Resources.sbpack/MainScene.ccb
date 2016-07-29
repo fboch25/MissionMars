@@ -1743,8 +1743,8 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>0.50065398216247559</real>
-							<real>0.67612510919570923</real>
+							<real>0.5</real>
+							<real>0.76999998092651367</real>
 							<integer>0</integer>
 							<integer>2</integer>
 							<integer>2</integer>
